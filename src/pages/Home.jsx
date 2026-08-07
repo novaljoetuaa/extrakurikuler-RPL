@@ -7,8 +7,6 @@ import TiltedCard from '../components/animations/TiltedCard'
 import MagneticButton from '../components/animations/MagneticButton'
 import CountingNumber from '../components/animations/CountingNumber'
 import SplitText from '../components/animations/SplitText'
-import TextLoop from '../components/animations/TextLoop'
-import LogoLoop from '../components/animations/LogoLoop'
 import {
   IconRobot,
   IconCode,
@@ -23,6 +21,8 @@ import {
 import logoRobotic from '../../assets/logo robotic.jpeg'
 import logoWebsite from '../../assets/logo website.png'
 import logoDesain from '../../assets/logo desain.png'
+
+// Preserve-import helper agar bundler tetap menyertakan aset saat optimasi
 
 const bidangList = [
   {
@@ -78,29 +78,7 @@ export default function Home() {
           blend="soft"
           style={{ opacity: 0.35 }}
         />
-<div className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #3a82d6 1px, transparent 0)', backgroundSize: '34px 34px' }} />
-
-        {/* ===== TEXT LOOP BANNER (di atas hero) ===== */}
-        <div className="relative z-10 -mt-2">
-          <TextLoop
-            text="SMK Krian 1"
-            shape="wave"
-            speed={90}
-            direction="forward"
-            separator="✦"
-            curviness={90}
-            fontSize={46}
-            fontWeight={800}
-            letterSpacing={2}
-            uppercase
-            color="#ffffff"
-            ribbon
-            ribbonColor="#5227FF"
-            ribbonWidth={86}
-            pauseOnHover
-            className="-rotate-2 pt-6"
-          />
-        </div>
+        <div className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #3a82d6 1px, transparent 0)', backgroundSize: '34px 34px' }} />
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-16">
           <div>
@@ -119,7 +97,7 @@ export default function Home() {
                 Ekstrakurikuler SMK
               </motion.span>
             </Reveal>
-            <h1 className="mt-6 font-display text-5xl font-semibold leading-[1.08] text-slate-800 sm:text-6xl lg:text-[4.2rem]">
+<h1 className="mt-6 font-display text-4xl font-semibold leading-[1.08] text-slate-800 sm:text-6xl lg:text-[4.2rem]">
               <SplitText text="Rekayasa Perangkat Lunak" />
             </h1>
             <Reveal delay={250}>
@@ -238,22 +216,23 @@ export default function Home() {
             <p className="eyebrow">Bidang Kami</p>
             <h2 className="section-title mt-3">Logo Sub-Bidang Unggulan</h2>
           </Reveal>
-          <div className="mt-10">
-            <LogoLoop
-              logos={[
-                { src: logoRobotic, alt: 'Logo Robotic' },
-                { src: logoWebsite, alt: 'Logo Website' },
-                { src: logoDesain, alt: 'Logo Desain Grafis' },
-              ]}
-              speed={60}
-              direction="left"
-              logoHeight={72}
-              gap={56}
-              fadeOut
-              scaleOnHover
-              pauseOnHover
-              ariaLabel="Logo bidang ekstrakurikuler"
-            />
+          <div className="mt-10 grid grid-cols-3 items-center justify-items-center gap-6 sm:gap-10">
+            {[
+              { src: logoRobotic, alt: 'Logo Robotic' },
+              { src: logoWebsite, alt: 'Logo Website' },
+              { src: logoDesain, alt: 'Logo Desain Grafis' },
+            ].map((logo, i) => (
+              <Reveal key={logo.alt} delay={i * 120}>
+                <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 shadow-soft ring-1 ring-stone-200 transition-all duration-500 hover:-translate-y-1 hover:shadow-lift sm:h-28 sm:w-28">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -279,17 +258,15 @@ export default function Home() {
                     to={b.to}
                     className="group relative block overflow-hidden rounded-[2rem] border border-stone-200/70 bg-white shadow-soft transition-all duration-500 hover:shadow-lift"
                   >
-<div className="relative h-52 overflow-hidden">
+<div className="relative flex h-52 items-center justify-center overflow-hidden bg-gradient-to-br from-brand-50 via-white to-sky-100 p-6">
+                      <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-100/60 blur-3xl" />
+                      <div className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-gold-100/60 blur-3xl" />
                       <img
                         src={b.logo}
                         alt={`Logo ${b.title}`}
                         loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="h-36 w-auto max-w-full object-contain transition-transform duration-700 group-hover:scale-110"
                       />
-<div className="absolute inset-0 bg-gradient-to-t from-brand-900/60 via-brand-900/10 to-transparent" />
-                      <span className="absolute left-5 top-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/95 p-1 text-brand-700 shadow-lg backdrop-blur transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
-                        <img src={b.logo} alt={`Logo ${b.title}`} className="h-full w-full object-contain" />
-                      </span>
                       <span className="absolute bottom-4 left-5 rounded-full bg-brand-600 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
                         {b.tagline}
                       </span>

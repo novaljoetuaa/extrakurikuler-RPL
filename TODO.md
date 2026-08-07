@@ -1,21 +1,16 @@
-# TODO - Perbaikan & Penambahan Fitur
+# TODO - Perbaikan Layout / Overflow Horizontal
 
-## A. Splash Screen
-1. [x] Buat src/components/SplashScreen.jsx (logo RPL + animasi + teks "Ekstrakurikuler")
-2. [x] Integrasi di main.jsx dengan state loading
+## Steps
+- [x] 1. Analisis file terkait layout & overflow
+- [x] 2. Rencana perbaikan (disetujui user)
+- [x] 3. Edit `src/index.css` - perkuat proteksi overflow global (overflow-x: clip, max-width)
+- [x] 4. Edit `src/App.jsx` - tambah w-full & overflow-x-clip pada root
+- [x] 5. Edit `src/components/Navbar.jsx` - inner container centered (mx-auto max-w-7xl)
+- [x] 6. Jalankan `npm run build` untuk verifikasi
 
-## B. Navbar
-3. [x] Buat navbar lebih besar dan melebar penuh ke kiri-kanan
-4. [x] Pastikan responsive di mobile
+## Tambahan (feedback user): Buang Logo Loop & Text Loop
+- [x] 1. Hapus usage & import LogoLoop di `src/pages/Home.jsx`
+- [x] 2. Hapus file `src/components/animations/LogoLoop.jsx` & `LogoLoop.css`
+- [x] 3. Hapus file `src/components/animations/TextLoop.jsx` & `TextLoop.css`
+- [x] 4. Jalankan `npm run build` untuk verifikasi
 
-## C. LogoLoop
-5. [x] Buat src/components/animations/LogoLoop.jsx + LogoLoop.css
-6. [x] Integrasi di Home.jsx dengan logo bidang (loop horizontal)
-
-## D. Responsive & Performa
-7. [x] Tinjau ulang ukuran & padding agar responsive
-8. [x] Optimasi agar lebih ringan
-
-## E. Review Kode
-9. [x] Periksa bug, error, kebocoran memori, dan keamanan
-10. [x] Jalankan build untuk verifikasi (berhasil)

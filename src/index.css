@@ -7,9 +7,30 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    max-width: 100%;
+    overflow-x: clip;
   }
   body {
     @apply bg-cream font-sans text-ink antialiased;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  /* Cegah overflow horizontal pada viewport kecil (HP).
+     `clip` mencegah pembentukan scroll container sehingga
+     scrollbar horizontal tidak akan muncul sama sekali. */
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  main {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  img, svg, video {
+    max-width: 100%;
+    height: auto;
   }
 ::selection {
     @apply bg-brand-200 text-brand-900;

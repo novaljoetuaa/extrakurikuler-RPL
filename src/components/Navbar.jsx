@@ -129,7 +129,7 @@ export default function Navbar() {
             : 'border-transparent bg-white'
         }`}
       >
-        <nav className="flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-10 xl:px-14">
+        <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link to="/" className="group flex items-center gap-3" onClick={handleLogoClick}>
             <motion.div

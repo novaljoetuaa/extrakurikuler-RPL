@@ -38,11 +38,9 @@ export default function BidangLayout({ bidang, deskripsi }) {
   return (
     <div>
 {/* ===== HEADER ===== */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-sky-50">
-        <div className="absolute inset-0">
-          <img src={meta.img} alt={bidang} className="h-full w-full object-cover opacity-15" />
-          <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/75 to-white/40" />
-        </div>
+<section className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-sky-50">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-200/40 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-gold-200/40 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
           <Reveal>
             <p className="eyebrow">Sub-Bidang Keahlian</p>
@@ -78,11 +76,19 @@ export default function BidangLayout({ bidang, deskripsi }) {
               </Link>
             </div>
           </Reveal>
-          <Reveal delay={150} className="lg:col-span-2">
-            <div className="relative overflow-hidden rounded-[2rem] shadow-lift">
-              <img src={meta.img} alt={bidang} className="h-80 w-full object-cover" loading="lazy" />
-<div className="absolute inset-0 bg-gradient-to-t from-brand-900/50 to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-stone-200/70 bg-white/90 p-4 backdrop-blur">
+<Reveal delay={150} className="lg:col-span-2">
+            <div className="relative overflow-hidden rounded-[2rem] border border-stone-200/70 bg-gradient-to-br from-brand-50 via-white to-sky-100 p-10 shadow-lift">
+              <div className="pointer-events-none absolute -right-14 -top-14 h-48 w-48 rounded-full bg-brand-100/70 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-14 -left-14 h-48 w-48 rounded-full bg-gold-100/70 blur-3xl" />
+              <div className="relative flex h-56 items-center justify-center">
+                <img
+                  src={meta.logo}
+                  alt={`Logo ${bidang}`}
+                  loading="lazy"
+                  className="h-44 w-auto max-w-full object-contain drop-shadow-lg"
+                />
+              </div>
+              <div className="relative mt-6 rounded-2xl border border-stone-200/70 bg-white/90 p-4 backdrop-blur">
                 <p className="text-xs font-bold uppercase tracking-wider text-brand-600">Jadwal Latihan</p>
                 {jadwalBidang[0] ? (
                   <div className="mt-2 flex items-center gap-3 text-sm font-semibold text-ink">
