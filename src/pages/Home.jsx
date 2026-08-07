@@ -59,7 +59,7 @@ const bidangList = [
 
 const stats = [
   { value: '3', suffix: '', label: 'Bidang Keahlian', Icon: IconRocket },
-  { value: '150', suffix: '+', label: 'Anggota Aktif', Icon: IconUsers },
+{ value: '500', suffix: '+', label: 'Anggota Aktif', Icon: IconUsers },
   { value: '50', suffix: '+', label: 'Karya & Proyek', Icon: IconSparkle },
   { value: '10', suffix: '+', label: 'Prestasi Lomba', Icon: IconTrophy },
 ]
@@ -161,7 +161,7 @@ export default function Home() {
                     ))}
                 </div>
                 <p className="text-sm text-slate-500">
-                  <span className="font-semibold text-slate-800">150+ anggota</span> telah bergabung
+<span className="font-semibold text-slate-800">500+ anggota</span> telah bergabung
                   dalam komunitas kami.
                 </p>
               </div>
