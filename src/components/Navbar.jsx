@@ -41,6 +41,9 @@ export default function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
   const { user, signIn, signOut, isConfigured } = useAuth()
+  const clickTimer = useRef(null)
+  const clickCount = useRef(0)
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -67,6 +70,21 @@ export default function Navbar() {
       document.body.style.overflow = ''
     }
   }, [open, loginOpen])
+
+  const handleLogoClick = () => {
+    clickCount.current += 1
+    if (clickTimer.current) clearTimeout(clickTimer.current)
+    clickTimer.current = setTimeout(() => {
+      clickCount.current = 0
+    }, 1500)
+
+    if (clickCount.current >= 3) {
+      clickCount.current = 0
+      setLoginForm({ email: '', password: '' })
+      setLoginError('')
+      setLoginOpen(true)
+    }
+  }
 
   const handleLoginChange = (e) => {
     const { name, value } = e.target
@@ -108,7 +126,7 @@ export default function Navbar() {
       >
         <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           {/* Logo */}
-          <Link to="/" className="group flex items-center gap-3">
+          <Link to="/" className="group flex items-center gap-3" onClick={handleLogoClick}>
             <motion.div
               whileHover={{ scale: 1.06, rotate: 2 }}
               whileTap={{ scale: 0.94 }}
