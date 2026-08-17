@@ -217,3 +217,70 @@ Beberapa gaya umum juga ada di `src/index.css` (misal kelas `.btn-primary`, `.bt
 ---
 
 _Semoga membantu! Jika ada bagian yang kurang jelas, file ini bisa ditambah sewaktu-waktu._
+
+---
+
+## 7. Konfigurasi Supabase & Storage (unggah gambar online)
+
+Jika Anda ingin gambar yang diunggah terlihat di perangkat lain dan disimpan secara online, ikuti langkah berikut untuk menyiapkan Supabase dan bucket storage `activity-images`.
+
+Langkah singkat:
+
+1. Buat project di https://app.supabase.com dan catat `URL` serta `anon/public API key`.
+2. Tambahkan kedua nilai ini ke berkas environment (di root proyek):
+
+```env
+# Vite env (development)
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJI...your_anon_key...
+```
+
+3. Buat tabel `site_data` (untuk menyimpan data situs) — buka SQL Editor di Supabase dan jalankan:
+
+```sql
+create table if not exists site_data (
+  id int primary key,
+  data jsonb,
+  updated_at timestamptz
+);
+
+-- Beri satu baris awal jika belum ada
+insert into site_data (id, data, updated_at)
+values (1, '{}'::jsonb, now())
+on conflict (id) do nothing;
+```
+
+-- Buat tabel pendaftar (untuk menyimpan data pendaftaran secara online)
+```sql
+create table if not exists pendaftar (
+  id text primary key,
+  nama text,
+  kelas text,
+  nohp text,
+  email text,
+  bidang text,
+  status text,
+  tanggaldaftar timestamptz,
+  created_at timestamptz default now()
+);
+```
+
+4. Buat Storage Bucket untuk gambar:
+   - Buka menu `Storage` → `Buckets` → `New bucket`.
+   - Nama bucket: `activity-images` (harus sama dengan yang dipakai di kode).
+   - Privacy: pilih `Public` jika Anda ingin file bisa diakses langsung lewat URL publik. Jika memilih `Private`, Anda perlu men-generate signed URL saat menampilkan gambar.
+
+5. Pengaturan Policy (opsional): jika Anda menggunakan RLS atau kebijakan keamanan, pastikan tabel `site_data` dan bucket storage mengizinkan `anon` atau kunci yang Anda pakai untuk melakukan `upsert` dan `getPublicUrl`, atau gunakan backend/service role untuk sinkronisasi.
+
+6. Restart dev server supaya Vite membaca env baru:
+
+```bash
+npm run dev
+```
+
+Catatan penting:
+- Jika Anda menggunakan `anon` / publishable key di client, pastikan kebijakan Supabase tidak memblokir operasi `upsert` publik pada tabel `site_data` (atau buat API server yang menggunakan service role untuk keamanan lebih baik).
+- Jika bucket diset `Public`, `ImageUploader` akan memakai `getPublicUrl(filePath)` sehingga URL akan muncul di `AdminPanel` dan tersimpan ke Supabase lewat `DataContext`.
+- Nama bucket harus cocok: `activity-images`.
+
+Jika mau, saya bisa juga menambahkan skrip SQL atau contoh aturan RLS dasar untuk membolehkan `upsert` hanya pada tabel `site_data` jika request berasal dari origin tertentu — beri tahu kalau mau.

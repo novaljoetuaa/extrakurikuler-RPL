@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { IconImage, IconX, IconUpload } from './icons'
+import { supabase } from '../lib/supabase'
 
 function compressImage(file, maxDim = 900, quality = 0.72) {
   return new Promise((resolve, reject) => {
@@ -47,9 +48,21 @@ export default function ImageUploader({ value = '', onChange }) {
     setLoading(true)
     try {
       const dataUrl = await compressImage(file)
-      onChange(dataUrl)
+      if (!supabase) {
+        throw new Error('Supabase belum dikonfigurasi.')
+      }
+
+      const imageBlob = await fetch(dataUrl).then((response) => response.blob())
+      const filePath = `kegiatan/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`
+      const { error: uploadError } = await supabase.storage
+        .from('activity-images')
+        .upload(filePath, imageBlob, { contentType: 'image/jpeg', upsert: false })
+      if (uploadError) throw uploadError
+
+      const { data: publicUrl } = supabase.storage.from('activity-images').getPublicUrl(filePath)
+      onChange(publicUrl.publicUrl)
     } catch (e) {
-      setError('Gagal membaca gambar. Coba file lain.')
+      setError('Gagal mengunggah gambar. Pastikan bucket Supabase sudah dikonfigurasi.')
     } finally {
       setLoading(false)
     }

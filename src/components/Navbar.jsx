@@ -10,12 +10,12 @@ import {
   IconShield,
   IconMail,
   IconLock,
-  IconSparkle,
 } from './icons'
 import logo from '../../assets/rpl.png'
 import logoRobotic from '../../assets/logo robotic.jpeg'
 import logoWebsite from '../../assets/logo website.png'
 import logoDesain from '../../assets/logo desain.png'
+import { useAuth } from '../context/AuthContext'
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -29,20 +29,18 @@ const bidangLinks = [
   { to: '/desain-grafis', label: 'Desain Grafis', tagline: 'Desain Visual', icon: IconPalette, logo: logoDesain, color: 'from-teal-400 to-teal-600' },
 ]
 
-// Demo account untuk login admin
-const DEMO_ACCOUNT = { username: 'admin', password: 'admin123' }
-
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [dropdown, setDropdown] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
-  const [loginForm, setLoginForm] = useState({ username: '', password: '' })
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' })
   const [loginError, setLoginError] = useState('')
   const [shake, setShake] = useState(false)
   const dropdownRef = useRef(null)
   const location = useLocation()
   const navigate = useNavigate()
+  const { user, signIn, signOut, isConfigured } = useAuth()
   const clickTimer = useRef(null)
   const clickCount = useRef(0)
 
@@ -83,7 +81,7 @@ export default function Navbar() {
 
     if (clickCount.current >= 3) {
       clickCount.current = 0
-      setLoginForm({ username: '', password: '' })
+      setLoginForm({ email: '', password: '' })
       setLoginError('')
       setLoginOpen(true)
     }
@@ -95,17 +93,15 @@ export default function Navbar() {
     setLoginError('')
   }
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault()
-    if (
-      loginForm.username.trim().toLowerCase() === DEMO_ACCOUNT.username &&
-      loginForm.password === DEMO_ACCOUNT.password
-    ) {
+    const { error } = await signIn(loginForm.email, loginForm.password)
+    if (!error) {
       setLoginOpen(false)
-      setLoginForm({ username: '', password: '' })
+      setLoginForm({ email: '', password: '' })
       navigate('/admin')
     } else {
-      setLoginError('Username atau password salah.')
+      setLoginError(error.message === 'Invalid login credentials' ? 'Email atau password salah.' : error.message)
       setShake(true)
       setTimeout(() => setShake(false), 500)
     }
@@ -221,6 +217,17 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
           </div>
+
+          {user && (
+            <div className="hidden items-center gap-2 md:flex">
+              <button type="button" onClick={() => navigate('/admin')} className="text-sm font-semibold text-brand-700 hover:text-brand-800">
+                Admin
+              </button>
+              <button type="button" onClick={signOut} className="rounded-xl px-3 py-2 text-sm font-semibold text-stone-500 transition hover:bg-stone-100 hover:text-stone-700">
+                Keluar
+              </button>
+            </div>
+          )}
 
           {/* Hamburger button - animated icon */}
           <button
@@ -352,8 +359,7 @@ export default function Navbar() {
 
               {/* Mobile menu footer */}
               <div className="border-t border-stone-200/70 p-5">
-                <p className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-brand-200 bg-brand-50/50 px-4 py-3 text-center text-xs font-semibold text-brand-600">
-                  <IconSparkle className="h-4 w-4" />
+                <p className="rounded-xl border border-dashed border-brand-200 bg-brand-50/50 px-4 py-3 text-center text-xs font-semibold text-brand-600">
                   Klik logo 3x untuk akses Admin
                 </p>
               </div>
@@ -395,17 +401,17 @@ export default function Navbar() {
 
                 <form onSubmit={handleLoginSubmit} className="mt-6 space-y-4">
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-ink">Username</label>
+                    <label className="mb-1.5 block text-sm font-semibold text-ink">Email</label>
                     <div className="relative">
                       <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400">
                         <IconMail className="h-4 w-4" />
                       </span>
                       <input
-                        type="text"
-                        name="username"
-                        value={loginForm.username}
+                        type="email"
+                        name="email"
+                        value={loginForm.email}
                         onChange={handleLoginChange}
-                        placeholder="Masukkan username"
+                        placeholder="admin@sekolah.sch.id"
                         className="input-field !pl-10"
                         autoFocus
                       />
@@ -444,13 +450,11 @@ export default function Navbar() {
                   </button>
                 </form>
 
-                <div className="mt-5 rounded-2xl bg-brand-50 px-4 py-3 text-center">
-                  <p className="text-xs font-semibold text-brand-700">Akun Demo</p>
-                  <p className="mt-0.5 text-xs text-stone-500">
-                    Username: <span className="font-bold text-ink">admin</span> · Password:{' '}
-                    <span className="font-bold text-ink">admin123</span>
+                {!isConfigured && (
+                  <p className="mt-4 rounded-xl bg-red-50 px-3 py-2 text-center text-xs font-semibold text-red-600">
+                    Login belum dikonfigurasi. Tambahkan variabel Supabase terlebih dahulu.
                   </p>
-                </div>
+                )}
 
                 <button
                   type="button"

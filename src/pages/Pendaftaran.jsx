@@ -22,11 +22,12 @@ const emptyForm = {
 const bidangList = ['Robotic', 'Website', 'Desain Grafis']
 
 export default function Pendaftaran() {
-  const { data, addItem } = useData()
+  const { data, registerPendaftar } = useData()
   const [form, setForm] = useState(emptyForm)
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(null)
-  const [savedId, setSavedId] = useState(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -48,30 +49,43 @@ export default function Pendaftaran() {
     return err
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const err = validate()
     if (Object.keys(err).length > 0) {
       setErrors(err)
+      setSubmitError('')
       return
     }
 
-    const id = Date.now()
-    addItem('pendaftar', {
-      ...form,
-      id,
-      status: 'Baru',
-      tanggalDaftar: new Date().toISOString().slice(0, 10),
-    })
+    setIsSubmitting(true)
+    setSubmitError('')
 
-    const groupLink = data.groupLinks[form.bidang] || '#'
-    setSavedId(id)
-    setForm(emptyForm)
-    setSubmitted({ ...form, id, groupLink })
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    try {
+      const payload = {
+        ...form,
+        status: 'Baru',
+        tanggalDaftar: new Date().toISOString().slice(0, 10),
+      }
+
+      const { ok, error, id } = await registerPendaftar(payload)
+      if (!ok) {
+        setSubmitError(error?.message || 'Pendaftaran gagal disimpan. Mohon coba beberapa saat lagi.')
+        return
+      }
+
+      setForm(emptyForm)
+      setSubmitted({ ...payload, id })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } catch (error) {
+      setSubmitError(error?.message || 'Terjadi kesalahan saat mengirim data pendaftaran.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
-  const groupLink = submitted ? data.groupLinks[submitted.bidang] || '#' : ''
+  const groupLink = submitted ? data.groupLinks[submitted.bidang]?.trim() : ''
+  const hasGroupLink = /^https:\/\/chat\.whatsapp\.com\//.test(groupLink)
 
   return (
     <div>
@@ -116,16 +130,19 @@ export default function Pendaftaran() {
                 <p className="mt-4 text-sm text-slate-600">
                   Klik tombol di bawah ini untuk bergabung dengan grup <span className="font-bold text-ink">{submitted.bidang}</span>:
                 </p>
-                <a
-                  href={groupLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-primary mt-4 w-full"
-                >
-                  <IconUsers className="h-5 w-5" />
-                  Bergabung ke Grup {submitted.bidang}
-                </a>
-                <p className="mt-3 break-all text-xs text-slate-400">{groupLink}</p>
+                {hasGroupLink ? (
+                  <>
+                    <a href={groupLink} target="_blank" rel="noreferrer" className="btn-primary mt-4 w-full">
+                      <IconUsers className="h-5 w-5" />
+                      Bergabung ke Grup {submitted.bidang}
+                    </a>
+                    <p className="mt-3 break-all text-xs text-slate-400">{groupLink}</p>
+                  </>
+                ) : (
+                  <p className="mt-4 rounded-xl bg-white px-4 py-3 text-sm text-slate-600">
+                    Link grup belum tersedia. Hubungi pembina ekskul untuk mendapatkan undangan.
+                  </p>
+                )}
               </div>
 
               <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -231,9 +248,24 @@ export default function Pendaftaran() {
                 </div>
               </div>
 
-              <button type="submit" className="btn-primary w-full py-4 text-base">
-                <IconSend className="h-5 w-5" />
-                Daftar Sekarang
+              {submitError && (
+                <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {submitError}
+                </div>
+              )}
+
+              <button type="submit" className="btn-primary w-full py-4 text-base" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    Mengirim data...
+                  </>
+                ) : (
+                  <>
+                    <IconSend className="h-5 w-5" />
+                    Daftar Sekarang
+                  </>
+                )}
               </button>
               <p className="text-center text-xs text-slate-400">
                 Setelah mendaftar, kamu akan otomatis mendapatkan link grup WhatsApp bidang pilihanmu.

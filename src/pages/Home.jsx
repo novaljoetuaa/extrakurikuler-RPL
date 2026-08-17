@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useData } from '../context/DataContext'
 import Reveal from '../components/Reveal'
-import Aurora from '../components/animations/Aurora'
 import TiltedCard from '../components/animations/TiltedCard'
 import MagneticButton from '../components/animations/MagneticButton'
 import CountingNumber from '../components/animations/CountingNumber'
@@ -14,8 +13,6 @@ import {
   IconArrowRight,
   IconRocket,
   IconTrophy,
-  IconUsers,
-  IconSparkle,
   IconMegaphone,
 } from '../components/icons'
 import logoRobotic from '../../assets/logo robotic.jpeg'
@@ -59,8 +56,7 @@ const bidangList = [
 
 const stats = [
   { value: '3', suffix: '', label: 'Bidang Keahlian', Icon: IconRocket },
-{ value: '500', suffix: '+', label: 'Anggota Aktif', Icon: IconUsers },
-  { value: '50', suffix: '+', label: 'Karya & Proyek', Icon: IconSparkle },
+  { value: '50', suffix: '+', label: 'Karya & Proyek', Icon: IconTrophy },
   { value: '10', suffix: '+', label: 'Prestasi Lomba', Icon: IconTrophy },
 ]
 
@@ -72,13 +68,9 @@ export default function Home() {
   return (
     <div>
 {/* ===== HERO ===== */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-sky-50 via-white to-stone-100 text-slate-800">
-        <Aurora
-          colorStops={['#bcd8f7', '#e3eeef', '#8cbcef']}
-          blend="soft"
-          style={{ opacity: 0.35 }}
-        />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #3a82d6 1px, transparent 0)', backgroundSize: '34px 34px' }} />
+      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#f8fafc_0%,#eef4f7_35%,#f4f1ea_100%)] text-slate-800">
+        <div className="pointer-events-none absolute inset-0 opacity-80" style={{ backgroundImage: 'radial-gradient(circle at top left, rgba(148,163,184,0.18), transparent 30%), radial-gradient(circle at bottom right, rgba(148,163,184,0.12), transparent 35%)' }} />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.09]" style={{ backgroundImage: 'linear-gradient(rgba(15,23,42,0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.25) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-16">
           <div>
@@ -88,12 +80,7 @@ export default function Home() {
                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                 className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-brand-700"
               >
-                <motion.span
-                  animate={{ rotate: [0, 20, -10, 20, 0] }}
-                  transition={{ duration: 2.5, repeat: Infinity }}
-                >
-                  <IconSparkle className="h-3.5 w-3.5" />
-                </motion.span>
+                <span className="h-2.5 w-2.5 rounded-full bg-brand-500" />
                 Ekstrakurikuler SMK
               </motion.span>
             </Reveal>
@@ -124,7 +111,7 @@ export default function Home() {
             </Reveal>
 
             <Reveal delay={500}>
-              <div className="mt-12 flex flex-wrap items-center gap-6 border-t border-stone-200/70 pt-7">
+              <div className="mt-12 flex flex-wrap items-center gap-5 border-t border-stone-200/70 pt-7">
                 <div className="flex -space-x-3">
                   {['https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80',
                     'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80',
@@ -133,15 +120,12 @@ export default function Home() {
                         key={i}
                         src={src}
                         alt="Anggota ekskul"
-                        className="h-11 w-11 rounded-full border-2 border-white object-cover"
+                        className="h-11 w-11 rounded-full border-2 border-white object-cover shadow-sm"
                         loading="lazy"
                       />
                     ))}
                 </div>
-                <p className="text-sm text-slate-500">
-<span className="font-semibold text-slate-800">500+ anggota</span> telah bergabung
-                  dalam komunitas kami.
-                </p>
+                <p className="text-sm text-slate-500">Bergabung bersama komunitas belajar yang aktif dan kolaboratif.</p>
               </div>
             </Reveal>
           </div>
@@ -368,9 +352,9 @@ export default function Home() {
       )}
 
 {/* ===== CTA ===== */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-gold-100 py-20">
-        <Aurora colorStops={['#bcd8f7', '#c9e0e2', '#8cbcef']} blend="soft" style={{ opacity: 0.3 }} />
-<Reveal className="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
+      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#f8fafc_0%,#edf2f7_35%,#f6f3ee_100%)] py-20">
+        <div className="pointer-events-none absolute inset-0 opacity-80" style={{ backgroundImage: 'radial-gradient(circle at top center, rgba(148,163,184,0.2), transparent 30%), radial-gradient(circle at bottom right, rgba(148,163,184,0.16), transparent 35%)' }} />
+        <Reveal className="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
           <motion.span
             animate={{ y: [0, -8, 0], rotate: [0, 360] }}
             transition={{ y: { duration: 2.5, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 12, repeat: Infinity, ease: 'linear' } }}

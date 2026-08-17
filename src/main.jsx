@@ -6,6 +6,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 import App from './App'
 import SplashScreen from './components/SplashScreen'
 import { DataProvider } from './context/DataContext'
+import { AuthProvider } from './context/AuthContext'
 import './index.css'
 
 function Root() {
@@ -14,13 +15,15 @@ function Root() {
   return (
     <React.StrictMode>
       <BrowserRouter>
-        <DataProvider>
-          <AnimatePresence>
-            {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
-          </AnimatePresence>
-          <App />
-          <SpeedInsights />
-        </DataProvider>
+        <AuthProvider>
+          <DataProvider>
+            <AnimatePresence>
+              {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
+            </AnimatePresence>
+            <App />
+            <SpeedInsights />
+          </DataProvider>
+        </AuthProvider>
       </BrowserRouter>
     </React.StrictMode>
   )

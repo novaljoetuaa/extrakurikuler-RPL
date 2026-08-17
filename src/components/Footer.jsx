@@ -92,17 +92,17 @@ export default function Footer() {
           <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-brand-600">Kontak Cepat</h4>
           <ul className="mt-5 space-y-4 text-sm">
             <li className="flex items-start gap-3">
-              <span className="mt-0.5 text-brand-500">📍</span>
+              <span className="mt-0.5 text-brand-500"></span>
               <span className="text-slate-500">{kontak.alamat}</span>
             </li>
             <li className="flex items-center gap-3">
-              <span className="text-brand-500">✉️</span>
+              <span className="text-brand-500"></span>
               <a href={`mailto:${kontak.email}`} className="text-slate-500 transition hover:text-brand-700">
                 {kontak.email}
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <span className="text-brand-500">📞</span>
+              <span className="text-brand-500"></span>
               <a href={`tel:${kontak.telepon}`} className="text-slate-500 transition hover:text-brand-700">
                 {kontak.telepon}
               </a>
@@ -114,10 +114,10 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-brand-100">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-slate-400 sm:flex-row sm:px-6 lg:px-8">
-          <p>© {new Date().getFullYear()} Ekstrakulikuler RPL — Hak cipta dilindungi.</p>
+          <p>© {new Date().getFullYear()} Ekstrakulikuler RPL — SMK KRIAN 1 SIDOARJO.</p>
           <p className="flex items-center gap-1">
             Dibuat dengan
-            <span className="inline-block text-brand-500 transition-transform hover:scale-125">✦</span>
+            <span className="inline-block text-brand-500 transition-transform hover:scale-125"></span>
             oleh anggota RPL
           </p>
         </div>

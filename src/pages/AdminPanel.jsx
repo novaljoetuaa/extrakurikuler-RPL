@@ -94,7 +94,7 @@ function ConfirmModal({ open, message, onConfirm, onCancel }) {
 }
 
 export default function AdminPanel() {
-  const { data, addItem, updateItem, removeItem, updateKontak, updateSosmed, resetData } = useData()
+  const { data, addItem, updateItem, removeItem, updateKontak, updateSosmed, resetData, newPendaftarCount, clearPendaftarNotif } = useData()
   const [tab, setTab] = useState('kegiatan')
   const [modal, setModal] = useState(null)
   const [form, setForm] = useState(emptyKegiatan)
@@ -174,7 +174,9 @@ const [savedMsg, setSavedMsg] = useState('')
     const a = document.createElement('a')
     a.href = url
     a.download = `pendaftar-${bidang || 'semua'}-${new Date().toISOString().slice(0, 10)}.csv`
+    document.body.appendChild(a)
     a.click()
+    a.remove()
     URL.revokeObjectURL(url)
     showToast('CSV berhasil diunduh.')
   }
@@ -189,6 +191,17 @@ const [savedMsg, setSavedMsg] = useState('')
   const showToast = (msg) => {
     setSavedMsg(msg)
     setTimeout(() => setSavedMsg(''), 3000)
+  }
+
+  const handleSetTab = (id) => {
+    setTab(id)
+    if (id === 'pendaftar') {
+      // clear unread pendaftar notification when admin views the tab
+      if (typeof window !== 'undefined') {
+        // access context via callback prop from useData
+      }
+      if (typeof clearPendaftarNotif === 'function') clearPendaftarNotif()
+    }
   }
 
   return (
@@ -228,14 +241,15 @@ const [savedMsg, setSavedMsg] = useState('')
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-wrap gap-2.5">
           {tabs.map((t) => {
             const TIcon = t.Icon
+            const isPendaftar = t.id === 'pendaftar'
             return (
               <button
                 key={t.id}
                 type="button"
-                onClick={() => setTab(t.id)}
+                onClick={() => handleSetTab(t.id)}
                 className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-all duration-300 ${
                   tab === t.id
                     ? 'bg-brand-800 text-white shadow-lg shadow-brand-900/20'
@@ -244,6 +258,11 @@ const [savedMsg, setSavedMsg] = useState('')
               >
                 <TIcon className="h-4 w-4" />
                 {t.label}
+                {isPendaftar && newPendaftarCount > 0 && (
+                  <span className="ml-2 inline-flex items-center justify-center rounded-full bg-red-600 px-2 py-0.5 text-xs font-bold text-white">
+                    {newPendaftarCount}
+                  </span>
+                )}
               </button>
             )
           })}
@@ -892,8 +911,8 @@ const [savedMsg, setSavedMsg] = useState('')
         onConfirm={() => {
           resetData()
           setResetConfirm(false)
-          setKontakForm({ ...data.kontak })
-          setSosmedForm({ ...data.sosmed })
+          setKontakForm({ email: 'ekskul.robotik@sekolah.sch.id', telepon: '0812-3456-7890', alamat: 'Jl. Kyai Mojo, Wonoayu, Sidoarjo' })
+          setSosmedForm({ instagram: 'https://instagram.com/ekskul.rpl', youtube: 'https://youtube.com/@ekskulrpl', tiktok: 'https://tiktok.com/@ekskulrpl', github: 'https://github.com/ekskul-rpl' })
           showToast('Data dikembalikan ke pengaturan awal.')
         }}
       />

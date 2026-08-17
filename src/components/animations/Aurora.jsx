@@ -19,7 +19,7 @@ export default function Aurora({ colorStops = ['#3a675a', '#dd9534', '#6a9c8d'],
       h = offsetHeight
       canvas.width = w * dpr
       canvas.height = h * dpr
-      ctx.scale(dpr, dpr)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
 
     const rotate = (p, x, y, r) => {
