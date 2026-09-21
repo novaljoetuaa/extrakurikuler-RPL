@@ -27,3 +27,4 @@ pnpm-debug.log*
 # Vercel
 .vercel
 .env*
+!.env.example
