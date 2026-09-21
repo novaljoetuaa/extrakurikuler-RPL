@@ -7,6 +7,7 @@ import Robotic from './pages/Robotic'
 import Website from './pages/Website'
 import DesainGrafis from './pages/DesainGrafis'
 import Galeri from './pages/Galeri'
+import Artikel from './pages/Artikel'
 import Pendaftaran from './pages/Pendaftaran'
 import AdminPanel from './pages/AdminPanel'
 import NotFound from './pages/NotFound'
@@ -41,6 +42,7 @@ function App() {
           <Route path="/website" element={<Website />} />
           <Route path="/desain-grafis" element={<DesainGrafis />} />
           <Route path="/galeri" element={<Galeri />} />
+          <Route path="/artikel" element={<Artikel />} />
           <Route path="/pendaftaran" element={<Pendaftaran />} />
           <Route path="/admin" element={<ProtectedAdmin />} />
           <Route path="*" element={<NotFound />} />

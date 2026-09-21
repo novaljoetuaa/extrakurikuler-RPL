@@ -9,6 +9,7 @@ import {
   IconMapPin,
   IconMail,
   IconPhone,
+  IconSparkle,
 } from './icons'
 import logo from '../../assets/rpl.png'
 
@@ -33,29 +34,24 @@ export default function Footer() {
   const { kontak, sosmed } = data
 
   return (
-    <footer className="relative mt-auto overflow-hidden border-t border-slate-200/80 bg-slate-900 text-slate-300">
-      {/* Accent top line */}
-      <div className="h-1 w-full bg-gradient-to-r from-brand-500 via-sky-400 to-indigo-500" />
+    <footer className="relative mt-auto overflow-hidden border-t-2 border-[#90CAF9] bg-[#0D47A1] text-[#E3F2FD]">
+      {/* Top Accent Bar */}
+      <div className="h-1.5 w-full bg-[#2196F3]" />
 
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-12 lg:gap-12 lg:px-8">
-        {/* Brand Column */}
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-12 lg:gap-12 lg:px-8">
+        {/* Brand & Description Column */}
         <div className="md:col-span-5 lg:col-span-5">
           <div className="flex items-center gap-3.5">
-            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-white p-1 shadow-md ring-1 ring-white/10">
-              <img
-                src={logo}
-                alt="Logo RPL"
-                className="h-full w-full object-contain"
-              />
+            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border-2 border-[#90CAF9] bg-white p-1.5 shadow-md">
+              <img src={logo} alt="Logo RPL" className="h-full w-full object-contain" />
             </div>
             <div>
-              <p className="font-display text-xl font-bold tracking-tight text-white">Ekstrakurikuler RPL</p>
-              <p className="text-xs text-slate-400">SMK Krian 1 Sidoarjo</p>
+              <p className="font-display text-lg font-bold tracking-tight text-[#E3F2FD]">Ekstrakurikuler RPL</p>
+              <p className="text-xs font-semibold text-[#90CAF9]">SMK Krian 1 Sidoarjo</p>
             </div>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-slate-400">
-            Wadah pengembangan minat, bakat, dan keterampilan siswa dalam bidang Rekayasa Perangkat Lunak.
-            Mempelajari Robotika, Pemrograman Web, dan Desain Visual untuk menciptakan generasi digital yang kompeten.
+          <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#90CAF9]">
+            Wadah pengembangan minat, bakat, dan kompetensi terapan siswa dalam bidang Rekayasa Perangkat Lunak. Mempelajari Robotika, Pemrograman Web, dan Desain Grafis untuk membentuk generasi teknologi yang siap berkarya.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-2.5">
@@ -70,7 +66,7 @@ export default function Footer() {
                   rel="noreferrer"
                   title={label}
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-500/50 hover:bg-brand-600 hover:text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#90CAF9] bg-[#E3F2FD]/10 text-[#E3F2FD] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-[#2196F3] hover:text-white"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -81,17 +77,17 @@ export default function Footer() {
 
         {/* Navigation Column */}
         <div className="md:col-span-3 lg:col-span-3 md:pl-4">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-400">
-            Navigasi
+          <p className="font-display text-xs font-bold uppercase tracking-[0.2em] text-[#90CAF9]">
+            Navigasi Halaman
           </p>
           <ul className="mt-4 space-y-2.5">
             {footerLinks.map((link) => (
               <li key={link.to}>
                 <Link
                   to={link.to}
-                  className="group inline-flex items-center gap-2 text-sm text-slate-400 transition-all duration-200 hover:text-white"
+                  className="group inline-flex items-center gap-2 text-xs sm:text-sm text-[#E3F2FD]/80 transition-all duration-200 hover:text-white hover:translate-x-1"
                 >
-                  <IconArrowRight className="h-3.5 w-3.5 text-brand-400 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100" />
+                  <IconArrowRight className="h-3.5 w-3.5 text-[#90CAF9] opacity-70 transition-all duration-200 group-hover:text-white group-hover:opacity-100" />
                   <span>{link.label}</span>
                 </Link>
               </li>
@@ -99,31 +95,31 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Contact Column */}
+        {/* Contact Information Column */}
         <div className="md:col-span-4 lg:col-span-4">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-400">
-            Kontak & Lokasi
+          <p className="font-display text-xs font-bold uppercase tracking-[0.2em] text-[#90CAF9]">
+            Sekolah & Kontak
           </p>
-          <ul className="mt-4 space-y-3.5 text-sm">
+          <ul className="mt-4 space-y-3.5 text-xs sm:text-sm">
             <li className="flex items-start gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-brand-400 ring-1 ring-white/10">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[#90CAF9] bg-[#E3F2FD]/15 text-[#90CAF9]">
                 <IconMapPin className="h-4 w-4" />
               </span>
-              <span className="leading-relaxed text-slate-400">{kontak.alamat}</span>
+              <span className="leading-relaxed text-[#E3F2FD]/85">{kontak.alamat}</span>
             </li>
             <li className="flex items-center gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-brand-400 ring-1 ring-white/10">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[#90CAF9] bg-[#E3F2FD]/15 text-[#90CAF9]">
                 <IconMail className="h-4 w-4" />
               </span>
-              <a href={`mailto:${kontak.email}`} className="text-slate-400 transition hover:text-white">
+              <a href={`mailto:${kontak.email}`} className="text-[#E3F2FD]/85 transition hover:text-white">
                 {kontak.email}
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-brand-400 ring-1 ring-white/10">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[#90CAF9] bg-[#E3F2FD]/15 text-[#90CAF9]">
                 <IconPhone className="h-4 w-4" />
               </span>
-              <a href={`tel:${kontak.telepon}`} className="text-slate-400 transition hover:text-white">
+              <a href={`tel:${kontak.telepon}`} className="text-[#E3F2FD]/85 transition hover:text-white">
                 {kontak.telepon}
               </a>
             </li>
@@ -131,16 +127,16 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/10 bg-slate-950/60">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-4 text-xs text-slate-400 sm:flex-row sm:px-6 lg:px-8">
+      {/* Bottom Bar */}
+      <div className="border-t border-[#90CAF9]/30 bg-[#0A3882]">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-4 text-xs text-[#90CAF9] sm:flex-row sm:px-6 lg:px-8">
           <p>© {new Date().getFullYear()} Ekstrakurikuler RPL — SMK Krian 1 Sidoarjo.</p>
-          <p className="text-slate-400">
-            Dibuat dengan semangat berkarya oleh anggota RPL
+          <p className="flex items-center gap-1.5 text-[#E3F2FD]">
+            <IconSparkle className="h-3.5 w-3.5 text-[#90CAF9]" />
+            <span>Rekayasa Perangkat Lunak</span>
           </p>
         </div>
       </div>
     </footer>
   )
 }
-

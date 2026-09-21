@@ -149,22 +149,58 @@ const defaultData = {
       bidang: 'Desain Grafis',
       gambar: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80',
     },
+  ],
+
+  // Modul Artikel Bidang Sains, Teknologi & Desain (PRD Section 3.4)
+  artikel: [
     {
-      id: 7,
-      judul: 'Praktik Sensor Robot',
-      bidang: 'Robotic',
-      gambar: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=800&q=80',
+      id: 1,
+      bidang: 'Robotik',
+      judul: 'Panduan Merakit Robot Line Follower Berbasis Arduino Uno',
+      summary: 'Eksplorasi sensor infrared, kalibrasi driver motor L298N, dan logika mikrokontroler untuk robot pengikut garis berkecepatan tinggi.',
+      konten: 'Robot Line Follower adalah gerbang awal bagi siswa untuk memahami integrasi mekanika, elektronika analog, dan logika kode mikrokontroler. Dalam proyek ini, kita menggunakan modul mikrokontroler Arduino Uno, sensor photodioda TCRT5000, serta motor DC berkecepatan tinggi. Siswa belajar menghitung pembacaan analog dan menerapkan algoritma kontrol untuk merespons garis lintasan secara presisi.',
+      penulis: 'Divisi Robotik RPL',
+      tanggal: '2025-02-24',
+      gambar: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
+      icon: 'fas fa-robot',
     },
     {
-      id: 8,
-      judul: 'Kolaborasi Antarbidang',
-      bidang: 'Umum',
-      gambar: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+      id: 2,
+      bidang: 'Website & Pemrograman',
+      judul: 'Membangun Aplikasi Web Modern dengan React dan Tailwind CSS',
+      summary: 'Langkah praktis membangun antarmuka web responsif, modularitas komponen, hingga teknik deployment ke layanan cloud hosting.',
+      konten: 'Pengembangan web saat ini menitikberatkan pada kecepatan, kebersihan arsitektur komponen, serta konsistensi desain sistem. Siswa diajarkan bagaimana merancang tata letak berbasis flexbox dan grid, mengelola state dengan React Hooks, serta memastikan tampilan website ramah bagi pengguna mobile maupun desktop.',
+      penulis: 'Divisi Web RPL',
+      tanggal: '2025-02-22',
+      gambar: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80',
+      icon: 'fas fa-code',
+    },
+    {
+      id: 3,
+      bidang: 'Desain Grafis',
+      judul: 'Prinsip Hierarki Tipografi & Tata Letak Poster Karya Siswa',
+      summary: 'Kiat memilih jenis huruf geometris, proporsi kontras warna solid, dan tata letak visual untuk menciptakan publikasi yang berdaya tarik.',
+      konten: 'Desain visual yang efektif berawal dari pemahaman kuat tentang hierarki informasi. Melalui modul ini, anggota desain grafis mempelajari kombinasi jenis huruf Space Grotesk dan Plus Jakarta Sans, pengaturan whitespace, serta pemilihan palet warna solid untuk kebutuhan branding dan poster ekstrakurikuler.',
+      penulis: 'Divisi Desain RPL',
+      tanggal: '2025-02-20',
+      gambar: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80',
+      icon: 'fas fa-palette',
+    },
+    {
+      id: 4,
+      bidang: 'Robotik',
+      judul: 'Implementasi Sensor Suhu & Kelembapan IoT Menggunakan ESP32',
+      summary: 'Proyek pemantauan kondisi lingkungan laboratorium secara real-time via jaringan nirkabel dan dashboard interaktif.',
+      konten: 'Internet of Things (IoT) membuka wawasan siswa mengenai konektivitas perangkat keras ke internet. Proyek ini mendemokan pemanfaatan sensor DHT22 dengan ESP32 untuk mengirimkan data telemetri suhu secara periodik.',
+      penulis: 'Divisi Robotik RPL',
+      tanggal: '2025-02-18',
+      gambar: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
+      icon: 'fas fa-robot',
     },
   ],
 }
 
-const collectionKeys = ['kegiatan', 'jadwal', 'pengumuman', 'pendaftar', 'galeri']
+const collectionKeys = ['kegiatan', 'jadwal', 'pengumuman', 'pendaftar', 'galeri', 'artikel']
 
 function createDefaultData() {
   return JSON.parse(JSON.stringify(defaultData))
@@ -356,7 +392,7 @@ export function DataProvider({ children }) {
     const record = {
       ...payload,
       id,
-      status: payload.status || 'Baru',
+      status: payload.status || 'Menunggu Verifikasi',
       tanggalDaftar: payload.tanggalDaftar || new Date().toISOString().slice(0, 10),
       bidang: payload.bidang || 'Robotic',
     }

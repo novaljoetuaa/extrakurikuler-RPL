@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,73 +7,113 @@
     scroll-behavior: smooth;
     max-width: 100%;
     overflow-x: clip;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #E3F2FD;
   }
   body {
-    @apply bg-cream font-sans text-ink antialiased;
+    background-color: #E3F2FD;
+    color: #0D47A1;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     max-width: 100%;
     overflow-x: clip;
   }
-  /* Cegah overflow horizontal pada viewport kecil (HP).
-     `clip` mencegah pembentukan scroll container sehingga
-     scrollbar horizontal tidak akan muncul sama sekali. */
-  #root {
+  #root, main {
     width: 100%;
     max-width: 100%;
     overflow-x: clip;
+    background-color: #E3F2FD;
   }
-  main {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: clip;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #0D47A1;
   }
   img, svg, video {
     max-width: 100%;
     height: auto;
   }
-::selection {
-    @apply bg-brand-200 text-brand-900;
+  ::selection {
+    background-color: #2196F3;
+    color: #FFFFFF;
   }
 }
 
 @layer components {
+  /* Reveal transition */
   .reveal {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(16px);
     transition:
-      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
     will-change: opacity, transform;
   }
   .reveal-visible {
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Solid Action Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2.5 rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-brand-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-lg hover:shadow-brand-700/25 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 active:translate-y-0 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#2196F3] px-5 py-2.5 text-sm font-bold text-white transition-all duration-200 hover:bg-[#0D47A1] focus:outline-none focus:ring-2 focus:ring-[#2196F3] focus:ring-offset-2 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none;
   }
-  .btn-gold {
-    @apply inline-flex items-center justify-center gap-2.5 rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-amber-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 active:translate-y-0 active:scale-[0.98];
-  }
-  .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2.5 rounded-full border border-slate-200 bg-white/80 px-6 py-3 text-sm font-semibold text-slate-700 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:border-slate-300 hover:text-slate-900 focus:outline-none;
-  }
+
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2.5 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-subtle transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50/40 hover:text-brand-700 hover:shadow-soft focus:outline-none focus:ring-2 focus:ring-brand-200 active:translate-y-0 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 border-[#90CAF9] bg-[#E3F2FD] px-5 py-2.5 text-sm font-bold text-[#0D47A1] transition-all duration-200 hover:bg-[#90CAF9] hover:text-[#0D47A1] focus:outline-none focus:ring-2 focus:ring-[#90CAF9] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none;
   }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#0D47A1] px-5 py-2.5 text-sm font-bold text-[#E3F2FD] transition-all duration-200 hover:bg-[#2196F3] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#0D47A1] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-bold text-[#0D47A1] transition-all duration-200 hover:bg-[#90CAF9]/30 focus:outline-none active:scale-[0.98];
+  }
+
+  /* Input Fields */
   .input-field {
-    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink placeholder-slate-400 transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-100;
+    @apply w-full rounded-xl border-2 border-[#90CAF9] bg-white px-4 py-2.5 text-sm text-[#0D47A1] placeholder-slate-400 transition-all duration-200 focus:border-[#2196F3] focus:outline-none focus:ring-2 focus:ring-[#90CAF9];
   }
+
+  /* Solid Cards */
   .card {
-    @apply rounded-3xl border border-slate-200/80 bg-white shadow-soft transition-all duration-300;
+    @apply rounded-2xl border-2 border-[#90CAF9] bg-white transition-all duration-200;
   }
+
+  .card-surface {
+    @apply rounded-2xl border-2 border-[#90CAF9] bg-[#E3F2FD] transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:-translate-y-1 hover:border-[#2196F3] hover:shadow-card;
+  }
+
+  /* Badges */
+  .badge-bidang {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-[#90CAF9] bg-[#E3F2FD] px-2.5 py-1 text-xs font-bold text-[#0D47A1];
+  }
+
+  .badge-status-menunggu {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-[#2196F3] bg-[#E3F2FD] px-3 py-1 text-xs font-bold text-[#2196F3];
+  }
+
+  .badge-status-diterima {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-[#0D47A1] bg-[#E3F2FD] px-3 py-1 text-xs font-bold text-[#0D47A1];
+  }
+
+  .badge-status-wawancara {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-[#0D47A1] bg-[#90CAF9] px-3 py-1 text-xs font-bold text-[#0D47A1];
+  }
+
+  .badge-status-ditolak {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-[#0D47A1] bg-[#E3F2FD] px-3 py-1 text-xs font-bold text-[#0D47A1];
+  }
+
+  /* Section Headings */
   .section-title {
-    @apply font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-[2.6rem] leading-[1.15];
+    @apply font-display text-2xl font-bold tracking-tight text-[#0D47A1] sm:text-3xl md:text-4xl leading-tight;
   }
-  .eyebrow {
-    @apply inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-brand-600;
-  }
-  .badge-pill {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-brand-200/70 bg-brand-50/80 px-3.5 py-1 text-xs font-semibold text-brand-700 backdrop-blur-sm;
+
+  .section-subtitle {
+    @apply mt-2.5 text-sm leading-relaxed text-[#0D47A1]/80 sm:text-base;
   }
 }
-

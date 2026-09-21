@@ -9,10 +9,11 @@ import {
   IconPlus,
   IconEdit,
   IconTrash,
-IconX,
+  IconX,
   IconAlert,
   IconSave,
   IconLock,
+  IconShield,
   IconUserPlus,
   IconUsers,
   IconDownload,
@@ -33,28 +34,28 @@ const emptyPendaftar = { nama: '', kelas: '', nohp: '', email: '', bidang: 'Robo
 const bidangTabs = ['Robotic', 'Website', 'Desain Grafis']
 
 const inputClass =
-  'w-full rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm text-ink placeholder-stone-400 transition-all duration-300 focus:border-brand-400 focus:outline-none focus:ring-4 focus:ring-brand-100'
-const labelClass = 'mb-1.5 block text-sm font-semibold text-ink'
-const thClass = 'px-5 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-stone-500'
-const tdClass = 'px-5 py-3.5 text-sm text-stone-700 align-top'
+  'w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-100'
+const labelClass = 'mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-700'
+const thClass = 'px-5 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-slate-500'
+const tdClass = 'px-5 py-3.5 text-sm text-slate-700 align-middle'
 
 function Modal({ open, title, onClose, children }) {
   if (!open) return null
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-brand-950/60 p-4 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-[75] flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm animate-fade-in" onClick={onClose}>
       <div
-        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-white p-7 shadow-lift animate-scale-in"
+        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-slate-200/90 bg-white p-7 shadow-lift animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-5 flex items-center justify-between">
-          <h3 className="font-display text-xl font-semibold text-ink">{title}</h3>
+        <div className="mb-5 flex items-center justify-between border-b border-slate-100 pb-4">
+          <h3 className="text-lg font-bold text-slate-900">{title}</h3>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-2 text-stone-400 transition hover:bg-stone-100 hover:text-stone-600"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
             aria-label="Tutup modal"
           >
-            <IconX className="h-5 w-5" />
+            <IconX className="h-4 w-4" />
           </button>
         </div>
         {children}
@@ -66,24 +67,24 @@ function Modal({ open, title, onClose, children }) {
 function ConfirmModal({ open, message, onConfirm, onCancel }) {
   if (!open) return null
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-brand-950/60 p-4 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-sm rounded-3xl bg-white p-7 shadow-lift animate-scale-in">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-100 text-red-600">
+    <div className="fixed inset-0 z-[85] flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm animate-fade-in">
+      <div className="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-7 shadow-lift animate-scale-in">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100 text-red-600">
           <IconAlert className="h-7 w-7" />
         </div>
-        <p className="mt-4 text-center font-semibold text-ink">{message}</p>
+        <p className="mt-4 text-center font-bold text-slate-900 leading-snug">{message}</p>
         <div className="mt-6 grid grid-cols-2 gap-3">
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-full border border-stone-300 px-4 py-2.5 text-sm font-semibold text-stone-600 transition hover:bg-stone-50"
+            className="btn-secondary !py-2.5 text-xs font-bold"
           >
             Batal
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="rounded-full bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700"
+            className="inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-red-700 active:scale-[0.98]"
           >
             Hapus
           </button>
@@ -101,7 +102,7 @@ export default function AdminPanel() {
   const [confirmDelete, setConfirmDelete] = useState(null)
   const [kontakForm, setKontakForm] = useState({ ...data.kontak })
   const [sosmedForm, setSosmedForm] = useState({ ...data.sosmed })
-const [savedMsg, setSavedMsg] = useState('')
+  const [savedMsg, setSavedMsg] = useState('')
   const [resetConfirm, setResetConfirm] = useState(false)
   const [pendaftarFilter, setPendaftarFilter] = useState('')
 
@@ -156,13 +157,14 @@ const [savedMsg, setSavedMsg] = useState('')
       showToast('Tidak ada data untuk diekspor.')
       return
     }
-    const headers = ['Nama', 'Kelas', 'No HP/WA', 'Email', 'Bidang', 'Status', 'Tanggal Daftar']
+    const headers = ['Nama', 'Kelas', 'No HP/WA', 'Email', 'Bidang', 'Alasan Masuk', 'Status', 'Tanggal Daftar']
     const rows = list.map((p) => [
       p.nama,
       p.kelas,
       p.nohp,
       p.email,
       p.bidang,
+      p.alasanMasuk || '',
       p.status,
       p.tanggalDaftar || '',
     ])
@@ -196,72 +198,73 @@ const [savedMsg, setSavedMsg] = useState('')
   const handleSetTab = (id) => {
     setTab(id)
     if (id === 'pendaftar') {
-      // clear unread pendaftar notification when admin views the tab
-      if (typeof window !== 'undefined') {
-        // access context via callback prop from useData
-      }
       if (typeof clearPendaftarNotif === 'function') clearPendaftarNotif()
     }
   }
 
   return (
-    <div className="space-y-8 pb-16">
-      {/* Header */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-brand-50/70 via-white to-slate-50/50 py-12 md:py-16 border-b border-slate-200/60">
-        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand-200/30 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-sky-200/30 blur-3xl" />
+    <div className="space-y-8 pb-20">
+      {/* Header Banner */}
+      <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-white via-slate-50/60 to-slate-100/50 py-12 md:py-16">
+        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand-400/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-sky-400/10 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 tech-grid-bg opacity-40" />
+
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-5">
             <div>
               <div className="badge-pill">
-                <IconShield className="h-3.5 w-3.5 text-brand-600" />
+                <IconShield className="h-3.5 w-3.5" />
                 <span>Dashboard Pengelola</span>
               </div>
-              <h1 className="mt-3 font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Admin Panel</h1>
-              <p className="mt-2 max-w-xl text-sm sm:text-base text-slate-600">
-                Kelola kegiatan, jadwal pertemuan, pengumuman, data pendaftar, dan informasi kontak Ekstrakurikuler RPL.
+              <h1 className="mt-3 text-2xl font-black tracking-tight text-slate-900 sm:text-4xl">
+                Admin Panel
+              </h1>
+              <p className="mt-1.5 max-w-xl text-xs sm:text-sm text-slate-600">
+                Kelola konten kegiatan, jadwal latihan rutin, pengumuman, data pendaftar, dan kontak resmi Ekstrakurikuler RPL.
               </p>
             </div>
             <button
               type="button"
               onClick={() => setResetConfirm(true)}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 hover:border-slate-300"
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-700 shadow-subtle transition hover:bg-slate-50 hover:border-slate-300"
             >
-              <IconLock className="h-3.5 w-3.5" />
-              Reset Data Default
+              <IconLock className="h-3.5 w-3.5 text-slate-500" />
+              <span>Reset Data Default</span>
             </button>
           </div>
         </div>
       </section>
 
-      {/* Toast */}
+      {/* Toast Notification */}
       {savedMsg && (
-        <div className="fixed left-1/2 top-20 z-[90] -translate-x-1/2 animate-scale-in rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white shadow-lift">
+        <div className="fixed left-1/2 top-20 z-[90] -translate-x-1/2 animate-scale-in rounded-2xl bg-slate-900 px-6 py-3 text-xs sm:text-sm font-bold text-white shadow-lift ring-1 ring-white/10">
           ✅ {savedMsg}
         </div>
       )}
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        {/* Tabs */}
-          <div className="flex flex-wrap gap-2.5">
+      {/* Tabs Navigation */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap gap-2 border-b border-slate-200/80 pb-4">
           {tabs.map((t) => {
             const TIcon = t.Icon
             const isPendaftar = t.id === 'pendaftar'
+            const active = tab === t.id
             return (
               <button
                 key={t.id}
                 type="button"
                 onClick={() => handleSetTab(t.id)}
-                className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-all duration-300 ${
-                  tab === t.id
-                    ? 'bg-brand-800 text-white shadow-lg shadow-brand-900/20'
-                    : 'bg-white text-stone-600 shadow-soft hover:bg-brand-50 hover:text-brand-800'
+                className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 ${
+                  active
+                    ? 'bg-brand-600 text-white shadow-md shadow-brand-600/25'
+                    : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                 }`}
               >
                 <TIcon className="h-4 w-4" />
-                {t.label}
+                <span>{t.label}</span>
                 {isPendaftar && newPendaftarCount > 0 && (
-                  <span className="ml-2 inline-flex items-center justify-center rounded-full bg-red-600 px-2 py-0.5 text-xs font-bold text-white">
+                  <span className="ml-1 inline-flex items-center justify-center rounded-full bg-red-600 px-2 py-0.5 text-[10px] font-extrabold text-white">
                     {newPendaftarCount}
                   </span>
                 )}
@@ -270,61 +273,61 @@ const [savedMsg, setSavedMsg] = useState('')
           })}
         </div>
 
-        <div className="mt-7">
+        <div className="mt-6">
           {/* ===== KEGIATAN ===== */}
           {tab === 'kegiatan' && (
             <div className="card overflow-hidden">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200/70 px-6 py-5">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-6 py-5">
                 <div>
-                  <h2 className="font-display text-xl font-semibold text-ink">Kelola Gambar & Informasi Kegiatan</h2>
-                  <p className="text-sm text-stone-500">Tambah, ubah, atau hapus kegiatan per bidang.</p>
+                  <h2 className="text-lg font-bold text-slate-900">Kelola Dokumentasi & Kegiatan</h2>
+                  <p className="text-xs text-slate-500">Tambah, perbarui, atau hapus dokumentasi kegiatan per bidang.</p>
                 </div>
-                <button type="button" onClick={() => openAdd('kegiatan')} className="btn-primary">
+                <button type="button" onClick={() => openAdd('kegiatan')} className="btn-primary !py-2.5 !text-xs">
                   <IconPlus className="h-4 w-4" />
-                  Tambah Kegiatan
+                  <span>Tambah Kegiatan</span>
                 </button>
               </div>
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-stone-200">
-                  <thead className="bg-cream">
+                <table className="min-w-full divide-y divide-slate-100">
+                  <thead className="bg-slate-50/50">
                     <tr>
-                      <th className={thClass}>Gambar</th>
+                      <th className={thClass}>Foto</th>
                       <th className={thClass}>Bidang</th>
                       <th className={thClass}>Judul</th>
                       <th className={thClass}>Deskripsi</th>
                       <th className={thClass}>Aksi</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-stone-100 bg-white">
+                  <tbody className="divide-y divide-slate-100 bg-white">
                     {data.kegiatan.map((k) => (
-                      <tr key={k.id} className="transition hover:bg-brand-50/40">
+                      <tr key={k.id} className="transition hover:bg-slate-50/60">
                         <td className={tdClass}>
-                          <img src={k.gambar} alt={k.judul} className="h-16 w-24 rounded-xl object-cover shadow-soft" />
+                          <img src={k.gambar} alt={k.judul} className="h-14 w-20 rounded-xl object-cover shadow-sm" />
                         </td>
                         <td className={tdClass}>
-                          <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-bold text-brand-800">
+                          <span className="rounded-md border border-brand-200 bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700">
                             {k.bidang}
                           </span>
                         </td>
-                        <td className={`${tdClass} font-semibold text-ink`}>{k.judul}</td>
-                        <td className={`${tdClass} max-w-xs`}>{k.deskripsi}</td>
+                        <td className={`${tdClass} font-bold text-slate-900`}>{k.judul}</td>
+                        <td className={`${tdClass} max-w-xs text-xs text-slate-600 line-clamp-2`}>{k.deskripsi}</td>
                         <td className={tdClass}>
                           <div className="flex gap-2">
                             <button
                               type="button"
                               onClick={() => openEdit('kegiatan', k)}
-                              className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 transition hover:bg-brand-100"
+                              className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 hover:border-slate-300"
                             >
                               <IconEdit className="h-3.5 w-3.5" />
-                              Edit
+                              <span>Edit</span>
                             </button>
                             <button
                               type="button"
                               onClick={() => setConfirmDelete({ key: 'kegiatan', id: k.id })}
-                              className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100"
+                              className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100"
                             >
                               <IconTrash className="h-3.5 w-3.5" />
-                              Hapus
+                              <span>Hapus</span>
                             </button>
                           </div>
                         </td>
@@ -332,7 +335,7 @@ const [savedMsg, setSavedMsg] = useState('')
                     ))}
                     {data.kegiatan.length === 0 && (
                       <tr>
-                        <td colSpan={5} className="px-5 py-12 text-center text-stone-400">
+                        <td colSpan={5} className="px-5 py-12 text-center text-slate-400">
                           Belum ada kegiatan. Klik "Tambah Kegiatan" untuk memulai.
                         </td>
                       </tr>
@@ -346,19 +349,19 @@ const [savedMsg, setSavedMsg] = useState('')
           {/* ===== JADWAL ===== */}
           {tab === 'jadwal' && (
             <div className="card overflow-hidden">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200/70 px-6 py-5">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-6 py-5">
                 <div>
-                  <h2 className="font-display text-xl font-semibold text-ink">Kelola Jadwal Latihan</h2>
-                  <p className="text-sm text-stone-500">Atur jadwal latihan untuk setiap bidang.</p>
+                  <h2 className="text-lg font-bold text-slate-900">Kelola Jadwal Latihan Rutin</h2>
+                  <p className="text-xs text-slate-500">Atur jadwal pertemuan mingguan untuk masing-masing bidang.</p>
                 </div>
-                <button type="button" onClick={() => openAdd('jadwal')} className="btn-primary">
+                <button type="button" onClick={() => openAdd('jadwal')} className="btn-primary !py-2.5 !text-xs">
                   <IconPlus className="h-4 w-4" />
-                  Tambah Jadwal
+                  <span>Tambah Jadwal</span>
                 </button>
               </div>
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-stone-200">
-                  <thead className="bg-cream">
+                <table className="min-w-full divide-y divide-slate-100">
+                  <thead className="bg-slate-50/50">
                     <tr>
                       <th className={thClass}>Bidang</th>
                       <th className={thClass}>Hari</th>
@@ -367,10 +370,10 @@ const [savedMsg, setSavedMsg] = useState('')
                       <th className={thClass}>Aksi</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-stone-100 bg-white">
+                  <tbody className="divide-y divide-slate-100 bg-white">
                     {data.jadwal.map((j) => (
-                      <tr key={j.id} className="transition hover:bg-brand-50/40">
-                        <td className={`${tdClass} font-semibold text-ink`}>{j.bidang}</td>
+                      <tr key={j.id} className="transition hover:bg-slate-50/60">
+                        <td className={`${tdClass} font-bold text-slate-900`}>{j.bidang}</td>
                         <td className={tdClass}>{j.hari}</td>
                         <td className={tdClass}>{j.waktu}</td>
                         <td className={tdClass}>{j.tempat}</td>
@@ -379,18 +382,18 @@ const [savedMsg, setSavedMsg] = useState('')
                             <button
                               type="button"
                               onClick={() => openEdit('jadwal', j)}
-                              className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 transition hover:bg-brand-100"
+                              className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                             >
                               <IconEdit className="h-3.5 w-3.5" />
-                              Edit
+                              <span>Edit</span>
                             </button>
                             <button
                               type="button"
                               onClick={() => setConfirmDelete({ key: 'jadwal', id: j.id })}
-                              className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100"
+                              className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100"
                             >
                               <IconTrash className="h-3.5 w-3.5" />
-                              Hapus
+                              <span>Hapus</span>
                             </button>
                           </div>
                         </td>
@@ -398,7 +401,7 @@ const [savedMsg, setSavedMsg] = useState('')
                     ))}
                     {data.jadwal.length === 0 && (
                       <tr>
-                        <td colSpan={5} className="px-5 py-12 text-center text-stone-400">
+                        <td colSpan={5} className="px-5 py-12 text-center text-slate-400">
                           Belum ada jadwal. Klik "Tambah Jadwal" untuk memulai.
                         </td>
                       </tr>
@@ -412,50 +415,50 @@ const [savedMsg, setSavedMsg] = useState('')
           {/* ===== PENGUMUMAN ===== */}
           {tab === 'pengumuman' && (
             <div className="card overflow-hidden">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200/70 px-6 py-5">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-6 py-5">
                 <div>
-                  <h2 className="font-display text-xl font-semibold text-ink">Kelola Pengumuman</h2>
-                  <p className="text-sm text-stone-500">Sampaikan informasi terbaru kepada anggota.</p>
+                  <h2 className="text-lg font-bold text-slate-900">Kelola Pengumuman</h2>
+                  <p className="text-xs text-slate-500">Sampaikan pemberitahuan penting kepada seluruh anggota.</p>
                 </div>
-                <button type="button" onClick={() => openAdd('pengumuman')} className="btn-primary">
+                <button type="button" onClick={() => openAdd('pengumuman')} className="btn-primary !py-2.5 !text-xs">
                   <IconPlus className="h-4 w-4" />
-                  Tambah Pengumuman
+                  <span>Tambah Pengumuman</span>
                 </button>
               </div>
-              <div className="divide-y divide-stone-100 bg-white">
+              <div className="divide-y divide-slate-100 bg-white">
                 {data.pengumuman.map((p) => (
-                  <div key={p.id} className="flex flex-wrap items-start justify-between gap-4 px-6 py-5 transition hover:bg-brand-50/40">
+                  <div key={p.id} className="flex flex-wrap items-start justify-between gap-4 px-6 py-5 transition hover:bg-slate-50/60">
                     <div className="max-w-2xl">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="font-display text-lg font-semibold text-ink">{p.judul}</h3>
-                        <span className="rounded-full bg-stone-100 px-2.5 py-0.5 text-xs font-semibold text-stone-500">
+                        <h3 className="text-base font-bold text-slate-900">{p.judul}</h3>
+                        <span className="rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-600">
                           {p.tanggal}
                         </span>
                       </div>
-                      <p className="mt-1.5 text-sm text-stone-600">{p.isi}</p>
+                      <p className="mt-1 text-xs sm:text-sm text-slate-600 leading-relaxed">{p.isi}</p>
                     </div>
                     <div className="flex gap-2">
                       <button
                         type="button"
                         onClick={() => openEdit('pengumuman', p)}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 transition hover:bg-brand-100"
+                        className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                       >
                         <IconEdit className="h-3.5 w-3.5" />
-                        Edit
+                        <span>Edit</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => setConfirmDelete({ key: 'pengumuman', id: p.id })}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100"
+                        className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100"
                       >
                         <IconTrash className="h-3.5 w-3.5" />
-                        Hapus
+                        <span>Hapus</span>
                       </button>
                     </div>
                   </div>
                 ))}
                 {data.pengumuman.length === 0 && (
-                  <div className="px-6 py-12 text-center text-stone-400">
+                  <div className="px-6 py-12 text-center text-slate-400">
                     Belum ada pengumuman. Klik "Tambah Pengumuman" untuk memulai.
                   </div>
                 )}
@@ -463,27 +466,29 @@ const [savedMsg, setSavedMsg] = useState('')
             </div>
           )}
 
-{/* ===== PENDATAR ===== */}
+          {/* ===== PENDAFTAR ===== */}
           {tab === 'pendaftar' && (
             <div className="card overflow-hidden">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200/70 px-6 py-5">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-6 py-5">
                 <div>
-                  <h2 className="font-display text-xl font-semibold text-ink">Kelola Pendaftar / Anggota</h2>
-                  <p className="text-sm text-stone-500">Kelola pendaftar per bidang dan ekspor data ke CSV.</p>
+                  <h2 className="text-lg font-bold text-slate-900">Data Pendaftar / Anggota</h2>
+                  <p className="text-xs text-slate-500">Tinjau pendaftar per bidang dan ekspor laporan ke file CSV.</p>
                 </div>
-                <button type="button" onClick={() => openAdd('pendaftar')} className="btn-primary">
+                <button type="button" onClick={() => openAdd('pendaftar')} className="btn-primary !py-2.5 !text-xs">
                   <IconPlus className="h-4 w-4" />
-                  Tambah Pendaftar
+                  <span>Tambah Manual</span>
                 </button>
               </div>
 
-              {/* Filter & export per bidang */}
-              <div className="flex flex-wrap items-center gap-2.5 border-b border-stone-100 px-6 py-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Per Bidang:</span>
+              {/* Filter by Bidang */}
+              <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 bg-slate-50/50 px-6 py-3.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Filter Bidang:</span>
                 <button
                   type="button"
                   onClick={() => setPendaftarFilter('')}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${!pendaftarFilter ? 'bg-brand-800 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+                  className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+                    !pendaftarFilter ? 'bg-brand-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
+                  }`}
                 >
                   Semua ({data.pendaftar.length})
                 </button>
@@ -494,55 +499,65 @@ const [savedMsg, setSavedMsg] = useState('')
                       key={b}
                       type="button"
                       onClick={() => setPendaftarFilter(b)}
-                      className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${pendaftarFilter === b ? 'bg-brand-800 text-white' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+                      className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+                        pendaftarFilter === b ? 'bg-brand-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
+                      }`}
                     >
                       {b} ({count})
                     </button>
                   )
                 })}
-                <div className="ml-auto flex gap-2">
-                  <button type="button" onClick={() => exportCSV(pendaftarFilter || null)} className="btn-secondary !px-4 !py-2 text-xs">
+                <div className="ml-auto">
+                  <button
+                    type="button"
+                    onClick={() => exportCSV(pendaftarFilter || null)}
+                    className="btn-secondary !py-1.5 !px-3.5 !text-xs font-bold"
+                  >
                     <IconDownload className="h-4 w-4" />
-                    Export CSV
+                    <span>Download CSV</span>
                   </button>
                 </div>
               </div>
 
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-stone-200">
-                  <thead className="bg-cream">
+                <table className="min-w-full divide-y divide-slate-100">
+                  <thead className="bg-slate-50/50">
                     <tr>
                       <th className={thClass}>Nama</th>
                       <th className={thClass}>Kelas</th>
-                      <th className={thClass}>No HP/WA</th>
+                      <th className={thClass}>WhatsApp</th>
                       <th className={thClass}>Email</th>
                       <th className={thClass}>Bidang</th>
+                      <th className={thClass}>Alasan Masuk</th>
                       <th className={thClass}>Status</th>
                       <th className={thClass}>Aksi</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-stone-100 bg-white">
+                  <tbody className="divide-y divide-slate-100 bg-white">
                     {data.pendaftar
                       .filter((p) => !pendaftarFilter || p.bidang === pendaftarFilter)
                       .map((p) => (
-                        <tr key={p.id} className="transition hover:bg-brand-50/40">
-                          <td className={`${tdClass} font-semibold text-ink`}>{p.nama}</td>
+                        <tr key={p.id} className="transition hover:bg-slate-50/60">
+                          <td className={`${tdClass} font-bold text-slate-900`}>{p.nama}</td>
                           <td className={tdClass}>{p.kelas}</td>
                           <td className={tdClass}>{p.nohp}</td>
                           <td className={tdClass}>{p.email || '-'}</td>
                           <td className={tdClass}>
-                            <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-bold text-brand-800">
+                            <span className="rounded-md border border-brand-200 bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700">
                               {p.bidang}
                             </span>
                           </td>
+                          <td className={`${tdClass} max-w-xs truncate text-xs text-slate-600`} title={p.alasanMasuk || '-'}>
+                            {p.alasanMasuk || '-'}
+                          </td>
                           <td className={tdClass}>
                             <span
-                              className={`rounded-full px-3 py-1 text-xs font-bold ${
+                              className={`rounded-md px-2.5 py-1 text-xs font-bold ${
                                 p.status === 'Baru'
-                                  ? 'bg-gold-100 text-gold-700'
+                                  ? 'bg-amber-50 text-amber-700 border border-amber-200'
                                   : p.status === 'Aktif'
-                                    ? 'bg-emerald-100 text-emerald-700'
-                                    : 'bg-stone-100 text-stone-600'
+                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                    : 'bg-slate-100 text-slate-600 border border-slate-200'
                               }`}
                             >
                               {p.status}
@@ -553,18 +568,18 @@ const [savedMsg, setSavedMsg] = useState('')
                               <button
                                 type="button"
                                 onClick={() => openEdit('pendaftar', p)}
-                                className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 transition hover:bg-brand-100"
+                                className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                               >
                                 <IconEdit className="h-3.5 w-3.5" />
-                                Edit
+                                <span>Edit</span>
                               </button>
                               <button
                                 type="button"
                                 onClick={() => setConfirmDelete({ key: 'pendaftar', id: p.id })}
-                                className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100"
+                                className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100"
                               >
                                 <IconTrash className="h-3.5 w-3.5" />
-                                Hapus
+                                <span>Hapus</span>
                               </button>
                             </div>
                           </td>
@@ -572,8 +587,8 @@ const [savedMsg, setSavedMsg] = useState('')
                       ))}
                     {data.pendaftar.length === 0 && (
                       <tr>
-                        <td colSpan={7} className="px-5 py-12 text-center text-stone-400">
-                          Belum ada pendaftar. Silakan daftar melalui halaman Pendaftaran.
+                        <td colSpan={7} className="px-5 py-12 text-center text-slate-400">
+                          Belum ada pendaftar tercatat.
                         </td>
                       </tr>
                     )}
@@ -586,64 +601,64 @@ const [savedMsg, setSavedMsg] = useState('')
           {/* ===== KONTAK & SOSMED ===== */}
           {tab === 'kontak' && (
             <div className="grid gap-6 lg:grid-cols-2">
-              <form onSubmit={handleSaveKontak} className="card p-7">
-                <h2 className="font-display text-xl font-semibold text-ink">Informasi Kontak</h2>
-                <p className="text-sm text-stone-500">Data kontak yang tampil di footer dan halaman.</p>
-                <div className="mt-5 space-y-4">
-                  <div>
-                    <label className={labelClass}>Email</label>
-                    <input
-                      type="email"
-                      className={inputClass}
-                      value={kontakForm.email}
-                      onChange={(e) => setKontakForm((p) => ({ ...p, email: e.target.value }))}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Telepon / WhatsApp</label>
-                    <input
-                      type="text"
-                      className={inputClass}
-                      value={kontakForm.telepon}
-                      onChange={(e) => setKontakForm((p) => ({ ...p, telepon: e.target.value }))}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Alamat</label>
-                    <textarea
-                      rows="3"
-                      className={`${inputClass} resize-none`}
-                      value={kontakForm.alamat}
-                      onChange={(e) => setKontakForm((p) => ({ ...p, alamat: e.target.value }))}
-                    />
-                  </div>
+              <form onSubmit={handleSaveKontak} className="card p-7 space-y-4">
+                <div>
+                  <h2 className="text-lg font-bold text-slate-900">Informasi Kontak Sekolah</h2>
+                  <p className="text-xs text-slate-500">Data kontak yang tampil di footer website.</p>
                 </div>
-                <button type="submit" className="btn-primary mt-6 w-full">
+                <div>
+                  <label className={labelClass}>Email Resmi</label>
+                  <input
+                    type="email"
+                    className={inputClass}
+                    value={kontakForm.email}
+                    onChange={(e) => setKontakForm((p) => ({ ...p, email: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Telepon / WhatsApp</label>
+                  <input
+                    type="text"
+                    className={inputClass}
+                    value={kontakForm.telepon}
+                    onChange={(e) => setKontakForm((p) => ({ ...p, telepon: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Alamat Sekolah</label>
+                  <textarea
+                    rows="3"
+                    className={`${inputClass} resize-none`}
+                    value={kontakForm.alamat}
+                    onChange={(e) => setKontakForm((p) => ({ ...p, alamat: e.target.value }))}
+                  />
+                </div>
+                <button type="submit" className="btn-primary w-full !py-3 font-bold">
                   <IconSave className="h-4 w-4" />
-                  Simpan Kontak
+                  <span>Simpan Perubahan Kontak</span>
                 </button>
               </form>
 
-              <form onSubmit={handleSaveKontak} className="card p-7">
-                <h2 className="font-display text-xl font-semibold text-ink">Link Akun Sosial Media</h2>
-                <p className="text-sm text-stone-500">Perbarui tautan akun media sosial ekskul.</p>
-                <div className="mt-5 space-y-4">
-                  {Object.keys(sosmedForm).map((name) => (
-                    <div key={name}>
-                      <label className={`${labelClass} capitalize`}>{name}</label>
-                      <input
-                        type="url"
-                        className={inputClass}
-                        placeholder={`https://${name}.com/...`}
-                        value={sosmedForm[name]}
-                        onChange={(e) => setSosmedForm((p) => ({ ...p, [name]: e.target.value }))}
-                      />
-                    </div>
-                  ))}
+              <form onSubmit={handleSaveKontak} className="card p-7 space-y-4">
+                <div>
+                  <h2 className="text-lg font-bold text-slate-900">Akun Media Sosial</h2>
+                  <p className="text-xs text-slate-500">Tautan profil resmi ekstrakurikuler.</p>
                 </div>
-                <button type="submit" className="btn-primary mt-6 w-full">
+                {Object.keys(sosmedForm).map((name) => (
+                  <div key={name}>
+                    <label className={`${labelClass} capitalize`}>{name}</label>
+                    <input
+                      type="url"
+                      className={inputClass}
+                      placeholder={`https://${name}.com/...`}
+                      value={sosmedForm[name]}
+                      onChange={(e) => setSosmedForm((p) => ({ ...p, [name]: e.target.value }))}
+                    />
+                  </div>
+                ))}
+                <button type="submit" className="btn-primary w-full !py-3 font-bold">
                   <IconSave className="h-4 w-4" />
-                  Simpan Sosial Media
+                  <span>Simpan Perubahan Sosial Media</span>
                 </button>
               </form>
             </div>
@@ -651,7 +666,7 @@ const [savedMsg, setSavedMsg] = useState('')
         </div>
       </section>
 
-      {/* Modal form */}
+      {/* Modal Form Dialog */}
       <Modal
         open={!!modal}
         title={
@@ -662,7 +677,9 @@ const [savedMsg, setSavedMsg] = useState('')
                 ? 'Tambah Kegiatan'
                 : modal.type === 'jadwal'
                   ? 'Tambah Jadwal'
-                  : 'Tambah Pengumuman'
+                  : modal.type === 'pengumuman'
+                    ? 'Tambah Pengumuman'
+                    : 'Tambah Pendaftar'
             : ''
         }
         onClose={() => setModal(null)}
@@ -670,7 +687,7 @@ const [savedMsg, setSavedMsg] = useState('')
         {modal?.type === 'kegiatan' && (
           <form onSubmit={handleSave} className="space-y-4">
             <div>
-              <label className={labelClass}>Bidang</label>
+              <label className={labelClass}>Sub-Bidang</label>
               <select name="bidang" value={form.bidang} onChange={handleChange} className={inputClass}>
                 <option>Robotic</option>
                 <option>Website</option>
@@ -685,11 +702,11 @@ const [savedMsg, setSavedMsg] = useState('')
                 onChange={handleChange}
                 required
                 className={inputClass}
-                placeholder="cth: Workshop Robotika"
+                placeholder="cth: Workshop Robotika Dasar"
               />
             </div>
             <div>
-              <label className={labelClass}>Deskripsi</label>
+              <label className={labelClass}>Deskripsi Singkat</label>
               <textarea
                 name="deskripsi"
                 value={form.deskripsi}
@@ -697,7 +714,7 @@ const [savedMsg, setSavedMsg] = useState('')
                 required
                 rows="3"
                 className={`${inputClass} resize-none`}
-                placeholder="Deskripsi singkat kegiatan"
+                placeholder="Tulis ringkasan aktivitas..."
               />
             </div>
             <div>
@@ -710,7 +727,7 @@ const [savedMsg, setSavedMsg] = useState('')
               <button type="button" onClick={() => setModal(null)} className="btn-secondary flex-1">
                 Batal
               </button>
-              <button type="submit" className="btn-primary flex-1">
+              <button type="submit" className="btn-primary flex-1 font-bold">
                 Simpan
               </button>
             </div>
@@ -720,7 +737,7 @@ const [savedMsg, setSavedMsg] = useState('')
         {modal?.type === 'jadwal' && (
           <form onSubmit={handleSave} className="space-y-4">
             <div>
-              <label className={labelClass}>Bidang</label>
+              <label className={labelClass}>Sub-Bidang</label>
               <select name="bidang" value={form.bidang} onChange={handleChange} className={inputClass}>
                 <option>Robotic</option>
                 <option>Website</option>
@@ -728,7 +745,7 @@ const [savedMsg, setSavedMsg] = useState('')
               </select>
             </div>
             <div>
-              <label className={labelClass}>Hari</label>
+              <label className={labelClass}>Hari Pertemuan</label>
               <select name="hari" value={form.hari} onChange={handleChange} required className={inputClass}>
                 <option value="">Pilih hari...</option>
                 <option>Senin</option>
@@ -740,18 +757,18 @@ const [savedMsg, setSavedMsg] = useState('')
               </select>
             </div>
             <div>
-              <label className={labelClass}>Waktu</label>
+              <label className={labelClass}>Waktu Latihan</label>
               <input
                 name="waktu"
                 value={form.waktu}
                 onChange={handleChange}
                 required
                 className={inputClass}
-                placeholder="cth: 15.00 - 17.00"
+                placeholder="cth: 15.00 - 17.00 WIB"
               />
             </div>
             <div>
-              <label className={labelClass}>Tempat</label>
+              <label className={labelClass}>Tempat / Ruangan</label>
               <input
                 name="tempat"
                 value={form.tempat}
@@ -765,7 +782,7 @@ const [savedMsg, setSavedMsg] = useState('')
               <button type="button" onClick={() => setModal(null)} className="btn-secondary flex-1">
                 Batal
               </button>
-              <button type="submit" className="btn-primary flex-1">
+              <button type="submit" className="btn-primary flex-1 font-bold">
                 Simpan
               </button>
             </div>
@@ -782,7 +799,7 @@ const [savedMsg, setSavedMsg] = useState('')
                 onChange={handleChange}
                 required
                 className={inputClass}
-                placeholder="cth: Persiapan Lomba"
+                placeholder="cth: Pembagian Tim Proyek"
               />
             </div>
             <div>
@@ -794,11 +811,11 @@ const [savedMsg, setSavedMsg] = useState('')
                 required
                 rows="4"
                 className={`${inputClass} resize-none`}
-                placeholder="Tulis isi pengumuman..."
+                placeholder="Tulis pesan pengumuman..."
               />
             </div>
             <div>
-              <label className={labelClass}>Tanggal</label>
+              <label className={labelClass}>Tanggal Publikasi</label>
               <input
                 type="date"
                 name="tanggal"
@@ -808,11 +825,11 @@ const [savedMsg, setSavedMsg] = useState('')
                 className={inputClass}
               />
             </div>
-<div className="flex gap-3 pt-2">
+            <div className="flex gap-3 pt-2">
               <button type="button" onClick={() => setModal(null)} className="btn-secondary flex-1">
                 Batal
               </button>
-              <button type="submit" className="btn-primary flex-1">
+              <button type="submit" className="btn-primary flex-1 font-bold">
                 Simpan
               </button>
             </div>
@@ -829,29 +846,29 @@ const [savedMsg, setSavedMsg] = useState('')
                 onChange={handleChange}
                 required
                 className={inputClass}
-                placeholder="cth: Budi Santoso"
+                placeholder="Masukkan nama lengkap"
               />
             </div>
             <div>
-              <label className={labelClass}>Kelas</label>
+              <label className={labelClass}>Kelas & Jurusan</label>
               <input
                 name="kelas"
                 value={form.kelas}
                 onChange={handleChange}
                 required
                 className={inputClass}
-                placeholder="cth: XI RPL 1"
+                placeholder="cth: X RPL 1"
               />
             </div>
             <div>
-              <label className={labelClass}>No HP / WhatsApp</label>
+              <label className={labelClass}>Nomor WhatsApp</label>
               <input
                 name="nohp"
                 value={form.nohp}
                 onChange={handleChange}
                 required
                 className={inputClass}
-                placeholder="cth: 0812-3456-7890"
+                placeholder="cth: 081234567890"
               />
             </div>
             <div>
@@ -862,11 +879,11 @@ const [savedMsg, setSavedMsg] = useState('')
                 value={form.email}
                 onChange={handleChange}
                 className={inputClass}
-                placeholder="kamu@email.com"
+                placeholder="nama@email.com"
               />
             </div>
             <div>
-              <label className={labelClass}>Bidang</label>
+              <label className={labelClass}>Sub-Bidang</label>
               <select name="bidang" value={form.bidang} onChange={handleChange} className={inputClass}>
                 <option>Robotic</option>
                 <option>Website</option>
@@ -874,7 +891,7 @@ const [savedMsg, setSavedMsg] = useState('')
               </select>
             </div>
             <div>
-              <label className={labelClass}>Status</label>
+              <label className={labelClass}>Status Keanggotaan</label>
               <select name="status" value={form.status} onChange={handleChange} className={inputClass}>
                 <option>Baru</option>
                 <option>Aktif</option>
@@ -885,7 +902,7 @@ const [savedMsg, setSavedMsg] = useState('')
               <button type="button" onClick={() => setModal(null)} className="btn-secondary flex-1">
                 Batal
               </button>
-              <button type="submit" className="btn-primary flex-1">
+              <button type="submit" className="btn-primary flex-1 font-bold">
                 Simpan
               </button>
             </div>
@@ -893,7 +910,7 @@ const [savedMsg, setSavedMsg] = useState('')
         )}
       </Modal>
 
-      {/* Konfirmasi hapus */}
+      {/* Delete Confirmation Modal */}
       <ConfirmModal
         open={!!confirmDelete}
         message="Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan."
@@ -905,20 +922,19 @@ const [savedMsg, setSavedMsg] = useState('')
         }}
       />
 
-      {/* Konfirmasi reset */}
+      {/* Reset Confirmation Modal */}
       <ConfirmModal
         open={resetConfirm}
-        message="Semua data akan dikembalikan ke pengaturan awal. Lanjutkan?"
+        message="Semua data akan dikembalikan ke pengaturan awal pabrik. Lanjutkan?"
         onCancel={() => setResetConfirm(false)}
         onConfirm={() => {
           resetData()
           setResetConfirm(false)
           setKontakForm({ email: 'ekskul.robotik@sekolah.sch.id', telepon: '0812-3456-7890', alamat: 'Jl. Kyai Mojo, Wonoayu, Sidoarjo' })
-          setSosmedForm({ instagram: 'https://instagram.com/ekskul.rpl', youtube: 'https://youtube.com/@ekskulrpl', tiktok: 'https://tiktok.com/@ekskulrpl', github: 'https://github.com/ekskul-rpl' })
+          setSosmedForm({ instagram: 'https://instagram.com/ekskul.rpl', youtube: 'https://youtube.com/@ekskulrpl', tiktok: 'https://tiktok.com/@ekskul.rpl', github: 'https://github.com/ekskul-rpl' })
           showToast('Data dikembalikan ke pengaturan awal.')
         }}
       />
     </div>
   )
 }
-

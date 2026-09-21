@@ -1,82 +1,65 @@
-import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect } from 'react'
+import { motion } from 'framer-motion'
 import logo from '../../assets/rpl.png'
 
 export default function SplashScreen({ onFinish }) {
-  const [phase, setPhase] = useState('logo') // 'logo' -> 'text' -> 'done'
-
   useEffect(() => {
-    // Fase 1: tampilkan logo (1.4s)
-    const t1 = setTimeout(() => setPhase('text'), 1400)
-    // Fase 2: tampilkan teks (1.2s lagi)
-    const t2 = setTimeout(() => setPhase('done'), 2600)
-    // Fase 3: panggil onFinish agar splash hilang (setelah fade out)
-    const t3 = setTimeout(() => onFinish?.(), 3200)
+    // Otomatis transisi ke halaman utama setelah 2.2 detik (PRD Section 3.1: 2-2.5 detik)
+    const timer = setTimeout(() => {
+      onFinish?.()
+    }, 2200)
 
-    return () => {
-      clearTimeout(t1)
-      clearTimeout(t2)
-      clearTimeout(t3)
-    }
+    return () => clearTimeout(timer)
   }, [onFinish])
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-brand-50 via-white to-gold-100"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#E3F2FD] text-[#0D47A1]"
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      transition={{ duration: 0.4, ease: 'easeInOut' }}
     >
-      {/* Logo RPL dengan animasi */}
+      {/* Logo RPL dengan Fade In + Scale Up */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.6, rotate: -12 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="relative"
+        initial={{ opacity: 0, scale: 0.75 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="flex flex-col items-center text-center"
       >
-        <motion.div
-          animate={{ scale: [1, 1.08, 1] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-          className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-[2rem] bg-white shadow-lift ring-1 ring-stone-200 sm:h-40 sm:w-40"
+        <div className="flex h-28 w-28 items-center justify-center rounded-3xl border-2 border-[#90CAF9] bg-white p-4 shadow-card sm:h-32 sm:w-32">
+          <img src={logo} alt="Logo Ekstrakurikuler RPL" className="h-full w-full object-contain" />
+        </div>
+
+        {/* Teks Identitas Ekstrakurikuler RPL */}
+        <motion.h1
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-5 font-display text-2xl font-bold tracking-tight text-[#0D47A1] sm:text-3xl"
         >
-          <img src={logo} alt="Logo RPL" className="h-full w-full object-contain" />
+          EKSTRAKURIKULER RPL
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="mt-1 text-xs font-bold uppercase tracking-[0.25em] text-[#0D47A1]/80 sm:text-sm"
+        >
+          SMK Krian 1 Sidoarjo
+        </motion.p>
+
+        {/* Loading Indicator Warna Solid #2196F3 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-8 flex items-center gap-2 text-[#2196F3]"
+        >
+          <i className="fas fa-circle-notch fa-spin text-xl text-[#2196F3]" />
+          <span className="text-xs font-bold uppercase tracking-wider text-[#0D47A1]">
+            Memuat Sistem...
+          </span>
         </motion.div>
-
-        {/* Cincin dekoratif */}
-        <motion.span
-          animate={{ rotate: 360 }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-          className="absolute -inset-3 rounded-[2.5rem] border-2 border-dashed border-brand-300/60"
-        />
       </motion.div>
-
-      {/* Tulisan "Ekstrakurikuler" muncul setelah logo */}
-      <AnimatePresence>
-        {phase !== 'logo' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-            className="mt-8 text-center"
-          >
-            <motion.p
-              animate={{ letterSpacing: [6, 12, 6] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-              className="font-display text-2xl font-bold uppercase text-brand-700 sm:text-3xl"
-            >
-              Ekstrakurikuler
-            </motion.p>
-            <p className="mt-2 text-sm font-semibold uppercase tracking-[0.3em] text-gold-600">
-              Rekayasa Perangkat Lunak
-            </p>
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mx-auto mt-4 h-1 w-24 origin-center rounded-full bg-gradient-to-r from-brand-400 to-gold-400"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   )
 }

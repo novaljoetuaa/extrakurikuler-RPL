@@ -1,16 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import {
-  IconX,
-  IconChevronDown,
-  IconRobot,
-  IconCode,
-  IconPalette,
-  IconShield,
-  IconMail,
-  IconLock,
-} from './icons'
 import logo from '../../assets/rpl.png'
 import logoRobotic from '../../assets/logo robotic.jpeg'
 import logoWebsite from '../../assets/logo website.png'
@@ -18,21 +8,39 @@ import logoDesain from '../../assets/logo desain.png'
 import { useAuth } from '../context/AuthContext'
 
 const navLinks = [
-  { to: '/', label: 'Home' },
-  { to: '/galeri', label: 'Galeri' },
-  { to: '/pendaftaran', label: 'Pendaftaran' },
+  { to: '/', label: 'Beranda', icon: 'fas fa-house' },
+  { to: '/artikel', label: 'Artikel', icon: 'fas fa-newspaper' },
+  { to: '/galeri', label: 'Galeri', icon: 'fas fa-images' },
+  { to: '/pendaftaran', label: 'Pendaftaran', icon: 'fas fa-user-plus' },
 ]
 
 const bidangLinks = [
-  { to: '/robotic', label: 'Robotic', tagline: 'Robotika & Mikrokontroler', icon: IconRobot, logo: logoRobotic, color: 'from-brand-400 to-brand-600' },
-  { to: '/website', label: 'Website', tagline: 'Pengembangan Web', icon: IconCode, logo: logoWebsite, color: 'from-sky-400 to-sky-600' },
-  { to: '/desain-grafis', label: 'Desain Grafis', tagline: 'Desain Visual', icon: IconPalette, logo: logoDesain, color: 'from-teal-400 to-teal-600' },
+  {
+    to: '/robotic',
+    label: 'Robotik',
+    tagline: 'Proyek alat, mikrokontroler & IoT',
+    icon: 'fas fa-robot',
+    logo: logoRobotic,
+  },
+  {
+    to: '/website',
+    label: 'Website & Pemrograman',
+    tagline: 'Aplikasi web modern, HTML/CSS & React',
+    icon: 'fas fa-code',
+    logo: logoWebsite,
+  },
+  {
+    to: '/desain-grafis',
+    label: 'Desain Grafis',
+    tagline: 'UI/UX, layout tipografi & branding',
+    icon: 'fas fa-palette',
+    logo: logoDesain,
+  },
 ]
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [dropdown, setDropdown] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
   const [loginForm, setLoginForm] = useState({ email: '', password: '' })
   const [loginError, setLoginError] = useState('')
@@ -43,12 +51,6 @@ export default function Navbar() {
   const { user, signIn, signOut, isConfigured } = useAuth()
   const clickTimer = useRef(null)
   const clickCount = useRef(0)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     setOpen(false)
@@ -63,7 +65,6 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', onClickOutside)
   }, [])
 
-  // Kunci scroll body saat menu mobile / login modal terbuka
   useEffect(() => {
     document.body.style.overflow = open || loginOpen ? 'hidden' : ''
     return () => {
@@ -71,6 +72,7 @@ export default function Navbar() {
     }
   }, [open, loginOpen])
 
+  // Secret admin trigger via 3x click on logo
   const handleLogoClick = () => {
     clickCount.current += 1
     if (clickTimer.current) clearTimeout(clickTimer.current)
@@ -106,179 +108,192 @@ export default function Navbar() {
     }
   }
 
-  const linkClass = ({ isActive }) =>
-    `relative rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
-      isActive
-        ? 'bg-brand-50 text-brand-700 shadow-sm ring-1 ring-brand-200'
-        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-    }`
-
   const isActiveBidang = bidangLinks.some((b) => location.pathname === b.to)
 
   return (
     <>
-      <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-          scrolled
-            ? 'border-b border-slate-200/80 bg-white/90 shadow-soft backdrop-blur-md'
-            : 'border-b border-slate-100/60 bg-white/80 backdrop-blur-sm'
-        }`}
-      >
+      {/* PRD Section 3.2: Latar belakang solid #0D47A1 dengan teks #E3F2FD. Menu aktif disorot warna #90CAF9 */}
+      <header className="sticky top-0 z-50 w-full border-b-2 border-[#90CAF9] bg-[#0D47A1] text-[#E3F2FD] shadow-md">
         <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-          {/* Logo Brand */}
-          <Link to="/" className="group flex items-center gap-3.5" onClick={handleLogoClick}>
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: 1 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-white p-1 shadow-subtle ring-1 ring-slate-200 transition-all duration-300 group-hover:shadow-soft group-hover:ring-brand-300 sm:h-12 sm:w-12"
-            >
-              <img src={logo} alt="Logo RPL" className="h-full w-full object-contain" />
-            </motion.div>
+          {/* Logo Brand: Ekstrakurikuler RPL */}
+          <Link
+            to="/"
+            className="group flex items-center gap-3 select-none"
+            onClick={handleLogoClick}
+            title="Ekstrakurikuler RPL"
+          >
+            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border-2 border-[#90CAF9] bg-white p-1 shadow-sm transition hover:scale-105">
+              <img src={logo} alt="Logo Ekstrakurikuler RPL" className="h-full w-full object-contain" />
+            </div>
             <div className="leading-tight">
               <div className="flex items-center gap-2">
-                <p className="text-base font-bold tracking-tight text-slate-900 sm:text-lg">Ekstrakurikuler RPL</p>
-                <span className="hidden rounded-md bg-brand-50 px-2 py-0.5 text-[10px] font-bold text-brand-700 sm:inline-block">SMK</span>
+                <span className="font-display text-base font-bold tracking-tight text-[#E3F2FD] sm:text-lg">
+                  EKSTRAKURIKULER RPL
+                </span>
+                <span className="hidden rounded-md border border-[#90CAF9] bg-[#0D47A1] px-1.5 py-0.5 text-[10px] font-bold text-[#90CAF9] sm:inline-block">
+                  SMK Krian 1
+                </span>
               </div>
-              <p className="text-xs font-medium text-slate-500">Robotic · Website · Desain Grafis</p>
+              <p className="text-[11px] font-semibold text-[#90CAF9]">
+                Rekayasa Perangkat Lunak
+              </p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-1.5 md:flex">
-            <NavLink to="/" className={linkClass} end>
-              Home
+            {/* Beranda (fas fa-house) */}
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                `inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-bold transition-all ${
+                  isActive
+                    ? 'bg-[#E3F2FD] text-[#0D47A1] shadow-sm'
+                    : 'text-[#E3F2FD] hover:bg-[#90CAF9]/20 hover:text-[#90CAF9]'
+                }`
+              }
+            >
+              <i className="fas fa-house text-sm" />
+              <span>Beranda</span>
             </NavLink>
 
-            {/* Dropdown Bidang */}
+            {/* Extrakurikuler (fas fa-users-gear) Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 type="button"
                 onClick={() => setDropdown((prev) => !prev)}
-                className={`relative inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+                className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-bold transition-all ${
                   isActiveBidang || dropdown
-                    ? 'bg-brand-50 text-brand-700 shadow-sm ring-1 ring-brand-200'
-                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                    ? 'bg-[#90CAF9] text-[#0D47A1]'
+                    : 'text-[#E3F2FD] hover:bg-[#90CAF9]/20 hover:text-[#90CAF9]'
                 }`}
               >
-                Bidang
-                <IconChevronDown
-                  className={`h-4 w-4 transition-transform duration-200 ${dropdown ? 'rotate-180 text-brand-600' : 'text-slate-400'}`}
+                <i className="fas fa-users-gear text-sm" />
+                <span>Extrakurikuler</span>
+                <i
+                  className={`fas fa-chevron-down text-xs transition-transform duration-200 ${
+                    dropdown ? 'rotate-180 text-[#0D47A1]' : 'text-[#90CAF9]'
+                  }`}
                 />
               </button>
 
               <AnimatePresence>
                 {dropdown && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                    transition={{ duration: 0.18, ease: 'easeOut' }}
-                    className="absolute left-1/2 mt-2.5 w-72 -translate-x-1/2 origin-top overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-2 shadow-lift ring-1 ring-black/5"
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-0 mt-2 w-72 rounded-2xl border-2 border-[#90CAF9] bg-[#E3F2FD] p-2 shadow-hover"
                   >
-                    <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                    <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#0D47A1]">
                       Pilihan Sub-Bidang
                     </div>
-                    {bidangLinks.map((b, i) => {
-                      const active = location.pathname === b.to
-                      return (
-                        <motion.div
-                          key={b.to}
-                          initial={{ opacity: 0, x: -6 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.04 }}
-                        >
+                    <div className="mt-1 space-y-1">
+                      {bidangLinks.map((b) => {
+                        const active = location.pathname === b.to
+                        return (
                           <Link
+                            key={b.to}
                             to={b.to}
-                            className={`flex items-center gap-3.5 rounded-xl p-2.5 transition-all duration-200 ${
+                            className={`flex items-center gap-3 rounded-xl p-2.5 transition ${
                               active
-                                ? 'bg-brand-50/80 text-brand-900 ring-1 ring-brand-200'
-                                : 'hover:bg-slate-50 text-slate-800'
+                                ? 'border border-[#2196F3] bg-white text-[#0D47A1]'
+                                : 'text-[#0D47A1] hover:bg-white/80'
                             }`}
                           >
-                            <span
-                              className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-subtle ring-1 ${
-                                active ? 'ring-brand-400' : 'ring-slate-200'
-                              }`}
-                            >
-                              <img src={b.logo} alt={`Logo ${b.label}`} className="h-full w-full object-contain" />
-                            </span>
-                            <div className="min-w-0">
-                              <p className={`text-sm font-bold ${active ? 'text-brand-700' : 'text-slate-800'}`}>
-                                {b.label}
-                              </p>
-                              <p className="truncate text-xs text-slate-500">{b.tagline}</p>
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[#90CAF9] bg-white p-1">
+                              <img src={b.logo} alt={b.label} className="h-full w-full object-contain" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs font-bold text-[#0D47A1]">{b.label}</p>
+                              <p className="truncate text-[10px] text-[#0D47A1]/70">{b.tagline}</p>
                             </div>
                           </Link>
-                        </motion.div>
-                      )
-                    })}
+                        )
+                      })}
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
-            <NavLink to="/galeri" className={linkClass}>
-              Galeri
+            {/* Artikel (fas fa-newspaper) */}
+            <NavLink
+              to="/artikel"
+              className={({ isActive }) =>
+                `inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-bold transition-all ${
+                  isActive
+                    ? 'bg-[#E3F2FD] text-[#0D47A1] shadow-sm'
+                    : 'text-[#E3F2FD] hover:bg-[#90CAF9]/20 hover:text-[#90CAF9]'
+                }`
+              }
+            >
+              <i className="fas fa-newspaper text-sm" />
+              <span>Artikel</span>
             </NavLink>
 
-            {/* Desktop CTA / Auth */}
-            <div className="ml-3 flex items-center gap-2 border-l border-slate-200 pl-3">
+            {/* Galeri */}
+            <NavLink
+              to="/galeri"
+              className={({ isActive }) =>
+                `inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-bold transition-all ${
+                  isActive
+                    ? 'bg-[#E3F2FD] text-[#0D47A1] shadow-sm'
+                    : 'text-[#E3F2FD] hover:bg-[#90CAF9]/20 hover:text-[#90CAF9]'
+                }`
+              }
+            >
+              <i className="fas fa-images text-sm" />
+              <span>Galeri</span>
+            </NavLink>
+
+            {/* Tombol Pendaftaran / Admin */}
+            <div className="ml-2 flex items-center gap-2 border-l border-[#90CAF9]/40 pl-3">
               {user ? (
-                <>
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => navigate('/admin')}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3.5 py-1.5 text-xs font-bold text-brand-700 transition hover:bg-brand-100"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-[#90CAF9] bg-[#E3F2FD] px-3 py-1.5 text-xs font-bold text-[#0D47A1] transition hover:bg-white"
                   >
-                    <IconShield className="h-3.5 w-3.5" />
-                    Admin
+                    <i className="fas fa-shield-halved text-xs text-[#2196F3]" />
+                    <span>Admin</span>
                   </button>
                   <button
                     type="button"
                     onClick={signOut}
-                    className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
+                    className="rounded-xl px-2.5 py-1.5 text-xs font-bold text-[#90CAF9] transition hover:text-white"
                   >
                     Keluar
                   </button>
-                </>
+                </div>
               ) : (
                 <Link
                   to="/pendaftaran"
-                  className="btn-primary !px-5 !py-2 !text-xs font-bold tracking-wide"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#2196F3] px-4 py-2 text-xs font-bold text-white transition hover:bg-white hover:text-[#0D47A1] active:scale-[0.98]"
                 >
-                  Daftar Sekarang
+                  <i className="fas fa-user-plus" />
+                  <span>Daftar Sekarang</span>
                 </Link>
               )}
             </div>
           </div>
 
-          {/* Hamburger button */}
+          {/* Hamburger Menu Mobile */}
           <button
             type="button"
-            className="relative z-[70] flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-100 hover:text-slate-900 md:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#90CAF9] bg-[#0D47A1] text-[#E3F2FD] md:hidden"
             onClick={() => setOpen((prev) => !prev)}
             aria-label={open ? 'Tutup menu' : 'Buka menu'}
           >
-            <motion.span
-              animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
-              transition={{ duration: 0.2 }}
-              className="absolute h-0.5 w-5 rounded-full bg-current"
-            />
-            <motion.span
-              animate={open ? { opacity: 0, x: 6 } : { opacity: 1, x: 0 }}
-              transition={{ duration: 0.2 }}
-              className="absolute h-0.5 w-5 rounded-full bg-current"
-            />
-            <motion.span
-              animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
-              transition={{ duration: 0.2 }}
-              className="absolute h-0.5 w-5 rounded-full bg-current"
-            />
+            <i className={`fas ${open ? 'fa-xmark' : 'fa-bars'} text-lg`} />
           </button>
         </nav>
       </header>
 
-      {/* ===== Mobile menu (di luar header agar tidak terpotong backdrop-blur) ===== */}
+      {/* ===== Drawer Menu Mobile ===== */}
       <AnimatePresence>
         {open && (
           <>
@@ -286,139 +301,118 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="fixed inset-0 z-[60] bg-brand-900/40 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-[60] bg-black/50 md:hidden"
               onClick={() => setOpen(false)}
             />
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'tween', duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-y-0 right-0 z-[65] flex w-[85%] max-w-sm flex-col bg-white shadow-lift md:hidden"
+              transition={{ type: 'tween', duration: 0.25 }}
+              className="fixed inset-y-0 right-0 z-[65] flex w-[85%] max-w-sm flex-col border-l-2 border-[#90CAF9] bg-[#0D47A1] text-[#E3F2FD] shadow-2xl md:hidden"
             >
-              {/* Mobile menu header */}
-              <div className="flex items-center justify-between border-b border-slate-200/80 px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white p-1 ring-1 ring-slate-200">
-                    <img src={logo} alt="Logo RPL" className="h-full w-full object-contain" />
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between border-b border-[#90CAF9]/40 px-5 py-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#90CAF9] bg-white p-1">
+                    <img src={logo} alt="Logo" className="h-full w-full object-contain" />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900">Ekstrakurikuler RPL</p>
-                    <p className="text-[11px] text-slate-500">Navigasi Menu</p>
+                    <p className="font-display text-sm font-bold text-[#E3F2FD]">EKSTRAKURIKULER RPL</p>
+                    <p className="text-[10px] text-[#90CAF9]">SMK Krian 1 Sidoarjo</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
-                  aria-label="Tutup menu"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#90CAF9] text-[#E3F2FD]"
+                  aria-label="Tutup"
                 >
-                  <IconX className="h-5 w-5" />
+                  <i className="fas fa-xmark text-sm" />
                 </button>
               </div>
 
-              {/* Mobile menu items */}
-              <div className="flex-1 overflow-y-auto px-5 py-5">
-                <p className="px-1 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                  Menu Utama
-                </p>
-                <div className="mt-2.5 space-y-1.5">
-                  {navLinks.map((link, i) => (
-                    <motion.div
-                      key={link.to}
-                      initial={{ opacity: 0, x: 15 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.05 + i * 0.05 }}
-                    >
+              {/* Drawer Nav Items */}
+              <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+                <div>
+                  <p className="px-1 text-[10px] font-bold uppercase tracking-wider text-[#90CAF9]">
+                    Menu Utama
+                  </p>
+                  <div className="mt-2 space-y-1">
+                    {navLinks.map((link) => (
                       <NavLink
+                        key={link.to}
                         to={link.to}
                         end={link.to === '/'}
                         onClick={() => setOpen(false)}
                         className={({ isActive }) =>
-                          `flex items-center justify-between rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+                          `flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-bold transition ${
                             isActive
-                              ? 'bg-brand-50 text-brand-700 font-bold ring-1 ring-brand-200'
-                              : 'text-slate-700 hover:bg-slate-50'
+                              ? 'bg-[#E3F2FD] text-[#0D47A1]'
+                              : 'text-[#E3F2FD] hover:bg-[#90CAF9]/20'
                           }`
                         }
                       >
-                        {link.label}
+                        <i className={`${link.icon} w-5 text-center text-sm`} />
+                        <span>{link.label}</span>
                       </NavLink>
-                    </motion.div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
 
-                <p className="mt-6 px-1 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                  Pilihan Sub-Bidang
-                </p>
-                <div className="mt-2.5 space-y-2">
-                  {bidangLinks.map((b, i) => {
-                    return (
-                      <motion.div
+                <div>
+                  <p className="px-1 text-[10px] font-bold uppercase tracking-wider text-[#90CAF9]">
+                    Sub-Bidang Extrakurikuler
+                  </p>
+                  <div className="mt-2 space-y-1.5">
+                    {bidangLinks.map((b) => (
+                      <NavLink
                         key={b.to}
-                        initial={{ opacity: 0, x: 15 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.15 + i * 0.05 }}
+                        to={b.to}
+                        onClick={() => setOpen(false)}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 rounded-xl border p-2.5 transition ${
+                            isActive
+                              ? 'border-[#2196F3] bg-[#E3F2FD] text-[#0D47A1]'
+                              : 'border-[#90CAF9]/40 bg-[#0D47A1] text-[#E3F2FD] hover:bg-[#90CAF9]/15'
+                          }`
+                        }
                       >
-                        <NavLink
-                          to={b.to}
-                          onClick={() => setOpen(false)}
-                          className={({ isActive }) =>
-                            `group flex items-center gap-3.5 rounded-2xl border p-3 transition ${
-                              isActive
-                                ? 'border-brand-300 bg-brand-50/80 shadow-sm'
-                                : 'border-slate-200/80 bg-white hover:border-brand-200 hover:bg-slate-50'
-                            }`
-                          }
-                        >
-                          <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-subtle ring-1 ring-slate-200">
-                            <img src={b.logo} alt={`Logo ${b.label}`} className="h-full w-full object-contain" />
-                          </span>
-                          <div className="min-w-0 flex-1">
-                            <p className="text-sm font-bold text-slate-900">{b.label}</p>
-                            <p className="truncate text-xs text-slate-500">{b.tagline}</p>
-                          </div>
-                        </NavLink>
-                      </motion.div>
-                    )
-                  })}
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white p-1">
+                          <img src={b.logo} alt={b.label} className="h-full w-full object-contain" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-bold">{b.label}</p>
+                          <p className="truncate text-[10px] opacity-75">{b.tagline}</p>
+                        </div>
+                      </NavLink>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Mobile menu bottom action */}
-              <div className="border-t border-slate-200/80 bg-slate-50/50 p-5">
+              {/* Drawer Footer CTA */}
+              <div className="border-t border-[#90CAF9]/40 bg-[#0D47A1] p-5">
                 {user ? (
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setOpen(false)
-                        navigate('/admin')
-                      }}
-                      className="btn-primary flex-1 !py-2.5 !text-xs font-bold"
-                    >
-                      <IconShield className="h-4 w-4" />
-                      Dashboard Admin
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setOpen(false)
-                        signOut()
-                      }}
-                      className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-slate-600 transition hover:bg-slate-100"
-                    >
-                      Keluar
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpen(false)
+                      navigate('/admin')
+                    }}
+                    className="btn-primary w-full !py-2.5"
+                  >
+                    <i className="fas fa-shield-halved" />
+                    <span>Dashboard Admin</span>
+                  </button>
                 ) : (
                   <Link
                     to="/pendaftaran"
                     onClick={() => setOpen(false)}
-                    className="btn-primary w-full !py-3 !text-sm font-bold"
+                    className="btn-primary w-full !py-2.5"
                   >
-                    Daftar Anggota Sekarang
+                    <i className="fas fa-user-plus" />
+                    <span>Daftar Anggota Sekarang</span>
                   </Link>
                 )}
               </div>
@@ -427,7 +421,7 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* ===== Login Admin Modal ===== */}
+      {/* ===== Admin Login Modal ===== */}
       <AnimatePresence>
         {loginOpen && (
           <>
@@ -435,90 +429,81 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[80] bg-brand-900/50 backdrop-blur-sm"
+              className="fixed inset-0 z-[80] bg-black/60 backdrop-blur-sm"
               onClick={() => setLoginOpen(false)}
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              exit={{ opacity: 0, scale: 0.95, y: 12 }}
               className="fixed inset-0 z-[85] flex items-center justify-center p-4"
             >
               <div
-                className={`w-full max-w-sm rounded-3xl bg-white p-7 shadow-lift ${shake ? 'animate-shake' : ''}`}
+                className={`w-full max-w-sm rounded-2xl border-2 border-[#90CAF9] bg-[#E3F2FD] p-7 shadow-2xl ${
+                  shake ? 'animate-shake' : ''
+                }`}
               >
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-900/25">
-                  <IconShield className="h-8 w-8" />
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-[#90CAF9] bg-[#0D47A1] text-[#E3F2FD]">
+                  <i className="fas fa-shield-halved text-2xl" />
                 </div>
-                <h3 className="mt-5 text-center font-display text-2xl font-semibold text-ink">
-                  Login Admin
+                <h3 className="mt-4 text-center font-display text-xl font-bold text-[#0D47A1]">
+                  Login Pengelola
                 </h3>
-                <p className="mt-1 text-center text-sm text-stone-500">
-                  Masuk untuk mengelola konten ekskul.
+                <p className="mt-1 text-center text-xs text-[#0D47A1]/80">
+                  Akses modul administrasi Ekstrakurikuler RPL
                 </p>
 
-                <form onSubmit={handleLoginSubmit} className="mt-6 space-y-4">
+                <form onSubmit={handleLoginSubmit} className="mt-5 space-y-4">
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-ink">Email</label>
-                    <div className="relative">
-                      <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400">
-                        <IconMail className="h-4 w-4" />
-                      </span>
-                      <input
-                        type="email"
-                        name="email"
-                        value={loginForm.email}
-                        onChange={handleLoginChange}
-                        placeholder="admin@sekolah.sch.id"
-                        className="input-field !pl-10"
-                        autoFocus
-                      />
-                    </div>
+                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0D47A1]">
+                      Email Admin
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={loginForm.email}
+                      onChange={handleLoginChange}
+                      placeholder="admin@sekolah.sch.id"
+                      className="input-field"
+                      autoFocus
+                    />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-semibold text-ink">Password</label>
-                    <div className="relative">
-                      <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400">
-                        <IconLock className="h-4 w-4" />
-                      </span>
-                      <input
-                        type="password"
-                        name="password"
-                        value={loginForm.password}
-                        onChange={handleLoginChange}
-                        placeholder="Masukkan password"
-                        className="input-field !pl-10"
-                      />
-                    </div>
+                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0D47A1]">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={loginForm.password}
+                      onChange={handleLoginChange}
+                      placeholder="••••••••"
+                      className="input-field"
+                    />
                   </div>
 
                   {loginError && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="rounded-xl bg-red-50 px-3 py-2 text-center text-xs font-semibold text-red-600"
-                    >
+                    <p className="rounded-xl border border-red-300 bg-red-50 p-2.5 text-center text-xs font-bold text-red-700">
                       {loginError}
-                    </motion.p>
+                    </p>
                   )}
 
-                  <button type="submit" className="btn-primary w-full py-3">
-                    <IconLock className="h-4 w-4" />
-                    Masuk
+                  <button type="submit" className="btn-primary w-full !py-3">
+                    <i className="fas fa-lock" />
+                    <span>Masuk ke Dashboard</span>
                   </button>
                 </form>
 
                 {!isConfigured && (
-                  <p className="mt-4 rounded-xl bg-red-50 px-3 py-2 text-center text-xs font-semibold text-red-600">
-                    Login belum dikonfigurasi. Tambahkan variabel Supabase terlebih dahulu.
+                  <p className="mt-3 rounded-xl border border-amber-300 bg-amber-50 p-2 text-center text-[11px] font-bold text-amber-800">
+                    Konfigurasi Supabase belum terpasang.
                   </p>
                 )}
 
                 <button
                   type="button"
                   onClick={() => setLoginOpen(false)}
-                  className="mt-4 w-full text-center text-xs font-semibold text-stone-400 transition hover:text-brand-700"
+                  className="mt-4 w-full text-center text-xs font-bold text-[#0D47A1]/60 hover:text-[#0D47A1]"
                 >
                   Tutup
                 </button>
