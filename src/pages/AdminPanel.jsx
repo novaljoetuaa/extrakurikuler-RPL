@@ -205,27 +205,29 @@ const [savedMsg, setSavedMsg] = useState('')
   }
 
   return (
-    <div className="bg-cream">
-{/* Header */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-sky-50 py-16">
-        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand-200/40 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-gold-200/40 blur-3xl" />
+    <div className="space-y-8 pb-16">
+      {/* Header */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-brand-50/70 via-white to-slate-50/50 py-12 md:py-16 border-b border-slate-200/60">
+        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand-200/30 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-sky-200/30 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-5">
             <div>
-              <p className="eyebrow">Dashboard Manajemen</p>
-              <h1 className="mt-3 font-display text-4xl font-semibold text-slate-800 sm:text-5xl">Admin Panel</h1>
-              <p className="mt-3 max-w-xl text-slate-500">
-                Kelola kegiatan, jadwal latihan, pengumuman, serta kontak dan sosial media
-                Ekstrakulikuler RPL.
+              <div className="badge-pill">
+                <IconShield className="h-3.5 w-3.5 text-brand-600" />
+                <span>Dashboard Pengelola</span>
+              </div>
+              <h1 className="mt-3 font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Admin Panel</h1>
+              <p className="mt-2 max-w-xl text-sm sm:text-base text-slate-600">
+                Kelola kegiatan, jadwal pertemuan, pengumuman, data pendaftar, dan informasi kontak Ekstrakurikuler RPL.
               </p>
             </div>
             <button
               type="button"
               onClick={() => setResetConfirm(true)}
-              className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/70 px-5 py-2.5 text-sm font-semibold text-brand-700 shadow-soft backdrop-blur transition hover:bg-white"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 hover:border-slate-300"
             >
-              <IconLock className="h-4 w-4" />
+              <IconLock className="h-3.5 w-3.5" />
               Reset Data Default
             </button>
           </div>

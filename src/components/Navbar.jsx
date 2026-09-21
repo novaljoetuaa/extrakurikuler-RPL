@@ -107,105 +107,106 @@ export default function Navbar() {
   }
 
   const linkClass = ({ isActive }) =>
-    `relative rounded-xl px-3.5 py-2 text-sm font-semibold transition-all duration-300 ${
+    `relative rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
       isActive
-        ? 'bg-brand-100 text-brand-800'
-        : 'text-stone-600 hover:bg-stone-100 hover:text-brand-700'
+        ? 'bg-brand-50 text-brand-700 shadow-sm ring-1 ring-brand-200'
+        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
     }`
 
   const isActiveBidang = bidangLinks.some((b) => location.pathname === b.to)
 
   return (
     <>
-<header
-        className={`sticky top-0 z-50 w-full transition-all duration-500 ${
+      <header
+        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
           scrolled
-            ? 'border-b border-stone-200/70 bg-white/90 shadow-soft backdrop-blur-xl'
-            : 'border-transparent bg-white'
+            ? 'border-b border-slate-200/80 bg-white/90 shadow-soft backdrop-blur-md'
+            : 'border-b border-slate-100/60 bg-white/80 backdrop-blur-sm'
         }`}
       >
-        <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          {/* Logo */}
-          <Link to="/" className="group flex items-center gap-3" onClick={handleLogoClick}>
+        <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+          {/* Logo Brand */}
+          <Link to="/" className="group flex items-center gap-3.5" onClick={handleLogoClick}>
             <motion.div
-              whileHover={{ scale: 1.06, rotate: 2 }}
-              whileTap={{ scale: 0.94 }}
-              className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-stone-200 transition-all duration-500 group-hover:shadow-lift sm:h-14 sm:w-14"
+              whileHover={{ scale: 1.05, rotate: 1 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-white p-1 shadow-subtle ring-1 ring-slate-200 transition-all duration-300 group-hover:shadow-soft group-hover:ring-brand-300 sm:h-12 sm:w-12"
             >
               <img src={logo} alt="Logo RPL" className="h-full w-full object-contain" />
             </motion.div>
             <div className="leading-tight">
-              <p className="text-base font-bold text-ink sm:text-lg">Ekstrakulikuler RPL</p>
-              <p className="text-[11px] font-medium text-stone-400 sm:text-xs">Robotic · Website · Desain Grafis</p>
+              <div className="flex items-center gap-2">
+                <p className="text-base font-bold tracking-tight text-slate-900 sm:text-lg">Ekstrakurikuler RPL</p>
+                <span className="hidden rounded-md bg-brand-50 px-2 py-0.5 text-[10px] font-bold text-brand-700 sm:inline-block">SMK</span>
+              </div>
+              <p className="text-xs font-medium text-slate-500">Robotic · Website · Desain Grafis</p>
             </div>
           </Link>
 
-          {/* Desktop menu */}
-          <div className="hidden items-center gap-0.5 md:flex">
-            {navLinks.map((link) => (
-              <NavLink key={link.to} to={link.to} className={linkClass} end={link.to === '/'}>
-                {link.label}
-              </NavLink>
-            ))}
+          {/* Desktop Navigation */}
+          <div className="hidden items-center gap-1.5 md:flex">
+            <NavLink to="/" className={linkClass} end>
+              Home
+            </NavLink>
 
             {/* Dropdown Bidang */}
             <div className="relative" ref={dropdownRef}>
               <button
                 type="button"
                 onClick={() => setDropdown((prev) => !prev)}
-                className={`relative rounded-xl px-3.5 py-2 text-sm font-semibold transition-all duration-300 ${
+                className={`relative inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
                   isActiveBidang || dropdown
-                    ? 'bg-brand-100 text-brand-800'
-                    : 'text-stone-600 hover:bg-stone-100 hover:text-brand-700'
+                    ? 'bg-brand-50 text-brand-700 shadow-sm ring-1 ring-brand-200'
+                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
-                <span className="inline-flex items-center gap-1.5">
-                  Bidang
-                  <IconChevronDown
-                    className={`h-4 w-4 transition-transform duration-300 ${dropdown ? 'rotate-180' : ''}`}
-                  />
-                </span>
+                Bidang
+                <IconChevronDown
+                  className={`h-4 w-4 transition-transform duration-200 ${dropdown ? 'rotate-180 text-brand-600' : 'text-slate-400'}`}
+                />
               </button>
 
               <AnimatePresence>
                 {dropdown && (
                   <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    initial={{ opacity: 0, y: 10, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
                     transition={{ duration: 0.18, ease: 'easeOut' }}
-                    className="absolute right-0 mt-2 w-64 origin-top-right overflow-hidden rounded-2xl border border-stone-200/70 bg-white p-2 shadow-lift"
+                    className="absolute left-1/2 mt-2.5 w-72 -translate-x-1/2 origin-top overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-2 shadow-lift ring-1 ring-black/5"
                   >
+                    <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      Pilihan Sub-Bidang
+                    </div>
                     {bidangLinks.map((b, i) => {
-                      const Icon = b.icon
                       const active = location.pathname === b.to
                       return (
                         <motion.div
                           key={b.to}
-                          initial={{ opacity: 0, x: -10 }}
+                          initial={{ opacity: 0, x: -6 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.06 }}
+                          transition={{ delay: i * 0.04 }}
                         >
                           <Link
                             to={b.to}
-                            className={`flex items-center gap-3.5 rounded-xl px-3 py-3 transition-all duration-200 ${
-                              active ? 'bg-brand-50' : 'hover:bg-stone-50'
+                            className={`flex items-center gap-3.5 rounded-xl p-2.5 transition-all duration-200 ${
+                              active
+                                ? 'bg-brand-50/80 text-brand-900 ring-1 ring-brand-200'
+                                : 'hover:bg-slate-50 text-slate-800'
                             }`}
                           >
-<span
-                              className={`flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow ring-1 ring-stone-200 ${
-                                active ? 'ring-2 ring-brand-300' : ''
+                            <span
+                              className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-subtle ring-1 ${
+                                active ? 'ring-brand-400' : 'ring-slate-200'
                               }`}
                             >
                               <img src={b.logo} alt={`Logo ${b.label}`} className="h-full w-full object-contain" />
                             </span>
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <span className={`text-sm font-bold ${active ? 'text-brand-800' : 'text-ink'}`}>
-                                  {b.label}
-                                </span>
-                              </div>
-                              <p className="mt-0.5 text-xs text-stone-400">{b.tagline}</p>
+                            <div className="min-w-0">
+                              <p className={`text-sm font-bold ${active ? 'text-brand-700' : 'text-slate-800'}`}>
+                                {b.label}
+                              </p>
+                              <p className="truncate text-xs text-slate-500">{b.tagline}</p>
                             </div>
                           </Link>
                         </motion.div>
@@ -215,40 +216,63 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
+
+            <NavLink to="/galeri" className={linkClass}>
+              Galeri
+            </NavLink>
+
+            {/* Desktop CTA / Auth */}
+            <div className="ml-3 flex items-center gap-2 border-l border-slate-200 pl-3">
+              {user ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/admin')}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3.5 py-1.5 text-xs font-bold text-brand-700 transition hover:bg-brand-100"
+                  >
+                    <IconShield className="h-3.5 w-3.5" />
+                    Admin
+                  </button>
+                  <button
+                    type="button"
+                    onClick={signOut}
+                    className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
+                  >
+                    Keluar
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/pendaftaran"
+                  className="btn-primary !px-5 !py-2 !text-xs font-bold tracking-wide"
+                >
+                  Daftar Sekarang
+                </Link>
+              )}
+            </div>
           </div>
 
-          {user && (
-            <div className="hidden items-center gap-2 md:flex">
-              <button type="button" onClick={() => navigate('/admin')} className="text-sm font-semibold text-brand-700 hover:text-brand-800">
-                Admin
-              </button>
-              <button type="button" onClick={signOut} className="rounded-xl px-3 py-2 text-sm font-semibold text-stone-500 transition hover:bg-stone-100 hover:text-stone-700">
-                Keluar
-              </button>
-            </div>
-          )}
-
-          {/* Hamburger button - animated icon */}
+          {/* Hamburger button */}
           <button
             type="button"
-            className="relative z-[70] flex h-11 w-11 items-center justify-center rounded-2xl text-ink transition hover:bg-stone-100 md:hidden"
+            className="relative z-[70] flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-100 hover:text-slate-900 md:hidden"
             onClick={() => setOpen((prev) => !prev)}
             aria-label={open ? 'Tutup menu' : 'Buka menu'}
           >
             <motion.span
-              animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -3 }}
+              animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
               transition={{ duration: 0.2 }}
-              className="absolute h-0.5 w-6 rounded-full bg-current"
+              className="absolute h-0.5 w-5 rounded-full bg-current"
             />
             <motion.span
-              animate={open ? { opacity: 0, x: 8 } : { opacity: 1, x: 0 }}
+              animate={open ? { opacity: 0, x: 6 } : { opacity: 1, x: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute h-0.5 w-6 rounded-full bg-current"
+              className="absolute h-0.5 w-5 rounded-full bg-current"
             />
             <motion.span
-              animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 3 }}
+              animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
               transition={{ duration: 0.2 }}
-              className="absolute h-0.5 w-6 rounded-full bg-current"
+              className="absolute h-0.5 w-5 rounded-full bg-current"
             />
           </button>
         </nav>
@@ -274,15 +298,20 @@ export default function Navbar() {
               className="fixed inset-y-0 right-0 z-[65] flex w-[85%] max-w-sm flex-col bg-white shadow-lift md:hidden"
             >
               {/* Mobile menu header */}
-              <div className="flex items-center justify-between border-b border-stone-200/70 px-5 py-4">
-                <div className="flex items-center gap-2">
-                  <img src={logo} alt="Logo RPL" className="h-9 w-9 rounded-xl object-contain" />
-                  <p className="text-sm font-bold text-ink">Menu Navigasi</p>
+              <div className="flex items-center justify-between border-b border-slate-200/80 px-5 py-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white p-1 ring-1 ring-slate-200">
+                    <img src={logo} alt="Logo RPL" className="h-full w-full object-contain" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">Ekstrakurikuler RPL</p>
+                    <p className="text-[11px] text-slate-500">Navigasi Menu</p>
+                  </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-xl text-stone-500 transition hover:bg-stone-100"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
                   aria-label="Tutup menu"
                 >
                   <IconX className="h-5 w-5" />
@@ -290,25 +319,27 @@ export default function Navbar() {
               </div>
 
               {/* Mobile menu items */}
-              <div className="flex-1 overflow-y-auto px-5 py-4">
-                <p className="px-1 text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400">
+              <div className="flex-1 overflow-y-auto px-5 py-5">
+                <p className="px-1 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
                   Menu Utama
                 </p>
-                <div className="mt-2 space-y-1">
+                <div className="mt-2.5 space-y-1.5">
                   {navLinks.map((link, i) => (
                     <motion.div
                       key={link.to}
-                      initial={{ opacity: 0, x: 20 }}
+                      initial={{ opacity: 0, x: 15 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.05 + i * 0.06 }}
+                      transition={{ delay: 0.05 + i * 0.05 }}
                     >
                       <NavLink
                         to={link.to}
                         end={link.to === '/'}
                         onClick={() => setOpen(false)}
                         className={({ isActive }) =>
-                          `block rounded-xl px-3.5 py-3 text-sm font-semibold transition ${
-                            isActive ? 'bg-brand-100 text-brand-800' : 'text-stone-700 hover:bg-stone-50'
+                          `flex items-center justify-between rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+                            isActive
+                              ? 'bg-brand-50 text-brand-700 font-bold ring-1 ring-brand-200'
+                              : 'text-slate-700 hover:bg-slate-50'
                           }`
                         }
                       >
@@ -318,18 +349,17 @@ export default function Navbar() {
                   ))}
                 </div>
 
-                <p className="mt-6 px-1 text-[11px] font-bold uppercase tracking-[0.18em] text-stone-400">
-                  Pilih Bidang
+                <p className="mt-6 px-1 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                  Pilihan Sub-Bidang
                 </p>
-                <div className="mt-2 space-y-2.5">
+                <div className="mt-2.5 space-y-2">
                   {bidangLinks.map((b, i) => {
-                    const Icon = b.icon
                     return (
                       <motion.div
                         key={b.to}
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 15 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 + i * 0.07 }}
+                        transition={{ delay: 0.15 + i * 0.05 }}
                       >
                         <NavLink
                           to={b.to}
@@ -337,25 +367,61 @@ export default function Navbar() {
                           className={({ isActive }) =>
                             `group flex items-center gap-3.5 rounded-2xl border p-3 transition ${
                               isActive
-                                ? 'border-brand-200 bg-brand-50'
-                                : 'border-stone-200 bg-white hover:border-brand-200 hover:bg-brand-50/50'
+                                ? 'border-brand-300 bg-brand-50/80 shadow-sm'
+                                : 'border-slate-200/80 bg-white hover:border-brand-200 hover:bg-slate-50'
                             }`
                           }
                         >
-<span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow ring-1 ring-stone-200">
+                          <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-subtle ring-1 ring-slate-200">
                             <img src={b.logo} alt={`Logo ${b.label}`} className="h-full w-full object-contain" />
                           </span>
-                          <div className="min-w-0">
-                            <p className="text-sm font-bold text-ink">{b.label}</p>
-                            <p className="truncate text-xs text-stone-400">{b.tagline}</p>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-bold text-slate-900">{b.label}</p>
+                            <p className="truncate text-xs text-slate-500">{b.tagline}</p>
                           </div>
                         </NavLink>
                       </motion.div>
                     )
-})}
+                  })}
                 </div>
               </div>
 
+              {/* Mobile menu bottom action */}
+              <div className="border-t border-slate-200/80 bg-slate-50/50 p-5">
+                {user ? (
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOpen(false)
+                        navigate('/admin')
+                      }}
+                      className="btn-primary flex-1 !py-2.5 !text-xs font-bold"
+                    >
+                      <IconShield className="h-4 w-4" />
+                      Dashboard Admin
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOpen(false)
+                        signOut()
+                      }}
+                      className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-slate-600 transition hover:bg-slate-100"
+                    >
+                      Keluar
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    to="/pendaftaran"
+                    onClick={() => setOpen(false)}
+                    className="btn-primary w-full !py-3 !text-sm font-bold"
+                  >
+                    Daftar Anggota Sekarang
+                  </Link>
+                )}
+              </div>
             </motion.div>
           </>
         )}

@@ -31,72 +31,88 @@ const bidangMeta = {
 export default function BidangLayout({ bidang, deskripsi }) {
   const { data } = useData()
   const meta = bidangMeta[bidang]
-  const Icon = meta.icon
   const kegiatanBidang = data.kegiatan.filter((k) => k.bidang === bidang)
   const jadwalBidang = data.jadwal.filter((j) => j.bidang === bidang)
 
   return (
-    <div>
-{/* ===== HEADER ===== */}
-<section className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-sky-50">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-200/40 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-gold-200/40 blur-3xl" />
-        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+    <div className="space-y-16 pb-16 md:space-y-24 md:pb-24">
+      {/* ===== HEADER BANNER ===== */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-brand-50/70 via-white to-slate-50/50 py-16 md:py-20 border-b border-slate-200/60">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-200/30 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-sky-200/30 blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <p className="eyebrow">Sub-Bidang Keahlian</p>
-          </Reveal>
-<Reveal delay={120}>
-            <div className="mt-4 flex items-center gap-5">
-              <span className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-3xl bg-white p-2 text-brand-600 shadow-soft ring-1 ring-stone-200">
-                <img src={meta.logo} alt={`Logo ${bidang}`} className="h-full w-full object-contain" />
-              </span>
-              <h1 className="font-display text-4xl font-semibold text-slate-800 sm:text-5xl">{bidang}</h1>
+            <div className="badge-pill">
+              <span>Sub-Bidang Keahlian</span>
             </div>
           </Reveal>
-          <Reveal delay={240}>
-            <p className="mt-5 max-w-2xl text-lg text-slate-500">{meta.tagline}</p>
+
+          <Reveal delay={100}>
+            <div className="mt-4 flex flex-wrap items-center gap-4 sm:gap-6">
+              <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 shadow-soft ring-1 ring-slate-200 sm:h-20 sm:w-20">
+                <img src={meta.logo} alt={`Logo ${bidang}`} className="h-full w-full object-contain" />
+              </div>
+              <div>
+                <h1 className="font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl">{bidang}</h1>
+                <p className="mt-1 text-sm sm:text-base font-medium text-slate-600">{meta.tagline}</p>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ===== DESKRIPSI ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-5">
-          <Reveal className="lg:col-span-3">
-            <p className="eyebrow">Tentang Bidang</p>
-            <h2 className="section-title mt-3">Deskripsi Kegiatan</h2>
-            <p className="mt-5 text-lg leading-relaxed text-stone-600">{deskripsi}</p>
-            <div className="mt-7 flex flex-wrap gap-4">
+      {/* ===== DESKRIPSI & OVERVIEW ===== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* Left info */}
+          <Reveal className="lg:col-span-7">
+            <p className="eyebrow">Tentang Program</p>
+            <h2 className="section-title mt-2">Mengenal Lebih Dekat Bidang {bidang}</h2>
+            <p className="mt-4 text-base sm:text-lg leading-relaxed text-slate-600">{deskripsi}</p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3.5">
               <Link to="/pendaftaran" className="btn-primary">
-                Daftar Sekarang
+                Daftar Bidang {bidang}
                 <IconArrowRight className="h-4 w-4" />
               </Link>
-              <Link to="/galeri" className="btn-secondary !border-stone-300 !text-stone-700">
-                Lihat Galeri
+              <Link to="/galeri" className="btn-secondary">
+                Lihat Dokumentasi
               </Link>
             </div>
           </Reveal>
-<Reveal delay={150} className="lg:col-span-2">
-            <div className="relative overflow-hidden rounded-[2rem] border border-stone-200/70 bg-gradient-to-br from-brand-50 via-white to-sky-100 p-10 shadow-lift">
-              <div className="pointer-events-none absolute -right-14 -top-14 h-48 w-48 rounded-full bg-brand-100/70 blur-3xl" />
-              <div className="pointer-events-none absolute -bottom-14 -left-14 h-48 w-48 rounded-full bg-gold-100/70 blur-3xl" />
-              <div className="relative flex h-56 items-center justify-center">
+
+          {/* Right visual card */}
+          <Reveal delay={150} className="lg:col-span-5">
+            <div className="relative overflow-hidden rounded-[2.5rem] border border-slate-200/80 bg-gradient-to-br from-slate-50 via-white to-brand-50/50 p-8 shadow-lift">
+              <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-brand-100/50 blur-2xl" />
+              <div className="pointer-events-none absolute -bottom-12 -left-12 h-44 w-44 rounded-full bg-sky-100/50 blur-2xl" />
+
+              <div className="relative flex h-52 items-center justify-center">
                 <img
                   src={meta.logo}
                   alt={`Logo ${bidang}`}
                   loading="lazy"
-                  className="h-44 w-auto max-w-full object-contain drop-shadow-lg"
+                  className="h-40 w-auto max-w-full object-contain drop-shadow-md transition-transform duration-500 hover:scale-105"
                 />
               </div>
-              <div className="relative mt-6 rounded-2xl border border-stone-200/70 bg-white/90 p-4 backdrop-blur">
-                <p className="text-xs font-bold uppercase tracking-wider text-brand-600">Jadwal Latihan</p>
+
+              {/* Schedule Info Box */}
+              <div className="relative mt-6 rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-sm backdrop-blur-md">
+                <p className="text-xs font-bold uppercase tracking-wider text-brand-600">Jadwal Latihan Rutin</p>
                 {jadwalBidang[0] ? (
-                  <div className="mt-2 flex items-center gap-3 text-sm font-semibold text-ink">
-                    <IconCalendar className="h-4 w-4 text-brand-600" />
-                    {jadwalBidang[0].hari} · {jadwalBidang[0].waktu}
+                  <div className="mt-2 space-y-1 text-sm font-semibold text-slate-800">
+                    <div className="flex items-center gap-2">
+                      <IconCalendar className="h-4 w-4 text-brand-600 shrink-0" />
+                      <span>{jadwalBidang[0].hari} · {jadwalBidang[0].waktu}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs font-normal text-slate-500">
+                      <IconMapPin className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                      <span>{jadwalBidang[0].tempat}</span>
+                    </div>
                   </div>
                 ) : (
-                  <p className="mt-1 text-sm text-stone-500">Menyesuaikan</p>
+                  <p className="mt-1 text-sm text-slate-500">Jadwal menyesuaikan pengumuman pembina</p>
                 )}
               </div>
             </div>
@@ -104,91 +120,99 @@ export default function BidangLayout({ bidang, deskripsi }) {
         </div>
       </section>
 
-      {/* ===== KEGIATAN ===== */}
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">Materi & Aktivitas</p>
-            <h2 className="section-title mt-3">Kegiatan {bidang}</h2>
-          </Reveal>
-          <div className="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {kegiatanBidang.map((k, i) => (
-              <Reveal key={k.id} delay={i * 120}>
-                <div className="group overflow-hidden rounded-[2rem] border border-stone-200/70 bg-cream shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={k.gambar}
-                      alt={k.judul}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-<span className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-white/90 p-1 backdrop-blur">
-                      <img src={meta.logo} alt={`Logo ${bidang}`} className="h-full w-full object-contain" />
-                    </span>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-display text-lg font-semibold text-ink">{k.judul}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-stone-500">{k.deskripsi}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-            {kegiatanBidang.length === 0 && (
-              <div className="col-span-full rounded-3xl border border-dashed border-stone-300 p-12 text-center text-stone-400">
-                Belum ada kegiatan untuk bidang ini.
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== JADWAL ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      {/* ===== KEGIATAN SUB-BIDANG ===== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow">Waktu & Tempat</p>
-          <h2 className="section-title mt-3">Jadwal Latihan</h2>
+          <p className="eyebrow">Aktivitas & Pembelajaran</p>
+          <h2 className="section-title mt-2">Kegiatan Bidang {bidang}</h2>
+          <p className="mt-2 text-sm sm:text-base text-slate-600">
+            Berikut adalah beberapa agenda rutin, materi praktek, dan proyek yang dikerjakan.
+          </p>
         </Reveal>
 
-        <div className="mx-auto mt-10 max-w-3xl">
-          {jadwalBidang.map((j, i) => (
-            <Reveal key={j.id} delay={i * 120}>
-              <div className="mb-4 flex flex-col gap-4 rounded-3xl border border-stone-200/70 bg-white p-6 shadow-soft transition-all duration-300 hover:shadow-lift sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-4">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
-                    <IconCalendar className="h-7 w-7" />
+        <div className="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          {kegiatanBidang.map((k, i) => (
+            <Reveal key={k.id} delay={i * 120}>
+              <div className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+                <div className="relative h-48 overflow-hidden bg-slate-100">
+                  <img
+                    src={k.gambar}
+                    alt={k.judul}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span className="absolute left-3.5 top-3.5 flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-white/90 p-1 backdrop-blur-md shadow-sm">
+                    <img src={meta.logo} alt={`Logo ${bidang}`} className="h-full w-full object-contain" />
                   </span>
-                  <div>
-                    <p className="font-display text-lg font-semibold text-ink">{j.hari}</p>
-                    <p className="text-sm text-stone-500">{j.tempat}</p>
-                  </div>
                 </div>
-                <div className="flex items-center gap-2 rounded-full bg-gold-100 px-4 py-2 text-sm font-bold text-gold-700">
-                  <IconClock className="h-4 w-4" />
-                  {j.waktu}
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="font-display text-lg font-bold text-slate-900">{k.judul}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{k.deskripsi}</p>
                 </div>
               </div>
             </Reveal>
           ))}
-          {jadwalBidang.length === 0 && (
-            <div className="rounded-3xl border border-dashed border-stone-300 p-12 text-center text-stone-400">
-              Belum ada jadwal untuk bidang ini.
+
+          {kegiatanBidang.length === 0 && (
+            <div className="col-span-full rounded-3xl border border-dashed border-slate-200 bg-white p-12 text-center text-slate-400">
+              Belum ada data kegiatan spesifik untuk bidang {bidang}.
             </div>
           )}
         </div>
       </section>
 
-      {/* ===== CTA ===== */}
-      <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-        <Reveal>
-<div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-brand-50 to-gold-100 p-10 md:p-14">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-200/40 blur-3xl" />
-            <div className="relative flex flex-wrap items-center justify-between gap-6">
-              <div>
-                <p className="eyebrow">Gabung Sekarang</p>
-                <h3 className="mt-2 font-display text-3xl font-semibold text-slate-800">Tertarik dengan Bidang {bidang}?</h3>
-                <p className="mt-2 text-slate-500">Daftarkan dirimu dan mulai perjalananmu di dunia {bidang.toLowerCase()}.</p>
+      {/* ===== JADWAL LATIHAN DETAIL ===== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow">Waktu & Tempat</p>
+          <h2 className="section-title mt-2">Jadwal Pertemuan</h2>
+        </Reveal>
+
+        <div className="mx-auto mt-8 max-w-3xl space-y-4">
+          {jadwalBidang.map((j, i) => (
+            <Reveal key={j.id} delay={i * 100}>
+              <div className="flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-soft transition sm:flex-row sm:items-center sm:justify-between hover:border-brand-300">
+                <div className="flex items-center gap-4">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700 shrink-0">
+                    <IconCalendar className="h-6 w-6" />
+                  </span>
+                  <div>
+                    <p className="font-display text-lg font-bold text-slate-900">{j.hari}</p>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                      <IconMapPin className="h-3.5 w-3.5" />
+                      <span>{j.tempat}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-xs font-bold text-slate-700">
+                  <IconClock className="h-4 w-4 text-brand-600" />
+                  <span>{j.waktu}</span>
+                </div>
               </div>
-              <Link to="/pendaftaran" className="btn-primary shrink-0">
+            </Reveal>
+          ))}
+
+          {jadwalBidang.length === 0 && (
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-slate-400">
+              Belum ada jadwal khusus yang ditambahkan untuk bidang {bidang}.
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ===== CTA BANNER ===== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-brand-700 via-brand-600 to-indigo-700 p-8 sm:p-12 text-white shadow-lift">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+            <div className="relative flex flex-col items-center justify-between gap-6 md:flex-row text-center md:text-left">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-brand-200">Gabung Sekarang</p>
+                <h3 className="mt-1.5 font-display text-2xl sm:text-3xl font-bold">Tertarik dengan Bidang {bidang}?</h3>
+                <p className="mt-1 text-sm sm:text-base text-brand-100">Daftarkan dirimu dan mulai belajar bersama kami di SMK Krian 1.</p>
+              </div>
+              <Link to="/pendaftaran" className="inline-flex items-center gap-2 shrink-0 rounded-full bg-white px-7 py-3 text-sm font-bold text-brand-700 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-50">
                 Daftar Sekarang
                 <IconArrowRight className="h-4 w-4" />
               </Link>
@@ -197,7 +221,10 @@ export default function BidangLayout({ bidang, deskripsi }) {
         </Reveal>
       </section>
 
-      <QuickNav />
+      {/* ===== QUICK SWITCHER ===== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <QuickNav title="Jelajahi Sub-Bidang Lainnya" />
+      </section>
     </div>
   )
 }

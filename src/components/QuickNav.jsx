@@ -29,43 +29,43 @@ const fields = [
   },
 ]
 
-export default function QuickNav({ title = 'Jelajahi Bidang Lainnya' }) {
+export default function QuickNav({ title = 'Jelajahi Sub-Bidang Lainnya' }) {
   return (
-    <div className="mt-14">
+    <div className="pt-6">
       <Reveal className="text-center">
-        <p className="eyebrow">Pindah Halaman</p>
-        <h3 className="mt-2 font-display text-2xl font-semibold text-ink md:text-3xl">{title}</h3>
+        <p className="eyebrow">Navigasi Cepat</p>
+        <h3 className="mt-2 font-display text-2xl font-bold text-slate-900 sm:text-3xl">{title}</h3>
       </Reveal>
-      <div className="mt-8 grid gap-5 sm:grid-cols-3">
+
+      <div className="mt-8 grid gap-6 sm:grid-cols-3">
         {fields.map((f, i) => {
-          const Icon = f.icon
           return (
-            <Reveal key={f.to} delay={i * 120}>
+            <Reveal key={f.to} delay={i * 100}>
               <NavLink
                 to={f.to}
                 className={({ isActive }) =>
-                  `group relative block overflow-hidden rounded-3xl border border-stone-200/70 bg-white shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift ${
-                    isActive ? 'ring-2 ring-gold-500' : ''
+                  `group flex h-full flex-col overflow-hidden rounded-[2rem] border bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift ${
+                    isActive
+                      ? 'border-brand-500 ring-2 ring-brand-400/50'
+                      : 'border-slate-200/80 hover:border-brand-300'
                   }`
                 }
               >
-                <div className="relative flex h-44 items-center justify-center overflow-hidden bg-gradient-to-br from-brand-50 via-white to-sky-100 p-6">
-                  <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-brand-100/70 blur-3xl" />
-                  <div className="pointer-events-none absolute -bottom-10 -left-10 h-36 w-36 rounded-full bg-gold-100/70 blur-3xl" />
+                <div className="relative flex h-36 items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-brand-50/30 to-slate-100 p-4">
                   <img
                     src={f.img}
                     alt={f.label}
                     loading="lazy"
-                    className="h-28 w-auto max-w-full object-contain transition-transform duration-700 group-hover:scale-110"
+                    className="h-24 w-auto max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="flex items-center justify-between p-4">
+                <div className="flex items-center justify-between p-5">
                   <div>
-                    <p className="font-display text-lg font-semibold text-ink">{f.label}</p>
-                    <p className="text-xs text-stone-500">{f.tagline}</p>
+                    <p className="font-display text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors">{f.label}</p>
+                    <p className="text-xs text-slate-500">{f.tagline}</p>
                   </div>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-600 text-white shadow-lg transition-transform duration-500 group-hover:rotate-45">
-                    <IconArrowRight className="h-5 w-5" />
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-brand-600 transition-all duration-300 group-hover:bg-brand-600 group-hover:text-white">
+                    <IconArrowRight className="h-4 w-4" />
                   </span>
                 </div>
               </NavLink>

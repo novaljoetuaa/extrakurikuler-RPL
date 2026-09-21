@@ -57,7 +57,7 @@ const bidangList = [
 const stats = [
   { value: '3', suffix: '', label: 'Bidang Keahlian', Icon: IconRocket },
   { value: '50', suffix: '+', label: 'Karya & Proyek', Icon: IconTrophy },
-  { value: '10', suffix: '+', label: 'Prestasi Lomba', Icon: IconTrophy },
+  { value: '10', suffix: '+', label: 'Prestasi & Lomba', Icon: IconTrophy },
 ]
 
 export default function Home() {
@@ -66,214 +66,216 @@ export default function Home() {
   const latest = kegiatan.slice(0, 3)
 
   return (
-    <div>
-{/* ===== HERO ===== */}
-      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#f8fafc_0%,#eef4f7_35%,#f4f1ea_100%)] text-slate-800">
-        <div className="pointer-events-none absolute inset-0 opacity-80" style={{ backgroundImage: 'radial-gradient(circle at top left, rgba(148,163,184,0.18), transparent 30%), radial-gradient(circle at bottom right, rgba(148,163,184,0.12), transparent 35%)' }} />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.09]" style={{ backgroundImage: 'linear-gradient(rgba(15,23,42,0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.25) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+    <div className="space-y-16 pb-16 md:space-y-24 md:pb-24">
+      {/* ===== HERO SECTION ===== */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-brand-50/70 via-white to-slate-50/40 pt-12 pb-16 md:pt-16 md:pb-24 border-b border-slate-200/60">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-200/30 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-sky-200/30 blur-3xl" />
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              'radial-gradient(#0f172a 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-16">
-          <div>
-<Reveal>
-              <motion.span
-                animate={{ scale: [1, 1.04, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-brand-700"
-              >
-                <span className="h-2.5 w-2.5 rounded-full bg-brand-500" />
-                Ekstrakurikuler SMK
-              </motion.span>
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
+          {/* Left Hero Column */}
+          <div className="lg:col-span-7">
+            <Reveal>
+              <div className="badge-pill">
+                <span className="h-2 w-2 rounded-full bg-brand-600 animate-pulse" />
+                <span className="font-semibold">Ekstrakurikuler SMK Krian 1</span>
+              </div>
             </Reveal>
-<h1 className="mt-6 font-display text-4xl font-semibold leading-[1.08] text-slate-800 sm:text-6xl lg:text-[4.2rem]">
+
+            <h1 className="mt-5 font-display text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl leading-[1.12]">
               <SplitText text="Rekayasa Perangkat Lunak" />
             </h1>
-            <Reveal delay={250}>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-500">
-                Wadah bagi siswa untuk mengembangkan keterampilan teknologi digital. Belajar
-                merakit robot, membangun website, dan menciptakan desain visual bersama tim
-                yang solid dan berpengalaman.
+
+            <Reveal delay={200}>
+              <p className="mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-slate-600">
+                Wadah kolaboratif bagi siswa untuk menguasai teknologi masa depan. Kembangkan keahlian dalam{' '}
+                <strong className="font-semibold text-slate-800">Robotika</strong>,{' '}
+                <strong className="font-semibold text-slate-800">Pengembangan Website</strong>, dan{' '}
+                <strong className="font-semibold text-slate-800">Desain Visual</strong> bersama komunitas yang suportif.
               </p>
             </Reveal>
-            <Reveal delay={380}>
-              <div className="mt-9 flex flex-wrap gap-4">
+
+            <Reveal delay={350}>
+              <div className="mt-8 flex flex-wrap items-center gap-3.5">
                 <MagneticButton>
-                  <Link to="/pendaftaran" className="btn-primary">
+                  <Link to="/pendaftaran" className="btn-primary !px-7 !py-3.5 !text-sm">
                     Daftar Sekarang
                     <IconArrowRight className="h-4 w-4" />
                   </Link>
                 </MagneticButton>
                 <MagneticButton>
-                  <Link to="/galeri" className="btn-secondary">
-                    Lihat Galeri
+                  <Link to="/galeri" className="btn-secondary !px-7 !py-3.5 !text-sm">
+                    Lihat Dokumentasi
                   </Link>
                 </MagneticButton>
               </div>
             </Reveal>
 
-            <Reveal delay={500}>
-              <div className="mt-12 flex flex-wrap items-center gap-5 border-t border-stone-200/70 pt-7">
-                <div className="flex -space-x-3">
-                  {['https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80',
-                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80',
-                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80'].map((src, i) => (
-                      <img
-                        key={i}
-                        src={src}
-                        alt="Anggota ekskul"
-                        className="h-11 w-11 rounded-full border-2 border-white object-cover shadow-sm"
-                        loading="lazy"
-                      />
-                    ))}
+            <Reveal delay={450}>
+              <div className="mt-10 flex flex-wrap items-center gap-4 border-t border-slate-200/80 pt-6">
+                <div className="flex -space-x-2.5">
+                  {[
+                    'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80',
+                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80',
+                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80',
+                  ].map((src, i) => (
+                    <img
+                      key={i}
+                      src={src}
+                      alt="Anggota Ekskul RPL"
+                      className="h-9 w-9 rounded-full border-2 border-white object-cover shadow-sm ring-1 ring-slate-200"
+                      loading="lazy"
+                    />
+                  ))}
                 </div>
-                <p className="text-sm text-slate-500">Bergabung bersama komunitas belajar yang aktif dan kolaboratif.</p>
+                <div>
+                  <p className="text-xs font-bold text-slate-800">Komunitas Belajar Aktif</p>
+                  <p className="text-xs text-slate-500">Bergabung dengan puluhan siswa bertalenta</p>
+                </div>
               </div>
             </Reveal>
           </div>
 
-          <Reveal delay={300} className="relative hidden lg:block">
-            <TiltedCard maxTilt={5}>
-              <div className="relative overflow-hidden rounded-[2.5rem] shadow-lift">
-                <img
-                  src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80"
-                  alt="Kegiatan Ekstrakulikuler RPL"
-                  className="h-[30rem] w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-900/40 to-transparent" />
-              </div>
-            </TiltedCard>
+          {/* Right Hero Visual */}
+          <div className="relative lg:col-span-5">
+            <Reveal delay={250}>
+              <TiltedCard maxTilt={4}>
+                <div className="relative overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white p-2.5 shadow-lift">
+                  <div className="relative h-[22rem] sm:h-[26rem] w-full overflow-hidden rounded-[1.5rem]">
+                    <img
+                      src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80"
+                      alt="Kegiatan Ekstrakurikuler RPL"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-white/90 p-3.5 backdrop-blur-md">
+                      <p className="text-xs font-bold uppercase tracking-wider text-brand-600">SMK Krian 1 Sidoarjo</p>
+                      <p className="text-sm font-bold text-slate-900">Mencetak Generasi Berprestasi di Era Digital</p>
+                    </div>
+                  </div>
+                </div>
+              </TiltedCard>
 
-            <div className="absolute -left-10 top-10 animate-float rounded-2xl border border-stone-200/70 bg-white/95 p-4 shadow-lift backdrop-blur">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
-                  <IconRocket className="h-6 w-6" />
+              {/* Floating Stat Badge 1 */}
+              <div className="absolute -left-6 top-8 hidden sm:flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/95 p-3.5 shadow-lift backdrop-blur-md animate-float">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+                  <IconRocket className="h-5 w-5" />
                 </span>
                 <div>
-                  <p className="text-sm font-bold text-slate-800">50+ Karya</p>
-                  <p className="text-xs text-slate-500">Proyek siswa telah dibuat</p>
+                  <p className="text-xs font-bold text-slate-900">50+ Karya</p>
+                  <p className="text-[11px] text-slate-500">Proyek siswa mandiri</p>
                 </div>
               </div>
-            </div>
 
-            <div className="absolute -right-8 bottom-14 animate-float rounded-2xl border border-stone-200/70 bg-white/95 p-4 shadow-lift backdrop-blur" style={{ animationDelay: '1.4s' }}>
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold-100 text-gold-600">
-                  <IconTrophy className="h-6 w-6" />
+              {/* Floating Stat Badge 2 */}
+              <div
+                className="absolute -right-4 bottom-10 hidden sm:flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/95 p-3.5 shadow-lift backdrop-blur-md animate-float"
+                style={{ animationDelay: '1.6s' }}
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+                  <IconTrophy className="h-5 w-5" />
                 </span>
                 <div>
-                  <p className="text-sm font-bold text-slate-800">10+ Prestasi</p>
-                  <p className="text-xs text-slate-500">Juara lomba tingkat kota</p>
+                  <p className="text-xs font-bold text-slate-900">10+ Prestasi</p>
+                  <p className="text-[11px] text-slate-500">Juara tingkat kota & daerah</p>
                 </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* ===== STATS ===== */}
-      <section className="border-b border-stone-200/70 bg-white">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-10 sm:px-6 md:grid-cols-4 lg:px-8">
-{stats.map((s, i) => {
+      {/* ===== STATS BAR ===== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 divide-y divide-slate-100 rounded-3xl border border-slate-200/80 bg-white p-4 shadow-soft sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          {stats.map((s, i) => {
             const Icon = s.Icon
             return (
-              <Reveal key={s.label} delay={i * 100} className="text-center">
-                <motion.span
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
-                  className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 shadow-soft"
-                >
-                  <Icon className="h-6 w-6" />
-                </motion.span>
-                <p className="mt-3 font-display text-4xl font-semibold text-ink">
+              <Reveal key={s.label} delay={i * 100} className="p-6 text-center">
+                <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <p className="mt-3 font-display text-3xl font-bold text-slate-900 sm:text-4xl">
                   <CountingNumber value={s.value} suffix={s.suffix} />
                 </p>
-                <p className="mt-1 text-sm font-medium text-stone-500">{s.label}</p>
+                <p className="mt-1 text-sm font-medium text-slate-500">{s.label}</p>
               </Reveal>
             )
           })}
         </div>
       </section>
 
-{/* ===== LOGO LOOP (logo bidang) ===== */}
-      <section className="border-b border-stone-200/70 bg-white py-14">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">Bidang Kami</p>
-            <h2 className="section-title mt-3">Logo Sub-Bidang Unggulan</h2>
-          </Reveal>
-          <div className="mt-10 grid grid-cols-3 items-center justify-items-center gap-6 sm:gap-10">
-            {[
-              { src: logoRobotic, alt: 'Logo Robotic' },
-              { src: logoWebsite, alt: 'Logo Website' },
-              { src: logoDesain, alt: 'Logo Desain Grafis' },
-            ].map((logo, i) => (
-              <Reveal key={logo.alt} delay={i * 120}>
-                <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 shadow-soft ring-1 ring-stone-200 transition-all duration-500 hover:-translate-y-1 hover:shadow-lift sm:h-28 sm:w-28">
-                  <img
-                    src={logo.src}
-                    alt={logo.alt}
-                    loading="lazy"
-                    className="h-full w-full object-contain"
-                  />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== BIDANG ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      {/* ===== SUB-BIDANG UNGGULAN CARDS ===== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow">Pilihan Bidang</p>
-          <h2 className="section-title mt-3">Tiga Sub-Bidang Unggulan</h2>
-          <p className="mt-4 text-stone-500">
-            Pilih bidang yang paling sesuai dengan minatmu. Setiap bidang memiliki jadwal latihan
-            rutin dan pembimbing yang berpengalaman.
+          <p className="eyebrow">Pilihan Keahlian</p>
+          <h2 className="section-title mt-2">Tiga Sub-Bidang Unggulan</h2>
+          <p className="mt-3 text-slate-600 text-sm sm:text-base">
+            Temukan bidang yang paling kamu minati. Setiap sub-bidang dibimbing langsung dengan kurikulum terstruktur dan proyek nyata.
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-7 md:grid-cols-3">
+        <div className="mt-12 grid gap-8 md:grid-cols-3">
           {bidangList.map((b, i) => {
-            const Icon = b.icon
             return (
-              <Reveal key={b.to} delay={i * 140}>
-                <TiltedCard maxTilt={6}>
+              <Reveal key={b.to} delay={i * 120}>
+                <TiltedCard maxTilt={5}>
                   <Link
                     to={b.to}
-                    className="group relative block overflow-hidden rounded-[2rem] border border-stone-200/70 bg-white shadow-soft transition-all duration-500 hover:shadow-lift"
+                    className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lift"
                   >
-<div className="relative flex h-52 items-center justify-center overflow-hidden bg-gradient-to-br from-brand-50 via-white to-sky-100 p-6">
-                      <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-100/60 blur-3xl" />
-                      <div className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-gold-100/60 blur-3xl" />
+                    {/* Visual Card Header */}
+                    <div className="relative flex h-52 items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-brand-50/40 to-slate-100 p-6">
+                      <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-brand-200/40 blur-2xl" />
+                      <div className="pointer-events-none absolute -bottom-10 -left-10 h-36 w-36 rounded-full bg-sky-200/40 blur-2xl" />
                       <img
                         src={b.logo}
                         alt={`Logo ${b.title}`}
                         loading="lazy"
-                        className="h-36 w-auto max-w-full object-contain transition-transform duration-700 group-hover:scale-110"
+                        className="h-32 w-auto max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
                       />
-                      <span className="absolute bottom-4 left-5 rounded-full bg-brand-600 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+                      <span className="absolute bottom-3 left-4 rounded-full bg-slate-900/80 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-sm">
                         {b.tagline}
                       </span>
                     </div>
-                    <div className="p-6">
-                      <h3 className="font-display text-2xl font-semibold text-ink">{b.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-stone-500">{b.desc}</p>
-                      <ul className="mt-4 space-y-2">
-                        {b.points.map((p) => (
-                          <li key={p} className="flex items-center gap-2.5 text-sm text-stone-600">
-                            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-stone-100 text-stone-600">
-                              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                              </svg>
-                            </span>
-                            {p}
-                          </li>
-                        ))}
-                      </ul>
-                      <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-brand-700 transition-colors duration-300 group-hover:text-gold-600">
-                        Pelajari Lebih Lanjut
-                        <IconArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-                      </span>
+
+                    {/* Content */}
+                    <div className="flex flex-1 flex-col p-6 sm:p-7">
+                      <h3 className="font-display text-2xl font-bold text-slate-900 group-hover:text-brand-600 transition-colors">
+                        {b.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-600">{b.desc}</p>
+
+                      <div className="mt-5 border-t border-slate-100 pt-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Materi Pokok:</p>
+                        <ul className="mt-2.5 space-y-2">
+                          {b.points.map((p) => (
+                            <li key={p} className="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-slate-700">
+                              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+                                <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                              </span>
+                              <span>{p}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="mt-auto pt-6">
+                        <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-brand-600 transition-colors group-hover:text-brand-800">
+                          Pelajari Selengkapnya
+                          <IconArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                        </span>
+                      </div>
                     </div>
                   </Link>
                 </TiltedCard>
@@ -283,66 +285,91 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== KEGIATAN ===== */}
-      <section className="bg-white py-20">
+      {/* ===== LOGO SHOWCASE STRIP ===== */}
+      <section className="border-y border-slate-200/80 bg-white py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Reveal className="flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <div>
-              <p className="eyebrow">Aktivitas Kami</p>
-              <h2 className="section-title mt-3">Kegiatan Terbaru</h2>
+              <p className="text-xs font-bold uppercase tracking-widest text-brand-600">Sub-Bidang Terintegrasi</p>
+              <h3 className="font-display text-xl font-bold text-slate-900 mt-1">Logo Resmi Sub-Bidang RPL</h3>
             </div>
-            <Link to="/galeri" className="group inline-flex items-center gap-2 text-sm font-bold text-brand-700">
-              Lihat Semua Kegiatan
-              <IconArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-            </Link>
-          </Reveal>
-
-          <div className="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {latest.map((k, i) => (
-              <Reveal key={k.id} delay={i * 130}>
-                <TiltedCard maxTilt={4}>
-                  <div className="group overflow-hidden rounded-[2rem] border border-stone-200/70 bg-white shadow-soft transition-all duration-500 hover:shadow-lift">
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={k.gambar}
-                        alt={k.judul}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-stone-700 backdrop-blur">
-                        {k.bidang}
-                      </span>
-                    </div>
-                    <div className="p-6">
-                      <h3 className="font-display text-lg font-semibold text-ink">{k.judul}</h3>
-                      <p className="mt-2 line-clamp-2 text-sm text-stone-500">{k.deskripsi}</p>
-                    </div>
+            <div className="flex items-center gap-6 sm:gap-10">
+              {[
+                { src: logoRobotic, alt: 'Logo Robotic', name: 'Robotic' },
+                { src: logoWebsite, alt: 'Logo Website', name: 'Website' },
+                { src: logoDesain, alt: 'Logo Desain Grafis', name: 'Desain' },
+              ].map((logo, i) => (
+                <div key={logo.alt} className="flex items-center gap-3">
+                  <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-slate-50 p-2 shadow-subtle ring-1 ring-slate-200 transition hover:scale-105">
+                    <img src={logo.src} alt={logo.alt} loading="lazy" className="h-full w-full object-contain" />
                   </div>
-                </TiltedCard>
-              </Reveal>
-            ))}
+                  <span className="hidden sm:inline-block text-xs font-bold text-slate-700">{logo.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* ===== KEGIATAN TERBARU ===== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Reveal className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow">Dokumentasi & Aktivitas</p>
+            <h2 className="section-title mt-2">Kegiatan Terbaru</h2>
+          </div>
+          <Link
+            to="/galeri"
+            className="group inline-flex items-center gap-2 text-sm font-bold text-brand-600 hover:text-brand-800"
+          >
+            <span>Lihat Semua Galeri</span>
+            <IconArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+          </Link>
+        </Reveal>
+
+        <div className="mt-8 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          {latest.map((k, i) => (
+            <Reveal key={k.id} delay={i * 120}>
+              <div className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+                <div className="relative h-48 overflow-hidden bg-slate-100">
+                  <img
+                    src={k.gambar}
+                    alt={k.judul}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span className="absolute left-3.5 top-3.5 rounded-full bg-slate-900/80 px-3 py-1 text-xs font-bold text-white backdrop-blur-md">
+                    {k.bidang}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="font-display text-lg font-bold text-slate-900">{k.judul}</h3>
+                  <p className="mt-2 line-clamp-2 text-sm text-slate-600">{k.deskripsi}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
       {/* ===== PENGUMUMAN ===== */}
       {pengumuman.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">Pengumuman</p>
-            <h2 className="section-title mt-3">Info Terbaru</h2>
+            <p className="eyebrow">Pemberitahuan</p>
+            <h2 className="section-title mt-2">Pengumuman Terkini</h2>
           </Reveal>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
             {pengumuman.slice(0, 4).map((p, i) => (
-              <Reveal key={p.id} delay={i * 120}>
-                <div className="group flex gap-5 rounded-3xl border border-stone-200/70 bg-white p-6 shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-lift">
-<span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-100 p-3 text-brand-600 shadow-soft">
-                    <IconMegaphone className="h-6 w-6" />
+              <Reveal key={p.id} delay={i * 100}>
+                <div className="flex gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-soft transition hover:border-brand-300">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+                    <IconMegaphone className="h-5 w-5" />
                   </span>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-stone-400">{p.tanggal}</p>
-                    <h3 className="mt-1 font-display text-lg font-semibold text-ink">{p.judul}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-stone-500">{p.isi}</p>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">{p.tanggal}</span>
+                    <h3 className="mt-0.5 font-display text-base font-bold text-slate-900">{p.judul}</h3>
+                    <p className="mt-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed">{p.isi}</p>
                   </div>
                 </div>
               </Reveal>
@@ -351,29 +378,34 @@ export default function Home() {
         </section>
       )}
 
-{/* ===== CTA ===== */}
-      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#f8fafc_0%,#edf2f7_35%,#f6f3ee_100%)] py-20">
-        <div className="pointer-events-none absolute inset-0 opacity-80" style={{ backgroundImage: 'radial-gradient(circle at top center, rgba(148,163,184,0.2), transparent 30%), radial-gradient(circle at bottom right, rgba(148,163,184,0.16), transparent 35%)' }} />
-        <Reveal className="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <motion.span
-            animate={{ y: [0, -8, 0], rotate: [0, 360] }}
-            transition={{ y: { duration: 2.5, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 12, repeat: Infinity, ease: 'linear' } }}
-            className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-lg shadow-brand-600/25"
-          >
-            <IconRocket className="h-8 w-8" />
-          </motion.span>
-          <h2 className="mt-6 font-display text-4xl font-semibold leading-tight text-slate-800 sm:text-5xl">
-            Siap Memulai Perjalananmu?
-          </h2>
-          <p className="mt-4 text-lg text-slate-500">
-            Bergabunglah dengan Ekstrakulikuler RPL dan kembangkan potensi dirimu di dunia teknologi.
-          </p>
-          <MagneticButton>
-            <Link to="/pendaftaran" className="btn-primary mt-8 px-8 py-4 text-base">
-              Daftar Menjadi Anggota
-              <IconArrowRight className="h-5 w-5" />
-            </Link>
-          </MagneticButton>
+      {/* ===== CTA BANNER ===== */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-brand-700 via-brand-600 to-indigo-700 px-6 py-14 text-center text-white shadow-lift sm:px-12 md:py-16">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-sky-300/20 blur-3xl" />
+
+            <div className="relative mx-auto max-w-2xl">
+              <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-white shadow-inner backdrop-blur-md">
+                <IconRocket className="h-6 w-6" />
+              </span>
+              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+                Siap Memulai Perjalananmu?
+              </h2>
+              <p className="mt-3 text-sm sm:text-base text-brand-100 leading-relaxed">
+                Bergabunglah dengan Ekstrakurikuler RPL dan perluas wawasan teknologimu. Pendaftaran terbuka bagi seluruh siswa SMK Krian 1.
+              </p>
+              <div className="mt-8">
+                <Link
+                  to="/pendaftaran"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-bold text-brand-700 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-50 hover:shadow-lg"
+                >
+                  Daftar Menjadi Anggota
+                  <IconArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
         </Reveal>
       </section>
     </div>
