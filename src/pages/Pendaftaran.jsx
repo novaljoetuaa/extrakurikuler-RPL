@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useData } from '../context/DataContext'
 import Reveal from '../components/Reveal'
+import { supabase } from '../lib/supabase'
 import logoRobotic from '../../assets/logo robotic.jpeg'
 import logoWebsite from '../../assets/logo website.png'
 import logoDesain from '../../assets/logo desain.png'
@@ -64,7 +65,9 @@ export default function Pendaftaran() {
   const [submitError, setSubmitError] = useState('')
   const [submittedRecord, setSubmittedRecord] = useState(null)
 
-  // Search existing status by phone number
+  // Cek status: wajib nomor registrasi + nomor WhatsApp agar tidak ada
+  // yang bisa melihat data hanya dengan menebak satu nomor WA.
+  const [searchReg, setSearchReg] = useState('')
   const [searchNoHp, setSearchNoHp] = useState('')
   const [searchResult, setSearchResult] = useState(null)
   const [searched, setSearched] = useState(false)
@@ -161,13 +164,13 @@ export default function Pendaftaran() {
         tanggalDaftar: new Date().toISOString().slice(0, 10),
       }
 
-      const { ok, error, id } = await registerPendaftar(payload)
+      const { ok, error, id, nomorRegistrasi } = await registerPendaftar(payload)
       if (!ok) {
         setSubmitError(error?.message || 'Gagal menyimpan pendaftaran ke database.')
         return
       }
 
-      setSubmittedRecord({ ...payload, id })
+      setSubmittedRecord({ ...payload, id, nomorRegistrasi })
       setCurrentStep(5) // Move to Step 5: Status Verifikasi
       window.scrollTo({ top: 150, behavior: 'smooth' })
     } catch (err) {
@@ -216,15 +219,39 @@ export default function Pendaftaran() {
     }
   }
 
-  const handleSearchStatus = (e) => {
+  const handleSearchStatus = async (e) => {
     e.preventDefault()
     setSearched(true)
-    const cleanNo = searchNoHp.trim()
-    if (!cleanNo) {
+    const cleanNo = searchNoHp.trim().replace(/\D/g, '')
+    const cleanReg = searchReg.trim().toUpperCase()
+    if (!cleanNo || !cleanReg) {
       setSearchResult(null)
       return
     }
-    const found = (data.pendaftar || []).find((p) => String(p.nohp).replace(/\D/g, '').includes(cleanNo.replace(/\D/g, '')))
+
+    // Coba lewat RPC Supabase (aman: hanya mengembalikan kolom terbatas,
+    // cocokkan nomor registrasi + nomor WA sekaligus).
+    if (supabase) {
+      try {
+        const { data: rows } = await supabase.rpc('cek_status_pendaftar', {
+          p_nomor_registrasi: cleanReg,
+          p_nohp: cleanNo,
+        })
+        if (Array.isArray(rows) && rows.length > 0) {
+          setSearchResult(rows[0])
+          return
+        }
+      } catch {
+        // fallback ke data lokal di bawah
+      }
+    }
+
+    // Fallback: data lokal (cache) — cocokkan kedua kriteria
+    const found = (data.pendaftar || []).find(
+      (p) =>
+        String(p.nomorRegistrasi || '').trim().toUpperCase() === cleanReg &&
+        String(p.nohp || '').replace(/\D/g, '') === cleanNo,
+    )
     setSearchResult(found || null)
   }
 
@@ -670,7 +697,8 @@ export default function Pendaftaran() {
 
                 <div className="space-y-2 text-xs font-semibold text-[#0D47A1]">
                   <p>
-                    <span className="text-[#0D47A1]/60">Nomor Registrasi:</span> #{String(submittedRecord.id).slice(-6)}
+                    <span className="text-[#0D47A1]/60">Nomor Registrasi:</span>{' '}
+                    <strong>{submittedRecord.nomorRegistrasi}</strong>
                   </p>
                   <p>
                     <span className="text-[#0D47A1]/60">Tanggal Daftar:</span> {submittedRecord.tanggalDaftar}
@@ -739,16 +767,24 @@ export default function Pendaftaran() {
             </h3>
           </div>
           <p className="mt-1 text-xs text-[#0D47A1]/80">
-            Sudah pernah mendaftar? Masukkan nomor WhatsApp yang didaftarkan untuk memantau status terkini.
+            Sudah pernah mendaftar? Masukkan <strong>nomor registrasi</strong> (contoh: RPL-ABC123) dan nomor WhatsApp
+            yang didaftarkan untuk memantau status terkini.
           </p>
 
-          <form onSubmit={handleSearchStatus} className="mt-4 flex gap-2">
+          <form onSubmit={handleSearchStatus} className="mt-4 flex flex-wrap gap-2">
+            <input
+              type="text"
+              value={searchReg}
+              onChange={(e) => setSearchReg(e.target.value)}
+              placeholder="Nomor registrasi (RPL-XXXXXX)"
+              className="input-field text-xs flex-1 min-w-[180px]"
+            />
             <input
               type="tel"
               value={searchNoHp}
               onChange={(e) => setSearchNoHp(e.target.value)}
-              placeholder="Masukkan nomor WhatsApp..."
-              className="input-field text-xs"
+              placeholder="Nomor WhatsApp terdaftar"
+              className="input-field text-xs flex-1 min-w-[180px]"
             />
             <button type="submit" className="btn-primary shrink-0 text-xs">
               <i className="fas fa-search" />
@@ -761,15 +797,15 @@ export default function Pendaftaran() {
               {searchResult ? (
                 <div className="rounded-2xl border-2 border-[#90CAF9] bg-[#E3F2FD] p-4 text-xs font-semibold text-[#0D47A1] space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-[#0D47A1]">{searchResult.nama}</span>
+                    <span className="font-bold text-sm text-[#0D47A1]">{searchResult.nomorRegistrasi}</span>
                     {renderStatusBadge(searchResult.status)}
                   </div>
-                  <p>Bidang: <strong>{searchResult.bidang}</strong> | Kelas: {searchResult.kelas}</p>
+                  <p>Bidang: <strong>{searchResult.bidang}</strong></p>
                   <p>Tanggal Daftar: {searchResult.tanggalDaftar}</p>
                 </div>
               ) : (
                 <p className="text-xs font-bold text-[#0D47A1]/60">
-                  Data pendaftar dengan nomor WhatsApp tersebut tidak ditemukan. Silakan periksa kembali nomor yang Anda masukkan.
+                  Data pendaftar tidak ditemukan. Pastikan nomor registrasi dan nomor WhatsApp sesuai yang Anda gunakan saat mendaftar.
                 </p>
               )}
             </div>

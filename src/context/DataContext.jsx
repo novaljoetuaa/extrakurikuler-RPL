@@ -202,6 +202,39 @@ const defaultData = {
 
 const collectionKeys = ['kegiatan', 'jadwal', 'pengumuman', 'pendaftar', 'galeri', 'artikel']
 
+// Kolom yang diizinkan pada tabel `pendaftar` Supabase.
+// Field di luar daftar ini (mis. field form tambahan) tidak dikirim agar INSERT tidak gagal.
+const PENDAFTAR_SYNC_FIELDS = [
+  'id',
+  'nomorRegistrasi',
+  'nama',
+  'kelas',
+  'nohp',
+  'email',
+  'bidang',
+  'alasanMasuk',
+  'karyaPortofolio',
+  'status',
+  'tanggalDaftar',
+]
+
+// Buat nomor registrasi unik berformat RPL-XXXXXX yang tidak bentrok
+// dengan pendaftar yang sudah ada.
+function generateNomorRegistrasi(existing = []) {
+  const taken = new Set(existing.map((p) => p?.nomorRegistrasi).filter(Boolean))
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    let suffix = ''
+    for (let i = 0; i < 6; i += 1) {
+      suffix += alphabet[Math.floor(Math.random() * alphabet.length)]
+    }
+    const candidate = `RPL-${suffix}`
+    if (!taken.has(candidate)) return candidate
+  }
+  // Fallback deterministik yang praktis mustahil bentrok
+  return `RPL-${Date.now().toString(36).toUpperCase().slice(-6)}`
+}
+
 function createDefaultData() {
   return JSON.parse(JSON.stringify(defaultData))
 }
@@ -297,11 +330,18 @@ export function DataProvider({ children }) {
     [],
   )
 
-  // Helper: sinkronisasi pendaftar ke tabel terpisah di Supabase
+  // Helper: sinkronisasi pendaftar ke tabel terpisah di Supabase.
+  // HANYA dipanggil dari addItem('pendaftar', ...) agar satu pendaftaran
+  // selalu menghasilkan tepat satu INSERT ke Supabase.
+  let lastPendaftarSync = null
   const syncPendaftarAdd = async (record) => {
     if (!supabase) return { ok: false, error: new Error('Supabase belum dikonfigurasi.') }
+    const payload = PENDAFTAR_SYNC_FIELDS.reduce((acc, field) => {
+      if (record[field] !== undefined && record[field] !== null) acc[field] = record[field]
+      return acc
+    }, {})
     try {
-      const { error } = await supabase.from('pendaftar').insert(record)
+      const { error } = await supabase.from('pendaftar').insert(payload)
       if (error) throw error
       return { ok: true }
     } catch (e) {
@@ -376,9 +416,10 @@ export function DataProvider({ children }) {
       }
       return next
     })
-    // Jika menambah pendaftar, simpan juga ke tabel Supabase terpisah
+    // Jika menambah pendaftar, lakukan SATU insert ke tabel Supabase terpisah
     if (key === 'pendaftar') {
-      syncPendaftarAdd(record)
+      const syncPromise = syncPendaftarAdd(record)
+      lastPendaftarSync = syncPromise
       const idStr = String(record.id)
       if (!readPendaftarIds.has(idStr)) {
         setNewPendaftarCount((c) => c + 1)
@@ -392,19 +433,25 @@ export function DataProvider({ children }) {
     const record = {
       ...payload,
       id,
+      nomorRegistrasi: payload.nomorRegistrasi || generateNomorRegistrasi(data.pendaftar || []),
       status: payload.status || 'Menunggu Verifikasi',
       tanggalDaftar: payload.tanggalDaftar || new Date().toISOString().slice(0, 10),
       bidang: payload.bidang || 'Robotic',
     }
 
+    // addItem('pendaftar', ...) menangani: commit lokal + SATU kali
+    // syncPendaftarAdd ke Supabase. Tunggu hasilnya agar error bisa dilaporkan
+    // tanpa melakukan INSERT kedua.
     const localResult = addItem('pendaftar', record)
-    const { ok, error } = await syncPendaftarAdd(record)
-
-    if (!ok && localResult) {
-      console.error('Pendaftaran lokal dibuat, tetapi gagal tersimpan ke Supabase:', error)
+    let remoteError = null
+    if (supabase) {
+      const result = await (lastPendaftarSync || Promise.resolve({ ok: true }))
+      if (!result?.ok) remoteError = result?.error || new Error('Gagal menyimpan pendaftaran.')
+    } else {
+      remoteError = new Error('Supabase belum dikonfigurasi.')
     }
 
-    return { ok, error, id: localResult ?? id }
+    return { ok: !remoteError, error: remoteError, id: localResult ?? id, nomorRegistrasi: record.nomorRegistrasi }
   }
 
   const updateItem = (key, id, updated) => {

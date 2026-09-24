@@ -23,33 +23,78 @@ create policy "Authenticated users can update site data"
 
 create table if not exists public.pendaftar (
   id text primary key,
+  nomor_registrasi text unique,
   nama text not null,
   kelas text,
   nohp text,
   email text,
   bidang text not null default 'Robotic',
+  alasanMasuk text,
+  karyaPortofolio text,
   status text not null default 'Baru',
   tanggalDaftar date not null default current_date,
   created_at timestamptz not null default now()
 );
 
+-- Tambahkan kolom baru bila tabel sudah ada dari versi lama
+alter table public.pendaftar add column if not exists nomor_registrasi text;
+alter table public.pendaftar add column if not exists "alasanMasuk" text;
+alter table public.pendaftar add column if not exists "karyaPortofolio" text;
+
 alter table public.pendaftar enable row level security;
 
-create policy "Public can read pendaftar"
-  on public.pendaftar for select
-  using (true);
+-- KEAMANAN: hapus policy publik yang membocorkan daftar pendaftar.
+drop policy if exists "Public can read pendaftar" on public.pendaftar;
+drop policy if exists "Public read pendaftar" on public.pendaftar;
+drop policy if exists "Anyone can read pendaftar" on public.pendaftar;
 
-create policy "Public can insert pendaftar"
+create policy "pendaftar_insert_public"
   on public.pendaftar for insert
+  to anon, authenticated
   with check (true);
 
-create policy "Authenticated users can update pendaftar"
-  on public.pendaftar for update to authenticated
-  using (true) with check (true);
+create or replace function public.is_admin()
+returns boolean
+language sql stable security definer
+set search_path = public
+as $$
+  select coalesce((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin', false);
+$$;
 
-create policy "Authenticated users can delete pendaftar"
+create policy "pendaftar_select_admin"
+  on public.pendaftar for select to authenticated
+  using (public.is_admin());
+
+create policy "pendaftar_update_admin"
+  on public.pendaftar for update to authenticated
+  using (public.is_admin()) with check (public.is_admin());
+
+create policy "pendaftar_delete_admin"
   on public.pendaftar for delete to authenticated
-  using (true);
+  using (public.is_admin());
+
+-- Cek status yang aman: pengunjung harus mengirim nomor registrasi DAN
+-- nomor WhatsApp. Fungsi security definer membaca tabel atas nama publik,
+-- tetapi hanya mengembalikan informasi seperlunya (bukan data pribadi).
+create or replace function public.cek_status_pendaftar(
+  p_nomor_registrasi text,
+  p_nohp text
+)
+returns table (
+  nomor_registrasi text,
+  status text,
+  bidang text,
+  "tanggalDaftar" date
+)
+language sql stable security definer
+set search_path = public
+as $$
+  select p.nomor_registrasi, p.status, p.bidang, p."tanggalDaftar"
+  from public.pendaftar p
+  where upper(trim(p.nomor_registrasi)) = upper(trim(p_nomor_registrasi))
+    and regexp_replace(coalesce(p.nohp, ''), '\D', '', 'g') = regexp_replace(p_nohp, '\D', '', 'g')
+  limit 1;
+$$;
 
 insert into storage.buckets (id, name, public)
 values ('activity-images', 'activity-images', true)

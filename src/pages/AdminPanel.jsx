@@ -23,6 +23,7 @@ const tabs = [
   { id: 'kegiatan', label: 'Kegiatan', Icon: IconImage },
   { id: 'jadwal', label: 'Jadwal', Icon: IconCalendar },
   { id: 'pengumuman', label: 'Pengumuman', Icon: IconMegaphone },
+  { id: 'artikel', label: 'Artikel', Icon: IconMail },
   { id: 'pendaftar', label: 'Pendaftar', Icon: IconUsers },
   { id: 'kontak', label: 'Kontak & Sosmed', Icon: IconMail },
 ]
@@ -31,6 +32,7 @@ const emptyKegiatan = { bidang: 'Robotic', judul: '', deskripsi: '', gambar: '' 
 const emptyJadwal = { bidang: 'Robotic', hari: '', waktu: '', tempat: '' }
 const emptyPengumuman = { judul: '', isi: '', tanggal: '' }
 const emptyPendaftar = { nama: '', kelas: '', nohp: '', email: '', bidang: 'Robotic', status: 'Baru' }
+const emptyArtikel = { judul: '', summary: '', konten: '', penulis: '', tanggal: '', bidang: 'Robotik', gambar: '', icon: 'fas fa-newspaper' }
 const bidangTabs = ['Robotic', 'Website', 'Desain Grafis']
 
 const inputClass =
@@ -104,7 +106,16 @@ export default function AdminPanel() {
   const [sosmedForm, setSosmedForm] = useState({ ...data.sosmed })
   const [savedMsg, setSavedMsg] = useState('')
   const [resetConfirm, setResetConfirm] = useState(false)
+  const [resetKeyword, setResetKeyword] = useState('')
   const [pendaftarFilter, setPendaftarFilter] = useState('')
+  const [pendaftarSearch, setPendaftarSearch] = useState('')
+
+  const stats = [
+    { label: 'Pendaftar', value: (data.pendaftar || []).length, icon: 'fas fa-users' },
+    { label: 'Kegiatan', value: (data.kegiatan || []).length, icon: 'fas fa-images' },
+    { label: 'Artikel', value: (data.artikel || []).length, icon: 'fas fa-newspaper' },
+    { label: 'Galeri', value: (data.galeri || []).length, icon: 'fas fa-photo-film' },
+  ]
 
   const openAdd = (type) => {
     const base =
@@ -114,7 +125,9 @@ export default function AdminPanel() {
           ? emptyJadwal
           : type === 'pengumuman'
             ? emptyPengumuman
-            : emptyPendaftar
+            : type === 'artikel'
+              ? emptyArtikel
+              : emptyPendaftar
     setForm(base)
     setModal({ type, editing: null })
   }
@@ -142,6 +155,9 @@ export default function AdminPanel() {
     } else if (type === 'pengumuman') {
       if (editing) updateItem('pengumuman', editing.id, form)
       else addItem('pengumuman', form)
+    } else if (type === 'artikel') {
+      if (editing) updateItem('artikel', editing.id, form)
+      else addItem('artikel', form)
     } else if (type === 'pendaftar') {
       if (editing) updateItem('pendaftar', editing.id, form)
       else addItem('pendaftar', form)
@@ -208,12 +224,12 @@ export default function AdminPanel() {
       <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-white via-slate-50/60 to-slate-100/50 py-12 md:py-16">
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand-400/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-sky-400/10 blur-3xl" />
-        <div className="pointer-events-none absolute inset-0 tech-grid-bg opacity-40" />
+          <div className="pointer-events-none absolute inset-0 tech-grid-bg opacity-40" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-5">
             <div>
-              <div className="badge-pill">
+                <div className="badge-pill">
                 <IconShield className="h-3.5 w-3.5" />
                 <span>Dashboard Pengelola</span>
               </div>
@@ -233,6 +249,21 @@ export default function AdminPanel() {
               <span>Reset Data Default</span>
             </button>
           </div>
+        </div>
+      </section>
+
+      {/* Statistik Ringkas */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.label} className="card-hover p-5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#0D47A1]/60">{s.label}</span>
+                <i className={`${s.icon} text-[#2196F3]`} />
+              </div>
+              <p className="mt-2 font-display text-3xl font-black text-[#0D47A1]">{s.value}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -466,6 +497,62 @@ export default function AdminPanel() {
             </div>
           )}
 
+          {/* ===== ARTIKEL ===== */}
+          {tab === 'artikel' && (
+            <div className="card overflow-hidden">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#90CAF9]/40 px-6 py-5">
+                <div>
+                  <h2 className="text-lg font-bold text-[#0D47A1]">Kelola Artikel</h2>
+                  <p className="text-xs text-[#0D47A1]/70">Tulis dan perbarui artikel yang tampil di halaman publik.</p>
+                </div>
+                <button type="button" onClick={() => openAdd('artikel')} className="btn-primary !py-2.5 !text-xs">
+                  <IconPlus className="h-4 w-4" />
+                  <span>Tambah Artikel</span>
+                </button>
+              </div>
+              <div className="divide-y divide-[#90CAF9]/40 bg-white">
+                {(data.artikel || []).map((a) => (
+                  <div key={a.id} className="flex flex-wrap items-start justify-between gap-4 px-6 py-5 transition hover:bg-[#E3F2FD]/60">
+                    <div className="max-w-2xl">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-base font-bold text-[#0D47A1]">{a.judul}</h3>
+                        <span className="badge-bidang">
+                          <i className={`${a.icon || 'fas fa-newspaper'} text-xs text-[#2196F3]`} />
+                          <span>{a.bidang}</span>
+                        </span>
+                      </div>
+                      <p className="mt-1 text-xs text-[#0D47A1]/70">{a.penulis} • {a.tanggal}</p>
+                      <p className="mt-1 text-xs sm:text-sm text-[#0D47A1]/80 leading-relaxed line-clamp-2">{a.summary}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openEdit('artikel', a)}
+                        className="inline-flex items-center gap-1 rounded-lg border border-[#90CAF9] bg-white px-2.5 py-1.5 text-xs font-bold text-[#0D47A1] transition hover:bg-[#E3F2FD]"
+                      >
+                        <IconEdit className="h-3.5 w-3.5" />
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmDelete({ key: 'artikel', id: a.id })}
+                        className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1.5 text-xs font-bold text-red-600 transition hover:bg-red-100"
+                      >
+                        <IconTrash className="h-3.5 w-3.5" />
+                        <span>Hapus</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {(data.artikel || []).length === 0 && (
+                  <div className="px-6 py-12 text-center text-[#0D47A1]/50">
+                    Belum ada artikel. Klik "Tambah Artikel" untuk memulai.
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* ===== PENDAFTAR ===== */}
           {tab === 'pendaftar' && (
             <div className="card overflow-hidden">
@@ -482,7 +569,7 @@ export default function AdminPanel() {
 
               {/* Filter by Bidang */}
               <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 bg-slate-50/50 px-6 py-3.5">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Filter Bidang:</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-[#0D47A1]/60">Filter Bidang:</span>
                 <button
                   type="button"
                   onClick={() => setPendaftarFilter('')}
@@ -507,6 +594,13 @@ export default function AdminPanel() {
                     </button>
                   )
                 })}
+                <input
+                  type="text"
+                  value={pendaftarSearch}
+                  onChange={(e) => setPendaftarSearch(e.target.value)}
+                  placeholder="Cari nama/kelas/no HP..."
+                  className="input-field !py-1.5 !text-xs w-48"
+                />
                 <div className="ml-auto">
                   <button
                     type="button"
@@ -536,6 +630,12 @@ export default function AdminPanel() {
                   <tbody className="divide-y divide-slate-100 bg-white">
                     {data.pendaftar
                       .filter((p) => !pendaftarFilter || p.bidang === pendaftarFilter)
+                      .filter((p) => {
+                        const q = pendaftarSearch.trim().toLowerCase()
+                        if (!q) return true
+                        return [p.nama, p.kelas, p.nohp, p.email, p.nomorRegistrasi]
+                          .some((v) => String(v || '').toLowerCase().includes(q))
+                      })
                       .map((p) => (
                         <tr key={p.id} className="transition hover:bg-slate-50/60">
                           <td className={`${tdClass} font-bold text-slate-900`}>{p.nama}</td>
@@ -679,7 +779,9 @@ export default function AdminPanel() {
                   ? 'Tambah Jadwal'
                   : modal.type === 'pengumuman'
                     ? 'Tambah Pengumuman'
-                    : 'Tambah Pendaftar'
+                    : modal.type === 'artikel'
+                      ? 'Tambah Artikel'
+                      : 'Tambah Pendaftar'
             : ''
         }
         onClose={() => setModal(null)}
@@ -836,6 +938,78 @@ export default function AdminPanel() {
           </form>
         )}
 
+        {modal?.type === 'artikel' && (
+          <form onSubmit={handleSave} className="space-y-4">
+            <div>
+              <label className={labelClass}>Bidang</label>
+              <select name="bidang" value={form.bidang} onChange={handleChange} className={inputClass}>
+                <option>Robotik</option>
+                <option>Website & Pemrograman</option>
+                <option>Desain Grafis</option>
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Judul Artikel</label>
+              <input
+                name="judul"
+                value={form.judul}
+                onChange={handleChange}
+                required
+                className={inputClass}
+                placeholder="cth: Panduan Dasar Robot Line Follower"
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Ringkasan (Summary)</label>
+              <textarea
+                name="summary"
+                value={form.summary}
+                onChange={handleChange}
+                required
+                rows="2"
+                className={`${inputClass} resize-none`}
+                placeholder="Ringkasan singkat artikel..."
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Isi Artikel</label>
+              <textarea
+                name="konten"
+                value={form.konten}
+                onChange={handleChange}
+                required
+                rows="5"
+                className={`${inputClass} resize-none`}
+                placeholder="Tulis isi artikel..."
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={labelClass}>Penulis</label>
+                <input name="penulis" value={form.penulis} onChange={handleChange} required className={inputClass} placeholder="cth: Divisi Robotik RPL" />
+              </div>
+              <div>
+                <label className={labelClass}>Tanggal</label>
+                <input type="date" name="tanggal" value={form.tanggal} onChange={handleChange} required className={inputClass} />
+              </div>
+            </div>
+            <div>
+              <ImageUploader
+                value={form.gambar}
+                onChange={(gambar) => setForm((prev) => ({ ...prev, gambar }))}
+              />
+            </div>
+            <div className="flex gap-3 pt-2">
+              <button type="button" onClick={() => setModal(null)} className="btn-secondary flex-1">
+                Batal
+              </button>
+              <button type="submit" className="btn-primary flex-1 font-bold">
+                Simpan
+              </button>
+            </div>
+          </form>
+        )}
+
         {modal?.type === 'pendaftar' && (
           <form onSubmit={handleSave} className="space-y-4">
             <div>
@@ -922,19 +1096,54 @@ export default function AdminPanel() {
         }}
       />
 
-      {/* Reset Confirmation Modal */}
-      <ConfirmModal
-        open={resetConfirm}
-        message="Semua data akan dikembalikan ke pengaturan awal pabrik. Lanjutkan?"
-        onCancel={() => setResetConfirm(false)}
-        onConfirm={() => {
-          resetData()
-          setResetConfirm(false)
-          setKontakForm({ email: 'ekskul.robotik@sekolah.sch.id', telepon: '0812-3456-7890', alamat: 'Jl. Kyai Mojo, Wonoayu, Sidoarjo' })
-          setSosmedForm({ instagram: 'https://instagram.com/ekskul.rpl', youtube: 'https://youtube.com/@ekskulrpl', tiktok: 'https://tiktok.com/@ekskul.rpl', github: 'https://github.com/ekskul-rpl' })
-          showToast('Data dikembalikan ke pengaturan awal.')
-        }}
-      />
+      {/* Reset Confirmation Modal (aman: harus mengetik RESET) */}
+      <div
+        className={`fixed inset-0 z-[85] flex items-center justify-center bg-[#0D47A1]/60 p-4 backdrop-blur-sm animate-fade-in ${resetConfirm ? '' : 'hidden'}`}
+        onClick={() => { setResetConfirm(false); setResetKeyword('') }}
+      >
+        <div className="w-full max-w-sm rounded-3xl border-2 border-[#90CAF9] bg-white p-7 shadow-lift animate-scale-in" onClick={(e) => e.stopPropagation()}>
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100 text-red-600">
+            <IconAlert className="h-7 w-7" />
+          </div>
+          <p className="mt-4 text-center font-bold text-[#0D47A1] leading-snug">
+            Semua data akan dikembalikan ke pengaturan awal pabrik. Tindakan ini tidak dapat dibatalkan.
+          </p>
+          <p className="mt-2 text-center text-xs text-[#0D47A1]/70">
+            Ketik <strong>RESET</strong> untuk mengonfirmasi:
+          </p>
+          <input
+            type="text"
+            value={resetKeyword}
+            onChange={(e) => setResetKeyword(e.target.value.toUpperCase())}
+            placeholder="RESET"
+            className="input-field mt-3 text-center font-bold tracking-widest"
+          />
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => { setResetConfirm(false); setResetKeyword('') }}
+              className="btn-secondary !py-2.5 text-xs font-bold"
+            >
+              Batal
+            </button>
+            <button
+              type="button"
+              disabled={resetKeyword !== 'RESET'}
+              onClick={() => {
+                resetData()
+                setResetConfirm(false)
+                setResetKeyword('')
+                setKontakForm({ email: 'ekskul.robotik@sekolah.sch.id', telepon: '0812-3456-7890', alamat: 'Jl. Kyai Mojo, Wonoayu, Sidoarjo' })
+                setSosmedForm({ instagram: 'https://instagram.com/ekskul.rpl', youtube: 'https://youtube.com/@ekskulrpl', tiktok: 'https://tiktok.com/@ekskul.rpl', github: 'https://github.com/ekskul-rpl' })
+                showToast('Data dikembalikan ke pengaturan awal.')
+              }}
+              className="inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-red-700 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none"
+            >
+              Reset Data
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

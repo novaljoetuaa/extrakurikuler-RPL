@@ -88,6 +88,10 @@
   }
 
   /* Badges */
+  .badge-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-[#90CAF9] bg-[#E3F2FD] px-3.5 py-1.5 text-xs font-bold text-[#0D47A1];
+  }
+
   .badge-bidang {
     @apply inline-flex items-center gap-1.5 rounded-lg border border-[#90CAF9] bg-[#E3F2FD] px-2.5 py-1 text-xs font-bold text-[#0D47A1];
   }
@@ -106,6 +110,16 @@
 
   .badge-status-ditolak {
     @apply inline-flex items-center gap-1.5 rounded-lg border border-[#0D47A1] bg-[#E3F2FD] px-3 py-1 text-xs font-bold text-[#0D47A1];
+  }
+
+  /* Tekstur grid halus di header sections (tema biru) */
+  .tech-grid-bg {
+    background-image:
+      linear-gradient(rgba(144, 202, 249, 0.25) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(144, 202, 249, 0.25) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
   }
 
   /* Section Headings */
