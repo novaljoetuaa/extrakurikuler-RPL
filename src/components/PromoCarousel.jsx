@@ -79,7 +79,7 @@ export default function PromoCarousel() {
   const slide = promoSlides[current]
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border-2 border-[#90CAF9] bg-[#0D47A1] text-white shadow-card min-h-[360px] sm:min-h-[300px] flex flex-col justify-between">
+    <div className="relative overflow-hidden rounded-3xl border-2 border-[#90CAF9] bg-[#0D47A1] text-white shadow-card h-[430px] sm:h-auto sm:min-h-[300px] flex flex-col justify-between">
       {/* Background Images dengan Cross-Fade Murni (ukuran stabil tanpa scale zoom) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {promoSlides.map((s, idx) => (
@@ -178,8 +178,8 @@ export default function PromoCarousel() {
           </AnimatePresence>
         </div>
 
-        {/* Carousel Indicators & Controls */}
-        <div className="mt-8 flex items-center justify-between border-t border-[#90CAF9]/30 pt-4">
+        {/* Carousel Indicators & Controls (mobile: absolute terhadap container agar posisi tetap di setiap slide) */}
+        <div className="absolute inset-x-6 bottom-4 z-40 flex items-center justify-between border-t border-[#90CAF9]/30 pt-4 sm:static sm:mt-8 sm:inset-auto sm:bottom-auto">
           <div className="flex items-center gap-2">
             {promoSlides.map((s, idx) => (
               <button

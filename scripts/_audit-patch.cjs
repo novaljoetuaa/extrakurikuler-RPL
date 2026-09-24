@@ -1,26 +1,28 @@
 /* eslint-disable no-console */
 // Script audit one-shot: melakukan patch presisi berdasarkan string lama->baru.
-const fs = require('fs')
-const path = require('path')
+const fs = require("fs");
+const path = require("path");
 
-const root = path.resolve(__dirname, '..')
+const root = path.resolve(__dirname, "..");
 const rep = (rel, pairs) => {
-  const file = path.join(root, rel)
-  let src = fs.readFileSync(file, 'utf8')
+  const file = path.join(root, rel);
+  let src = fs.readFileSync(file, "utf8");
   for (const [oldS, newS] of pairs) {
     if (!src.includes(oldS)) {
-      console.error(`MISS: ${rel} :: ${oldS.slice(0, 60).replace(/\n/g, '\\n')}`)
-      process.exitCode = 1
-      continue
+      console.error(
+        `MISS: ${rel} :: ${oldS.slice(0, 60).replace(/\n/g, "\\n")}`,
+      );
+      process.exitCode = 1;
+      continue;
     }
-    src = src.split(oldS).join(newS)
+    src = src.split(oldS).join(newS);
   }
-  fs.writeFileSync(file, src)
-  console.log(`OK: ${rel}`)
-}
+  fs.writeFileSync(file, src);
+  console.log(`OK: ${rel}`);
+};
 
 /* ================= 1. DataContext.jsx ================= */
-rep('src/context/DataContext.jsx', [
+rep("src/context/DataContext.jsx", [
   [
     `  // Generic CRUD helpers
   const addItem = (key, item) => {`,
@@ -91,4 +93,4 @@ rep('src/context/DataContext.jsx', [
     return { ok, error, id, nomorRegistrasi: record.nomorRegistrasi }
   }`,
   ],
-])
+]);
