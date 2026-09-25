@@ -12,6 +12,7 @@ import {
   IconSparkle,
 } from './icons'
 import logo from '../../assets/rpl.png'
+import bgImage from '../../assets/footer.png'
 
 const sosmedList = [
   { key: 'instagram', Icon: IconInstagram, label: 'Instagram' },
@@ -38,7 +39,19 @@ export default function Footer() {
       {/* Top Accent Bar */}
       <div className="h-1.5 w-full bg-[#2196F3]" />
 
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-12 lg:gap-12 lg:px-8">
+      {/* Background dekoratif samar (absolute, tidak memengaruhi layout) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-15"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      />
+      {/* Overlay penjaga kontras teks */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0D47A1]/60 via-[#0D47A1]/45 to-[#0A3882]/85"
+      />
+
+      <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-12 lg:gap-12 lg:px-8">
         {/* Brand & Description Column */}
         <div className="md:col-span-5 lg:col-span-5">
           <div className="flex items-center gap-3.5">
@@ -128,7 +141,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-[#90CAF9]/30 bg-[#0A3882]">
+      <div className="relative z-10 border-t border-[#90CAF9]/30 bg-[#0A3882]">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-4 text-xs text-[#90CAF9] sm:flex-row sm:px-6 lg:px-8">
           <p>© {new Date().getFullYear()} Ekstrakurikuler RPL — SMK Krian 1 Sidoarjo.</p>
           <p className="flex items-center gap-1.5 text-[#E3F2FD]">
