@@ -6,6 +6,8 @@ import { supabase } from '../lib/supabase'
 import logoRobotic from '../../assets/logo robotic.jpeg'
 import logoWebsite from '../../assets/logo website.png'
 import logoDesain from '../../assets/logo desain.png'
+import logoAi from '../../assets/ai.png'
+import logoGame from '../../assets/game.png'
 
 const bidangOptions = [
   {
@@ -32,6 +34,22 @@ const bidangOptions = [
     logo: logoDesain,
     reqDesc: 'Upload contoh karya desain visual berupa gambar PNG/JPG (opsional).',
   },
+  {
+    id: 'Artificial Intelligence',
+    name: 'Artificial Intelligence',
+    tagline: 'Machine Learning & Pengolahan Data',
+    icon: 'fas fa-brain',
+    logo: logoAi,
+    reqDesc: 'Tautan (link) notebook/proyek machine learning atau deskripsi ide AI (opsional).',
+  },
+  {
+    id: 'Game',
+    name: 'Game',
+    tagline: 'Game Design & Development',
+    icon: 'fas fa-gamepad',
+    logo: logoGame,
+    reqDesc: 'Tautan (link) build game/portofolio atau deskripsi konsep game (opsional).',
+  },
 ]
 
 const steps = [
@@ -57,6 +75,8 @@ export default function Pendaftaran() {
     robotikProyekDesc: '',
     desainKaryaNama: '', // Simulating PNG/JPG upload
     websiteRepoLink: '',
+    aiPortofolio: '',
+    gamePortofolio: '',
     setujuAturan: false,
   })
 
@@ -159,7 +179,11 @@ export default function Pendaftaran() {
             ? form.robotikProyekDesc
             : form.bidang === 'Desain Grafis'
               ? form.desainKaryaNama
-              : form.websiteRepoLink,
+              : form.bidang === 'Artificial Intelligence'
+                ? form.aiPortofolio
+                : form.bidang === 'Game'
+                  ? form.gamePortofolio
+                  : form.websiteRepoLink,
         status: 'Menunggu Verifikasi',
         tanggalDaftar: new Date().toISOString().slice(0, 10),
       }
@@ -246,7 +270,7 @@ export default function Pendaftaran() {
       }
     }
 
-    // Fallback: data lokal (cache) — cocokkan kedua kriteria
+    // Fallback: data lokal (cache) â€” cocokkan kedua kriteria
     const found = (data.pendaftar || []).find(
       (p) =>
         String(p.nomorRegistrasi || '').trim().toUpperCase() === cleanReg &&
@@ -261,20 +285,20 @@ export default function Pendaftaran() {
     <div className="space-y-10 pb-20 pt-6">
       {/* ===== Header Banner ===== */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border-2 border-[#90CAF9] bg-white p-6 sm:p-10 shadow-card">
-          <div className="inline-flex items-center gap-2 rounded-lg border border-[#90CAF9] bg-[#E3F2FD] px-3 py-1 text-xs font-bold text-[#0D47A1]">
-            <i className="fas fa-user-plus text-xs text-[#2196F3]" />
+        <div className="rounded-3xl border-2 border-slate-200 bg-white p-6 sm:p-10 shadow-card">
+          <div className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-bold text-slate-900">
+            <i className="fas fa-user-plus text-xs text-slate-900" />
             <span>MODUL PENDAFTARAN SISWA</span>
           </div>
-          <h1 className="mt-4 font-display text-2xl sm:text-4xl font-bold tracking-tight text-[#0D47A1]">
+          <h1 className="mt-4 font-display text-2xl sm:text-4xl font-bold tracking-tight text-slate-900">
             Pendaftaran Anggota Ekstrakurikuler
           </h1>
-          <p className="mt-2 text-xs sm:text-sm text-[#0D47A1]/80 max-w-2xl leading-relaxed">
+          <p className="mt-2 text-xs sm:text-sm text-slate-700 max-w-2xl leading-relaxed">
             Alur pendaftaran terstruktur 5 langkah untuk bergabung dengan sub-bidang Robotik, Website & Pemrograman, atau Desain Grafis di SMK Krian 1 Sidoarjo.
           </p>
 
           {/* Stepper Wizard Bar (PRD Section 4.1) */}
-          <div className="mt-8 border-t-2 border-[#90CAF9] pt-6">
+          <div className="mt-8 border-t-2 border-slate-200 pt-6">
             <div className="grid grid-cols-5 gap-2 text-center">
               {steps.map((s) => {
                 const isActive = currentStep === s.step
@@ -284,17 +308,17 @@ export default function Pendaftaran() {
                     <div
                       className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl border-2 transition-all font-bold text-xs sm:text-sm ${
                         isActive
-                          ? 'border-[#0D47A1] bg-[#2196F3] text-white shadow-md'
+                          ? 'border-slate-800 bg-slate-700 text-white shadow-md'
                           : isCompleted
-                            ? 'border-[#0D47A1] bg-[#0D47A1] text-[#E3F2FD]'
-                            : 'border-[#90CAF9] bg-[#E3F2FD] text-[#0D47A1]/60'
+                            ? 'border-slate-800 bg-slate-900 text-white'
+                            : 'border-slate-200 bg-slate-100 text-slate-700'
                       }`}
                     >
                       {isCompleted ? <i className="fas fa-check" /> : <i className={s.icon} />}
                     </div>
                     <span
                       className={`mt-2 hidden sm:block text-[11px] font-bold ${
-                        isActive ? 'text-[#0D47A1]' : 'text-[#0D47A1]/60'
+                        isActive ? 'text-slate-900' : 'text-slate-700'
                       }`}
                     >
                       {s.title}
@@ -309,23 +333,23 @@ export default function Pendaftaran() {
 
       {/* ===== Main Wizard Container ===== */}
       <section className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border-2 border-[#90CAF9] bg-white p-6 sm:p-10 shadow-card">
+        <div className="rounded-3xl border-2 border-slate-200 bg-white p-6 sm:p-10 shadow-card">
           {/* ================= STEP 1: PILIH BIDANG ================= */}
           {currentStep === 1 && (
             <div className="space-y-6">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2196F3]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-900">
                   Langkah 1 dari 5
                 </span>
-                <h2 className="font-display text-xl sm:text-2xl font-bold text-[#0D47A1]">
+                <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
                   Pilih Bidang Ekstrakurikuler
                 </h2>
-                <p className="mt-1 text-xs sm:text-sm text-[#0D47A1]/80">
+                <p className="mt-1 text-xs sm:text-sm text-slate-700">
                   Tentukan peminatan utama yang ingin kamu tekuni secara mendalam.
                 </p>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {bidangOptions.map((b) => {
                   const selected = form.bidang === b.id
                   return (
@@ -335,17 +359,17 @@ export default function Pendaftaran() {
                       onClick={() => setForm((p) => ({ ...p, bidang: b.id }))}
                       className={`flex flex-col items-start rounded-2xl border-2 p-5 text-left transition ${
                         selected
-                          ? 'border-[#0D47A1] bg-[#E3F2FD] shadow-card'
-                          : 'border-[#90CAF9] bg-white hover:bg-[#E3F2FD]/50'
+                          ? 'border-slate-800 bg-slate-100 shadow-card'
+                          : 'border-slate-200 bg-white hover:bg-slate-200/50'
                       }`}
                     >
-                      <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-[#90CAF9] bg-white p-1">
+                      <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white p-1">
                         <img src={b.logo} alt={b.name} className="h-full w-full object-contain" />
                       </div>
-                      <p className="mt-3 font-display text-base font-bold text-[#0D47A1]">{b.name}</p>
-                      <p className="mt-1 text-[11px] text-[#0D47A1]/70 leading-relaxed">{b.tagline}</p>
+                      <p className="mt-3 font-display text-base font-bold text-slate-900">{b.name}</p>
+                      <p className="mt-1 text-[11px] text-slate-700 leading-relaxed">{b.tagline}</p>
                       {selected && (
-                        <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-bold text-[#2196F3]">
+                        <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-bold text-slate-900">
                           <i className="fas fa-circle-check" />
                           <span>Terpilih</span>
                         </span>
@@ -356,7 +380,7 @@ export default function Pendaftaran() {
               </div>
               {errors.bidang && <p className="text-xs font-bold text-red-600">{errors.bidang}</p>}
 
-              <div className="pt-4 border-t border-[#90CAF9]/40 flex justify-end">
+              <div className="pt-4 border-t border-slate-200/40 flex justify-end">
                 <button type="button" onClick={goToNextStep} className="btn-primary">
                   <span>Lanjut: Data Diri</span>
                   <i className="fas fa-arrow-right text-xs" />
@@ -369,20 +393,20 @@ export default function Pendaftaran() {
           {currentStep === 2 && (
             <div className="space-y-6">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2196F3]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-900">
                   Langkah 2 dari 5
                 </span>
-                <h2 className="font-display text-xl sm:text-2xl font-bold text-[#0D47A1]">
+                <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
                   Pengisian Data Diri Siswa
                 </h2>
-                <p className="mt-1 text-xs sm:text-sm text-[#0D47A1]/80">
+                <p className="mt-1 text-xs sm:text-sm text-slate-700">
                   Pastikan informasi yang kamu masukkan akurat dan nomor WhatsApp aktif.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0D47A1]">
+                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-900">
                     Nama Lengkap <span className="text-red-600">*</span>
                   </label>
                   <input
@@ -398,7 +422,7 @@ export default function Pendaftaran() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0D47A1]">
+                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-900">
                       Kelas & Jurusan <span className="text-red-600">*</span>
                     </label>
                     <input
@@ -413,7 +437,7 @@ export default function Pendaftaran() {
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0D47A1]">
+                    <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-900">
                       Nomor WhatsApp <span className="text-red-600">*</span>
                     </label>
                     <input
@@ -429,7 +453,7 @@ export default function Pendaftaran() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#0D47A1]">
+                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-900">
                     Alamat Email (Opsional)
                   </label>
                   <input
@@ -444,7 +468,7 @@ export default function Pendaftaran() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-[#90CAF9]/40 flex justify-between">
+              <div className="pt-4 border-t border-slate-200/40 flex justify-between">
                 <button type="button" onClick={goToPrevStep} className="btn-secondary">
                   <i className="fas fa-arrow-left text-xs" />
                   <span>Kembali</span>
@@ -461,24 +485,24 @@ export default function Pendaftaran() {
           {currentStep === 3 && (
             <div className="space-y-6">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2196F3]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-900">
                   Langkah 3 dari 5
                 </span>
-                <h2 className="font-display text-xl sm:text-2xl font-bold text-[#0D47A1]">
+                <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
                   Persyaratan & Upload Berkas
                 </h2>
-                <p className="mt-1 text-xs sm:text-sm text-[#0D47A1]/80">
+                <p className="mt-1 text-xs sm:text-sm text-slate-700">
                   Isi alasan bergabung dan lampirkan portofolio/berkas pendukung (opsional di semua bidang peminatan).
                 </p>
               </div>
 
               {/* Syarat Umum: Alasan Mengapa Masuk Ekstrakurikuler Ini */}
-              <div className="rounded-2xl border-2 border-[#90CAF9] bg-[#E3F2FD] p-5">
-                <div className="flex items-center gap-2 text-sm font-bold text-[#0D47A1]">
-                  <i className="fas fa-comment-dots text-[#2196F3]" />
+              <div className="rounded-2xl border-2 border-slate-200 bg-slate-100 p-5">
+                <div className="flex items-center gap-2 text-sm font-bold text-slate-900">
+                  <i className="fas fa-comment-dots text-slate-900" />
                   <span>Alasan Mengapa Masuk Ekstrakurikuler Ini *</span>
                 </div>
-                <p className="mt-1 text-xs text-[#0D47A1]/80">
+                <p className="mt-1 text-xs text-slate-700">
                   Ceritakan motivasi, minat, atau tujuanmu bergabung dengan Ekstrakurikuler RPL SMK Krian 1.
                 </p>
                 <div className="mt-3">
@@ -495,15 +519,15 @@ export default function Pendaftaran() {
               </div>
 
               {/* Syarat Khusus Per Bidang (PRD Section 4.2) */}
-              <div className="rounded-2xl border-2 border-[#90CAF9] bg-white p-5">
-                <div className="flex items-center gap-2 text-sm font-bold text-[#0D47A1]">
-                  <i className="fas fa-puzzle-piece text-[#2196F3]" />
+              <div className="rounded-2xl border-2 border-slate-200 bg-white p-5">
+                <div className="flex items-center gap-2 text-sm font-bold text-slate-900">
+                  <i className="fas fa-puzzle-piece text-slate-900" />
                   <span>Syarat Khusus Bidang {form.bidang}</span>
                 </div>
 
                 {form.bidang === 'Robotic' && (
                   <div className="mt-3">
-                    <label className="block text-xs font-bold text-[#0D47A1] mb-1">
+                    <label className="block text-xs font-bold text-slate-900 mb-1">
                       Deskripsi Ide/Proyek Sains Sederhana (Opsional)
                     </label>
                     <textarea
@@ -519,8 +543,8 @@ export default function Pendaftaran() {
 
                 {form.bidang === 'Desain Grafis' && (
                   <div className="mt-3">
-                    <label className="block text-xs font-bold text-[#0D47A1] mb-1">
-                      Contoh Karya Desain Visual (PNG/JPG) <span className="font-normal text-[#0D47A1]/70">(Opsional)</span>
+                    <label className="block text-xs font-bold text-slate-900 mb-1">
+                      Contoh Karya Desain Visual (PNG/JPG) <span className="font-normal text-slate-700">(Opsional)</span>
                     </label>
                     <input
                       type="file"
@@ -529,11 +553,11 @@ export default function Pendaftaran() {
                         const file = e.target.files?.[0]
                         setForm((p) => ({ ...p, desainKaryaNama: file ? file.name : '' }))
                       }}
-                      className="block w-full text-xs text-[#0D47A1] file:mr-4 file:rounded-xl file:border-0 file:bg-[#2196F3] file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-[#0D47A1]"
+                      className="block w-full text-xs text-slate-900 file:mr-4 file:rounded-xl file:border-0 file:bg-slate-700 file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-slate-900"
                     />
                     {form.desainKaryaNama && (
-                      <p className="mt-1.5 text-xs font-bold text-[#0D47A1]">
-                        <i className="fas fa-check-circle text-[#2196F3] mr-1" />
+                      <p className="mt-1.5 text-xs font-bold text-slate-900">
+                        <i className="fas fa-check-circle text-slate-900 mr-1" />
                         Terlampir: {form.desainKaryaNama}
                       </p>
                     )}
@@ -542,7 +566,7 @@ export default function Pendaftaran() {
 
                 {form.bidang === 'Website' && (
                   <div className="mt-3">
-                    <label className="block text-xs font-bold text-[#0D47A1] mb-1">
+                    <label className="block text-xs font-bold text-slate-900 mb-1">
                       Tautan (Link) Repository / Website Portofolio (Opsional)
                     </label>
                     <input
@@ -555,25 +579,57 @@ export default function Pendaftaran() {
                     />
                   </div>
                 )}
+
+                {form.bidang === 'Artificial Intelligence' && (
+                  <div className="mt-3">
+                    <label className="block text-xs font-bold text-slate-900 mb-1">
+                      Tautan Proyek / Notebook Machine Learning (Opsional)
+                    </label>
+                    <input
+                      type="url"
+                      name="aiPortofolio"
+                      value={form.aiPortofolio}
+                      onChange={handleFieldChange}
+                      placeholder="https://colab.research.google.com/..."
+                      className="input-field text-xs"
+                    />
+                  </div>
+                )}
+
+                {form.bidang === 'Game' && (
+                  <div className="mt-3">
+                    <label className="block text-xs font-bold text-slate-900 mb-1">
+                      Tautan Build Game / Portofolio (Opsional)
+                    </label>
+                    <input
+                      type="url"
+                      name="gamePortofolio"
+                      value={form.gamePortofolio}
+                      onChange={handleFieldChange}
+                      placeholder="https://itch.io/username/game"
+                      className="input-field text-xs"
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Komitmen Siswa */}
-              <div className="flex items-start gap-2.5 rounded-xl border border-[#90CAF9] bg-[#E3F2FD] p-3.5">
+              <div className="flex items-start gap-2.5 rounded-xl border border-slate-200 bg-slate-100 p-3.5">
                 <input
                   type="checkbox"
                   id="setujuAturan"
                   name="setujuAturan"
                   checked={form.setujuAturan}
                   onChange={handleFieldChange}
-                  className="mt-0.5 h-4 w-4 rounded border-[#90CAF9] text-[#2196F3] focus:ring-[#2196F3]"
+                  className="mt-0.5 h-4 w-4 rounded border-slate-200 text-slate-900 focus:ring-slate-400"
                 />
-                <label htmlFor="setujuAturan" className="text-xs font-semibold text-[#0D47A1] leading-snug cursor-pointer">
+                <label htmlFor="setujuAturan" className="text-xs font-semibold text-slate-900 leading-snug cursor-pointer">
                   Saya menyatakan data ini benar, berstatus siswa aktif SMK Krian 1, dan bersedia mengikuti kegiatan latihan rutin ekstrakurikuler dengan tertib.
                 </label>
               </div>
               {errors.setujuAturan && <p className="text-xs font-bold text-red-600">{errors.setujuAturan}</p>}
 
-              <div className="pt-4 border-t border-[#90CAF9]/40 flex justify-between">
+              <div className="pt-4 border-t border-slate-200/40 flex justify-between">
                 <button type="button" onClick={goToPrevStep} className="btn-secondary">
                   <i className="fas fa-arrow-left text-xs" />
                   <span>Kembali</span>
@@ -590,52 +646,56 @@ export default function Pendaftaran() {
           {currentStep === 4 && (
             <div className="space-y-6">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2196F3]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-900">
                   Langkah 4 dari 5
                 </span>
-                <h2 className="font-display text-xl sm:text-2xl font-bold text-[#0D47A1]">
+                <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
                   Konfirmasi Data Pendaftaran
                 </h2>
-                <p className="mt-1 text-xs sm:text-sm text-[#0D47A1]/80">
+                <p className="mt-1 text-xs sm:text-sm text-slate-700">
                   Periksa kembali ringkasan data sebelum dikirimkan ke sistem verifikasi Ekstrakurikuler RPL.
                 </p>
               </div>
 
-              <div className="rounded-2xl border-2 border-[#90CAF9] bg-[#E3F2FD] p-5 space-y-3 text-xs sm:text-sm">
-                <div className="flex justify-between border-b border-[#90CAF9]/40 pb-2">
-                  <span className="font-bold text-[#0D47A1]/70">Pilihan Bidang:</span>
-                  <span className="font-bold text-[#0D47A1]">{form.bidang}</span>
+              <div className="rounded-2xl border-2 border-slate-200 bg-slate-100 p-5 space-y-3 text-xs sm:text-sm">
+                <div className="flex justify-between border-b border-slate-200/40 pb-2">
+                  <span className="font-bold text-slate-700">Pilihan Bidang:</span>
+                  <span className="font-bold text-slate-900">{form.bidang}</span>
                 </div>
-                <div className="flex justify-between border-b border-[#90CAF9]/40 pb-2">
-                  <span className="font-bold text-[#0D47A1]/70">Nama Lengkap:</span>
-                  <span className="font-bold text-[#0D47A1]">{form.nama}</span>
+                <div className="flex justify-between border-b border-slate-200/40 pb-2">
+                  <span className="font-bold text-slate-700">Nama Lengkap:</span>
+                  <span className="font-bold text-slate-900">{form.nama}</span>
                 </div>
-                <div className="flex justify-between border-b border-[#90CAF9]/40 pb-2">
-                  <span className="font-bold text-[#0D47A1]/70">Kelas & Jurusan:</span>
-                  <span className="font-bold text-[#0D47A1]">{form.kelas}</span>
+                <div className="flex justify-between border-b border-slate-200/40 pb-2">
+                  <span className="font-bold text-slate-700">Kelas & Jurusan:</span>
+                  <span className="font-bold text-slate-900">{form.kelas}</span>
                 </div>
-                <div className="flex justify-between border-b border-[#90CAF9]/40 pb-2">
-                  <span className="font-bold text-[#0D47A1]/70">No. WhatsApp:</span>
-                  <span className="font-bold text-[#0D47A1]">{form.nohp}</span>
+                <div className="flex justify-between border-b border-slate-200/40 pb-2">
+                  <span className="font-bold text-slate-700">No. WhatsApp:</span>
+                  <span className="font-bold text-slate-900">{form.nohp}</span>
                 </div>
-                <div className="flex flex-col border-b border-[#90CAF9]/40 pb-2">
-                  <span className="font-bold text-[#0D47A1]/70 mb-1">Alasan Masuk Ekstrakurikuler:</span>
-                  <span className="text-xs text-[#0D47A1] leading-relaxed italic bg-white/70 p-2.5 rounded-xl border border-[#90CAF9]/50">
+                <div className="flex flex-col border-b border-slate-200/40 pb-2">
+                  <span className="font-bold text-slate-700 mb-1">Alasan Masuk Ekstrakurikuler:</span>
+                  <span className="text-xs text-slate-900 leading-relaxed italic bg-white/70 p-2.5 rounded-xl border border-slate-200/50">
                     "{form.alasanMasuk}"
                   </span>
                 </div>
-                <div className="flex justify-between border-b border-[#90CAF9]/40 pb-2">
-                  <span className="font-bold text-[#0D47A1]/70">Berkas / Portofolio:</span>
-                  <span className="font-semibold text-xs text-[#0D47A1]">
+                <div className="flex justify-between border-b border-slate-200/40 pb-2">
+                  <span className="font-bold text-slate-700">Berkas / Portofolio:</span>
+                  <span className="font-semibold text-xs text-slate-900">
                     {form.bidang === 'Robotik'
                       ? form.robotikProyekDesc ? 'Deskripsi ide terlampir' : 'Tidak dilampirkan (Opsional)'
                       : form.bidang === 'Desain Grafis'
                         ? form.desainKaryaNama || 'Tidak dilampirkan (Opsional)'
-                        : form.websiteRepoLink || 'Tidak dilampirkan (Opsional)'}
+                        : form.bidang === 'Artificial Intelligence'
+                          ? form.aiPortofolio || 'Tidak dilampirkan (Opsional)'
+                          : form.bidang === 'Game'
+                            ? form.gamePortofolio || 'Tidak dilampirkan (Opsional)'
+                            : form.websiteRepoLink || 'Tidak dilampirkan (Opsional)'}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-bold text-[#0D47A1]/70">Status Awal:</span>
+                  <span className="font-bold text-slate-700">Status Awal:</span>
                   {renderStatusBadge('Menunggu Verifikasi')}
                 </div>
               </div>
@@ -646,7 +706,7 @@ export default function Pendaftaran() {
                 </div>
               )}
 
-              <div className="pt-4 border-t border-[#90CAF9]/40 flex justify-between">
+              <div className="pt-4 border-t border-slate-200/40 flex justify-between">
                 <button type="button" onClick={goToPrevStep} className="btn-secondary" disabled={isSubmitting}>
                   <i className="fas fa-arrow-left text-xs" />
                   <span>Perbaiki Data</span>
@@ -671,47 +731,47 @@ export default function Pendaftaran() {
           {/* ================= STEP 5: STATUS VERIFIKASI ================= */}
           {currentStep === 5 && submittedRecord && (
             <div className="space-y-6 text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-[#90CAF9] bg-[#E3F2FD] text-[#2196F3] shadow-md">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-slate-200 bg-slate-100 text-slate-900 shadow-md">
                 <i className="fas fa-clipboard-check text-2xl" />
               </div>
 
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#2196F3]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-900">
                   Langkah 5 dari 5: Status Pendaftaran
                 </span>
-                <h2 className="font-display text-2xl font-bold text-[#0D47A1] mt-1">
+                <h2 className="font-display text-2xl font-bold text-slate-900 mt-1">
                   Pendaftaran Telah Diterima Sistem!
                 </h2>
-                <p className="mt-2 text-xs sm:text-sm text-[#0D47A1]/80 max-w-md mx-auto leading-relaxed">
-                  Terima kasih <strong className="text-[#0D47A1]">{submittedRecord.nama}</strong>. Data pendaftaranmu di bidang{' '}
-                  <strong className="text-[#0D47A1]">{submittedRecord.bidang}</strong> sedang diproses.
+                <p className="mt-2 text-xs sm:text-sm text-slate-700 max-w-md mx-auto leading-relaxed">
+                  Terima kasih <strong className="text-slate-900">{submittedRecord.nama}</strong>. Data pendaftaranmu di bidang{' '}
+                  <strong className="text-slate-900">{submittedRecord.bidang}</strong> sedang diproses.
                 </p>
               </div>
 
               {/* Status Indicator Card (PRD Section 4.3) */}
-              <div className="mx-auto max-w-md rounded-2xl border-2 border-[#90CAF9] bg-white p-6 text-left shadow-sm space-y-4">
-                <div className="flex items-center justify-between border-b border-[#90CAF9]/30 pb-3">
-                  <span className="text-xs font-bold text-[#0D47A1]/70">Status Terkini:</span>
+              <div className="mx-auto max-w-md rounded-2xl border-2 border-slate-200 bg-white p-6 text-left shadow-sm space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-200/30 pb-3">
+                  <span className="text-xs font-bold text-slate-700">Status Terkini:</span>
                   {renderStatusBadge(submittedRecord.status)}
                 </div>
 
-                <div className="space-y-2 text-xs font-semibold text-[#0D47A1]">
+                <div className="space-y-2 text-xs font-semibold text-slate-900">
                   <p>
-                    <span className="text-[#0D47A1]/60">Nomor Registrasi:</span>{' '}
+                    <span className="text-slate-700">Nomor Registrasi:</span>{' '}
                     <strong>{submittedRecord.nomorRegistrasi}</strong>
                   </p>
                   <p>
-                    <span className="text-[#0D47A1]/60">Tanggal Daftar:</span> {submittedRecord.tanggalDaftar}
+                    <span className="text-slate-700">Tanggal Daftar:</span> {submittedRecord.tanggalDaftar}
                   </p>
                   <p>
-                    <span className="text-[#0D47A1]/60">WhatsApp:</span> {submittedRecord.nohp}
+                    <span className="text-slate-700">WhatsApp:</span> {submittedRecord.nohp}
                   </p>
                 </div>
 
                 {/* WhatsApp Group Box */}
                 {groupLink && (
-                  <div className="rounded-xl border border-[#90CAF9] bg-[#E3F2FD] p-3.5 mt-4">
-                    <p className="text-xs font-bold text-[#0D47A1] mb-2">
+                  <div className="rounded-xl border border-slate-200 bg-slate-100 p-3.5 mt-4">
+                    <p className="text-xs font-bold text-slate-900 mb-2">
                       Grup Komunikasi Calon Anggota:
                     </p>
                     <a
@@ -759,14 +819,14 @@ export default function Pendaftaran() {
         </div>
 
         {/* ===== Panel Cek Status Mandiri Siswa ===== */}
-        <div className="mt-8 rounded-3xl border-2 border-[#90CAF9] bg-white p-6 sm:p-8 shadow-card">
+        <div className="mt-8 rounded-3xl border-2 border-slate-200 bg-white p-6 sm:p-8 shadow-card">
           <div className="flex items-center gap-2">
-            <i className="fas fa-magnifying-glass text-[#2196F3]" />
-            <h3 className="font-display text-base font-bold text-[#0D47A1]">
+            <i className="fas fa-magnifying-glass text-slate-900" />
+            <h3 className="font-display text-base font-bold text-slate-900">
               Cek Status Verifikasi Pendaftaran
             </h3>
           </div>
-          <p className="mt-1 text-xs text-[#0D47A1]/80">
+          <p className="mt-1 text-xs text-slate-700">
             Sudah pernah mendaftar? Masukkan <strong>nomor registrasi</strong> (contoh: RPL-ABC123) dan nomor WhatsApp
             yang didaftarkan untuk memantau status terkini.
           </p>
@@ -793,18 +853,18 @@ export default function Pendaftaran() {
           </form>
 
           {searched && (
-            <div className="mt-4 border-t border-[#90CAF9]/40 pt-4">
+            <div className="mt-4 border-t border-slate-200/40 pt-4">
               {searchResult ? (
-                <div className="rounded-2xl border-2 border-[#90CAF9] bg-[#E3F2FD] p-4 text-xs font-semibold text-[#0D47A1] space-y-2">
+                <div className="rounded-2xl border-2 border-slate-200 bg-slate-100 p-4 text-xs font-semibold text-slate-900 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-[#0D47A1]">{searchResult.nomorRegistrasi}</span>
+                    <span className="font-bold text-sm text-slate-900">{searchResult.nomorRegistrasi}</span>
                     {renderStatusBadge(searchResult.status)}
                   </div>
                   <p>Bidang: <strong>{searchResult.bidang}</strong></p>
                   <p>Tanggal Daftar: {searchResult.tanggalDaftar}</p>
                 </div>
               ) : (
-                <p className="text-xs font-bold text-[#0D47A1]/60">
+                <p className="text-xs font-bold text-slate-700">
                   Data pendaftar tidak ditemukan. Pastikan nomor registrasi dan nomor WhatsApp sesuai yang Anda gunakan saat mendaftar.
                 </p>
               )}

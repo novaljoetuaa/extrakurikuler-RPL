@@ -33,10 +33,10 @@ const emptyJadwal = { bidang: 'Robotic', hari: '', waktu: '', tempat: '' }
 const emptyPengumuman = { judul: '', isi: '', tanggal: '' }
 const emptyPendaftar = { nama: '', kelas: '', nohp: '', email: '', bidang: 'Robotic', status: 'Baru' }
 const emptyArtikel = { judul: '', summary: '', konten: '', penulis: '', tanggal: '', bidang: 'Robotik', gambar: '', icon: 'fas fa-newspaper' }
-const bidangTabs = ['Robotic', 'Website', 'Desain Grafis']
+const bidangTabs = ['Robotic', 'Website', 'Desain Grafis', 'Artificial Intelligence', 'Game']
 
 const inputClass =
-  'w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-100'
+  'w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-slate-600 focus:outline-none focus:ring-4 focus:ring-slate-200'
 const labelClass = 'mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-700'
 const thClass = 'px-5 py-3.5 text-left text-xs font-bold uppercase tracking-wider text-slate-500'
 const tdClass = 'px-5 py-3.5 text-sm text-slate-700 align-middle'
@@ -258,10 +258,10 @@ export default function AdminPanel() {
           {stats.map((s) => (
             <div key={s.label} className="card-hover p-5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#0D47A1]/60">{s.label}</span>
-                <i className={`${s.icon} text-[#2196F3]`} />
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">{s.label}</span>
+                <i className={`${s.icon} text-slate-900`} />
               </div>
-              <p className="mt-2 font-display text-3xl font-black text-[#0D47A1]">{s.value}</p>
+              <p className="mt-2 font-display text-3xl font-black text-slate-900">{s.value}</p>
             </div>
           ))}
         </div>
@@ -270,7 +270,7 @@ export default function AdminPanel() {
       {/* Toast Notification */}
       {savedMsg && (
         <div className="fixed left-1/2 top-20 z-[90] -translate-x-1/2 animate-scale-in rounded-2xl bg-slate-900 px-6 py-3 text-xs sm:text-sm font-bold text-white shadow-lift ring-1 ring-white/10">
-          ✅ {savedMsg}
+          âœ… {savedMsg}
         </div>
       )}
 
@@ -288,7 +288,7 @@ export default function AdminPanel() {
                 onClick={() => handleSetTab(t.id)}
                 className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 ${
                   active
-                    ? 'bg-brand-600 text-white shadow-md shadow-brand-600/25'
+                    ? 'bg-slate-800 text-white shadow-md shadow-slate-800/25'
                     : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                 }`}
               >
@@ -336,7 +336,7 @@ export default function AdminPanel() {
                           <img src={k.gambar} alt={k.judul} className="h-14 w-20 rounded-xl object-cover shadow-sm" />
                         </td>
                         <td className={tdClass}>
-                          <span className="rounded-md border border-brand-200 bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700">
+                          <span className="rounded-md border border-slate-200 bg-slate-100 px-2.5 py-1 text-xs font-bold text-brand-700">
                             {k.bidang}
                           </span>
                         </td>
@@ -500,35 +500,35 @@ export default function AdminPanel() {
           {/* ===== ARTIKEL ===== */}
           {tab === 'artikel' && (
             <div className="card overflow-hidden">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#90CAF9]/40 px-6 py-5">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/40 px-6 py-5">
                 <div>
-                  <h2 className="text-lg font-bold text-[#0D47A1]">Kelola Artikel</h2>
-                  <p className="text-xs text-[#0D47A1]/70">Tulis dan perbarui artikel yang tampil di halaman publik.</p>
+                  <h2 className="text-lg font-bold text-slate-900">Kelola Artikel</h2>
+                  <p className="text-xs text-slate-700">Tulis dan perbarui artikel yang tampil di halaman publik.</p>
                 </div>
                 <button type="button" onClick={() => openAdd('artikel')} className="btn-primary !py-2.5 !text-xs">
                   <IconPlus className="h-4 w-4" />
                   <span>Tambah Artikel</span>
                 </button>
               </div>
-              <div className="divide-y divide-[#90CAF9]/40 bg-white">
+              <div className="divide-y divide-slate-200 bg-white">
                 {(data.artikel || []).map((a) => (
-                  <div key={a.id} className="flex flex-wrap items-start justify-between gap-4 px-6 py-5 transition hover:bg-[#E3F2FD]/60">
+                  <div key={a.id} className="flex flex-wrap items-start justify-between gap-4 px-6 py-5 transition hover:bg-slate-200/60">
                     <div className="max-w-2xl">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="text-base font-bold text-[#0D47A1]">{a.judul}</h3>
+                        <h3 className="text-base font-bold text-slate-900">{a.judul}</h3>
                         <span className="badge-bidang">
-                          <i className={`${a.icon || 'fas fa-newspaper'} text-xs text-[#2196F3]`} />
+                          <i className={`${a.icon || 'fas fa-newspaper'} text-xs text-slate-900`} />
                           <span>{a.bidang}</span>
                         </span>
                       </div>
-                      <p className="mt-1 text-xs text-[#0D47A1]/70">{a.penulis} • {a.tanggal}</p>
-                      <p className="mt-1 text-xs sm:text-sm text-[#0D47A1]/80 leading-relaxed line-clamp-2">{a.summary}</p>
+                      <p className="mt-1 text-xs text-slate-700">{a.penulis} â€¢ {a.tanggal}</p>
+                      <p className="mt-1 text-xs sm:text-sm text-slate-700 leading-relaxed line-clamp-2">{a.summary}</p>
                     </div>
                     <div className="flex gap-2">
                       <button
                         type="button"
                         onClick={() => openEdit('artikel', a)}
-                        className="inline-flex items-center gap-1 rounded-lg border border-[#90CAF9] bg-white px-2.5 py-1.5 text-xs font-bold text-[#0D47A1] transition hover:bg-[#E3F2FD]"
+                        className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-900 transition hover:bg-slate-100"
                       >
                         <IconEdit className="h-3.5 w-3.5" />
                         <span>Edit</span>
@@ -545,7 +545,7 @@ export default function AdminPanel() {
                   </div>
                 ))}
                 {(data.artikel || []).length === 0 && (
-                  <div className="px-6 py-12 text-center text-[#0D47A1]/50">
+                  <div className="px-6 py-12 text-center text-slate-700">
                     Belum ada artikel. Klik "Tambah Artikel" untuk memulai.
                   </div>
                 )}
@@ -569,12 +569,12 @@ export default function AdminPanel() {
 
               {/* Filter by Bidang */}
               <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 bg-slate-50/50 px-6 py-3.5">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#0D47A1]/60">Filter Bidang:</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">Filter Bidang:</span>
                 <button
                   type="button"
                   onClick={() => setPendaftarFilter('')}
                   className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
-                    !pendaftarFilter ? 'bg-brand-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
+                    !pendaftarFilter ? 'bg-slate-800 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   Semua ({data.pendaftar.length})
@@ -587,7 +587,7 @@ export default function AdminPanel() {
                       type="button"
                       onClick={() => setPendaftarFilter(b)}
                       className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
-                        pendaftarFilter === b ? 'bg-brand-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
+                        pendaftarFilter === b ? 'bg-slate-800 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
                       }`}
                     >
                       {b} ({count})
@@ -643,7 +643,7 @@ export default function AdminPanel() {
                           <td className={tdClass}>{p.nohp}</td>
                           <td className={tdClass}>{p.email || '-'}</td>
                           <td className={tdClass}>
-                            <span className="rounded-md border border-brand-200 bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700">
+                            <span className="rounded-md border border-slate-200 bg-slate-100 px-2.5 py-1 text-xs font-bold text-brand-700">
                               {p.bidang}
                             </span>
                           </td>
@@ -794,6 +794,8 @@ export default function AdminPanel() {
                 <option>Robotic</option>
                 <option>Website</option>
                 <option>Desain Grafis</option>
+                <option>Artificial Intelligence</option>
+                <option>Game</option>
               </select>
             </div>
             <div>
@@ -844,6 +846,8 @@ export default function AdminPanel() {
                 <option>Robotic</option>
                 <option>Website</option>
                 <option>Desain Grafis</option>
+                <option>Artificial Intelligence</option>
+                <option>Game</option>
               </select>
             </div>
             <div>
@@ -946,6 +950,8 @@ export default function AdminPanel() {
                 <option>Robotik</option>
                 <option>Website & Pemrograman</option>
                 <option>Desain Grafis</option>
+                <option>Artificial Intelligence</option>
+                <option>Game</option>
               </select>
             </div>
             <div>
@@ -1062,6 +1068,8 @@ export default function AdminPanel() {
                 <option>Robotic</option>
                 <option>Website</option>
                 <option>Desain Grafis</option>
+                <option>Artificial Intelligence</option>
+                <option>Game</option>
               </select>
             </div>
             <div>
@@ -1098,17 +1106,17 @@ export default function AdminPanel() {
 
       {/* Reset Confirmation Modal (aman: harus mengetik RESET) */}
       <div
-        className={`fixed inset-0 z-[85] flex items-center justify-center bg-[#0D47A1]/60 p-4 backdrop-blur-sm animate-fade-in ${resetConfirm ? '' : 'hidden'}`}
+        className={`fixed inset-0 z-[85] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm animate-fade-in ${resetConfirm ? '' : 'hidden'}`}
         onClick={() => { setResetConfirm(false); setResetKeyword('') }}
       >
-        <div className="w-full max-w-sm rounded-3xl border-2 border-[#90CAF9] bg-white p-7 shadow-lift animate-scale-in" onClick={(e) => e.stopPropagation()}>
+        <div className="w-full max-w-sm rounded-3xl border-2 border-slate-200 bg-white p-7 shadow-lift animate-scale-in" onClick={(e) => e.stopPropagation()}>
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100 text-red-600">
             <IconAlert className="h-7 w-7" />
           </div>
-          <p className="mt-4 text-center font-bold text-[#0D47A1] leading-snug">
+          <p className="mt-4 text-center font-bold text-slate-900 leading-snug">
             Semua data akan dikembalikan ke pengaturan awal pabrik. Tindakan ini tidak dapat dibatalkan.
           </p>
-          <p className="mt-2 text-center text-xs text-[#0D47A1]/70">
+          <p className="mt-2 text-center text-xs text-slate-700">
             Ketik <strong>RESET</strong> untuk mengonfirmasi:
           </p>
           <input

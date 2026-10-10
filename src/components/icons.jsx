@@ -39,6 +39,23 @@ export const IconPalette = (p) => (
   </Svg>
 )
 
+export const IconBrain = (p) => (
+  <Svg {...p}>
+    <path d="M12 5.5a2.5 2.5 0 0 0-5 0 2.5 2.5 0 0 0-2 4 2.5 2.5 0 0 0 .5 4.5A2.5 2.5 0 0 0 8 18.5a2 2 0 0 0 4 .1V5.5z" />
+    <path d="M12 5.5a2.5 2.5 0 0 1 5 0 2.5 2.5 0 0 1 2 4 2.5 2.5 0 0 1-.5 4.5 2.5 2.5 0 0 1-2.5 4.5 2 2 0 0 1-4 .1" />
+    <path d="M9 9h1M14 9h1M9 13h1M14 13h1" />
+  </Svg>
+)
+
+export const IconGamepad = (p) => (
+  <Svg {...p}>
+    <path d="M6 7h12a4 4 0 0 1 3.9 4.9l-1.3 5.4a2.2 2.2 0 0 1-3.8 1L15 16H9l-1.8 2.3a2.2 2.2 0 0 1-3.8-1l-1.3-5.4A4 4 0 0 1 6 7z" />
+    <path d="M7.5 11v2M6.5 12h2" />
+    <circle cx="15.5" cy="11.5" r="1" fill="currentColor" stroke="none" />
+    <circle cx="17.5" cy="13.5" r="1" fill="currentColor" stroke="none" />
+  </Svg>
+)
+
 export const IconHome = (p) => (
   <Svg {...p}>
     <path d="M3 10.5L12 3l9 7.5" />

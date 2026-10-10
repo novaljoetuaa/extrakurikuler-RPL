@@ -1,9 +1,11 @@
 import { NavLink } from 'react-router-dom'
-import { IconRobot, IconCode, IconPalette, IconArrowRight, IconSparkle } from './icons'
+import { IconRobot, IconCode, IconPalette, IconBrain, IconGamepad, IconArrowRight, IconSparkle } from './icons'
 import Reveal from './Reveal'
 import logoRobotic from '../../assets/logo robotic.jpeg'
 import logoWebsite from '../../assets/logo website.png'
 import logoDesain from '../../assets/logo desain.png'
+import logoAi from '../../assets/ai.png'
+import logoGame from '../../assets/game.png'
 
 const fields = [
   {
@@ -11,7 +13,7 @@ const fields = [
     label: 'Robotic',
     tagline: 'Robotika & Mikrokontroler',
     badge: 'Hardware & IoT',
-    badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+    badgeColor: 'bg-slate-50 text-slate-700 border-slate-200',
     icon: IconRobot,
     img: logoRobotic,
   },
@@ -20,7 +22,7 @@ const fields = [
     label: 'Website',
     tagline: 'Pengembangan Web Modern',
     badge: 'Fullstack Web',
-    badgeColor: 'bg-sky-50 text-sky-700 border-sky-200',
+    badgeColor: 'bg-slate-50 text-slate-700 border-slate-200',
     icon: IconCode,
     img: logoWebsite,
   },
@@ -32,6 +34,24 @@ const fields = [
     badgeColor: 'bg-teal-50 text-teal-700 border-teal-200',
     icon: IconPalette,
     img: logoDesain,
+  },
+  {
+    to: '/artificial-intelligence',
+    label: 'Artificial Intelligence',
+    tagline: 'Machine Learning & Data Cerdas',
+    badge: 'AI & Data Science',
+    badgeColor: 'bg-violet-50 text-violet-700 border-violet-200',
+    icon: IconBrain,
+    img: logoAi,
+  },
+  {
+    to: '/game',
+    label: 'Game',
+    tagline: 'Game Design & Development',
+    badge: 'Game & Interaktif',
+    badgeColor: 'bg-rose-50 text-rose-700 border-rose-200',
+    icon: IconGamepad,
+    img: logoGame,
   },
 ]
 
@@ -46,7 +66,7 @@ export default function QuickNav({ title = 'Jelajahi Sub-Bidang Lainnya' }) {
         <h3 className="section-title mt-1.5 !text-2xl sm:!text-3xl">{title}</h3>
       </Reveal>
 
-      <div className="mt-8 grid gap-6 sm:grid-cols-3">
+      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {fields.map((f, i) => {
           return (
             <Reveal key={f.to} delay={i * 100}>
@@ -55,8 +75,8 @@ export default function QuickNav({ title = 'Jelajahi Sub-Bidang Lainnya' }) {
                 className={({ isActive }) =>
                   `group flex h-full flex-col overflow-hidden rounded-3xl border bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift ${
                     isActive
-                      ? 'border-brand-500 ring-2 ring-brand-400/40 shadow-glow'
-                      : 'border-slate-200/90 hover:border-brand-300'
+                      ? 'border-slate-600 ring-2 ring-slate-400/40 shadow-glow'
+                      : 'border-slate-200/90 hover:border-slate-300'
                   }`
                 }
               >
@@ -78,7 +98,7 @@ export default function QuickNav({ title = 'Jelajahi Sub-Bidang Lainnya' }) {
                     </p>
                     <p className="text-xs text-slate-500 mt-0.5">{f.tagline}</p>
                   </div>
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-all duration-300 group-hover:bg-brand-600 group-hover:text-white">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-all duration-300 group-hover:bg-slate-800 group-hover:text-white">
                     <IconArrowRight className="h-4 w-4" />
                   </span>
                 </div>

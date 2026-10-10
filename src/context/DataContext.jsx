@@ -63,6 +63,24 @@ const defaultData = {
       gambar:
         'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80',
     },
+    {
+      id: 7,
+      bidang: 'Artificial Intelligence',
+      judul: 'Pengantar Machine Learning & Pengolahan Data',
+      deskripsi:
+        'Mengenal dasar kecerdasan buatan, pengolahan dataset, dan pelatihan model machine learning sederhana dengan Python.',
+      gambar:
+        'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80',
+    },
+    {
+      id: 8,
+      bidang: 'Game',
+      judul: 'Dasar Perancangan & Pengembangan Game',
+      deskripsi:
+        'Belajar menyusun konsep gameplay, desain level, hingga membangun game interaktif dengan engine modern.',
+      gambar:
+        'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=800&q=80',
+    },
   ],
 
   // Jadwal latihan per bidang
@@ -70,6 +88,8 @@ const defaultData = {
     { id: 1, bidang: 'Robotic', hari: 'Senin', waktu: '15.00 - 17.00', tempat: 'Lab Komputer 1' },
     { id: 2, bidang: 'Website', hari: 'Rabu', waktu: '15.00 - 17.00', tempat: 'Lab Komputer 2' },
     { id: 3, bidang: 'Desain Grafis', hari: 'Jumat', waktu: '15.00 - 17.00', tempat: 'Ruang Multimedia' },
+    { id: 4, bidang: 'Artificial Intelligence', hari: 'Selasa', waktu: '15.00 - 17.00', tempat: 'Lab Komputer 2' },
+    { id: 5, bidang: 'Game', hari: 'Kamis', waktu: '15.00 - 17.00', tempat: 'Lab Komputer 1' },
   ],
 
   // Pengumuman
@@ -93,6 +113,8 @@ const defaultData = {
     'Robotic': 'https://chat.whatsapp.com/robotic-rpl',
     'Website': 'https://chat.whatsapp.com/website-rpl',
     'Desain Grafis': 'https://chat.whatsapp.com/desain-rpl',
+    'Artificial Intelligence': 'https://chat.whatsapp.com/ai-rpl',
+    'Game': 'https://chat.whatsapp.com/game-rpl',
   },
 
   // Data pendaftar / anggota
@@ -148,6 +170,18 @@ const defaultData = {
       judul: 'Karya Desain Siswa',
       bidang: 'Desain Grafis',
       gambar: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80',
+    },
+    {
+      id: 7,
+      judul: 'Sesi Machine Learning',
+      bidang: 'Artificial Intelligence',
+      gambar: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80',
+    },
+    {
+      id: 8,
+      judul: 'Uji Coba Game Karya Siswa',
+      bidang: 'Game',
+      gambar: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=800&q=80',
     },
   ],
 

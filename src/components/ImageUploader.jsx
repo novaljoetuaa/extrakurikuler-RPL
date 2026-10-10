@@ -86,13 +86,13 @@ export default function ImageUploader({ value = '', onChange }) {
         onClick={() => inputRef.current?.click()}
         className={`group relative flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-4 py-8 text-center transition-all duration-300 ${
           dragging
-            ? 'border-brand-500 bg-brand-50 scale-[1.01]'
-            : 'border-stone-300 bg-cream hover:border-brand-400 hover:bg-brand-50/50'
+            ? 'border-slate-600 bg-slate-100 scale-[1.01]'
+            : 'border-stone-300 bg-cream hover:border-brand-400 hover:bg-slate-100/50'
         }`}
       >
         {loading ? (
           <>
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-100 text-brand-700">
+            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-200 text-brand-700">
               <svg className="h-7 w-7 animate-spin" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z" />
@@ -102,14 +102,14 @@ export default function ImageUploader({ value = '', onChange }) {
           </>
         ) : (
           <>
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-100 text-brand-700 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
+            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-200 text-brand-700 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
               <IconUpload className="h-7 w-7" />
             </span>
             <div>
               <p className="text-sm font-semibold text-ink">
                 <span className="text-brand-700">Klik untuk pilih</span> atau seret gambar ke sini
               </p>
-              <p className="mt-1 text-xs text-stone-400">JPG atau PNG · maks. 8MB</p>
+              <p className="mt-1 text-xs text-stone-400">JPG atau PNG Â· maks. 8MB</p>
             </div>
           </>
         )}
@@ -147,7 +147,7 @@ export default function ImageUploader({ value = '', onChange }) {
           value={value.startsWith('data:') ? '' : value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="atau tempel URL gambar di sini..."
-          className="w-full rounded-lg border border-dashed border-stone-300 bg-white px-3 py-1.5 text-xs text-stone-700 placeholder-stone-400 focus:border-brand-400 focus:outline-none"
+          className="w-full rounded-lg border border-dashed border-stone-300 bg-white px-3 py-1.5 text-xs text-stone-700 placeholder-stone-400 focus:border-slate-400 focus:outline-none"
         />
       </div>
     </div>

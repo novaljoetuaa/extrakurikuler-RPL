@@ -58,7 +58,7 @@ export default function Galeri() {
                 onClick={() => chooseBidang(id)}
                 className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 ${
                   bidang === id
-                    ? 'bg-brand-600 text-white shadow-md shadow-brand-600/25'
+                    ? 'bg-slate-800 text-white shadow-md shadow-slate-800/25'
                     : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900'
                 }`}
               >
@@ -76,7 +76,7 @@ export default function Galeri() {
               <button
                 type="button"
                 onClick={() => setSelected(g)}
-                className="group relative block w-full overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-lift focus:outline-none"
+                className="group relative block w-full overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-slate-300 hover:shadow-lift focus:outline-none"
               >
                 <div className="relative h-64 w-full overflow-hidden bg-slate-900">
                   <img
